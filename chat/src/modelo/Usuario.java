@@ -167,6 +167,10 @@ public class Usuario {
 			grupo.setAdmin(grupo.getContactos().get(0).getUsuario());
 		}
 	}
+	
+	public Mensaje enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
+		return receptor.addMensaje(texto, hora, emoticono, emisor, receptor);
+	}
 
 	
 
