@@ -36,7 +36,6 @@ public class NuevaVentanaChat {
 	private JTextField textField;
 	private JButton btnUser;
 	private JButton btnSearch;
-	private JButton btnMenu;
 	private JButton btnContact;
 	private JButton btnDelete;
 	private JButton btnOptions;
@@ -83,9 +82,10 @@ public class NuevaVentanaChat {
 		panel.add(btnUser, gbc_btnUser);
 		
 		final JPopupMenu popupMenu = new JPopupMenu();
-		btnMenu = new JButton("");
-		btnMenu.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		final JButton btnMenu = new JButton("");
+		btnMenu.addMouseListener( new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
 		btnMenu.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/menu.png")));
