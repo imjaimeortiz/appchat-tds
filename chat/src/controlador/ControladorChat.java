@@ -8,6 +8,7 @@ import modelo.CatalogoUsuarios;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
+import modelo.Mensaje;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorContactoIndividualDAO;
@@ -25,11 +26,6 @@ public class ControladorChat {
 	private IAdaptadorMensajeDAO adaptadorMensaje;
 
 	private CatalogoUsuarios catalogoUsuarios;
-	
-	/*private MetodosContactoIndividual metodosContactoIndividual;
-	private MetodosGrupo metodosGrupo;
-	private MetodosMensaje metodosMensaje;
-	private MetodosUsuario metodosUsuario;*/
 
 	private ControladorChat() {
 		
@@ -37,10 +33,6 @@ public class ControladorChat {
 								  // de sincronización
 		inicializarCatalogos();
 		
-		/*metodosContactoIndividual = new MetodosContactoIndividual(adaptadorContactoIndividual, catalogoUsuarios);
-		metodosGrupo = new MetodosGrupo(adaptadorGrupo, adaptadorUsuario, catalogoUsuarios);
-		metodosMensaje = new MetodosMensaje(adaptadorMensaje);
-		metodosUsuario = new MetodosUsuario(adaptadorUsuario, catalogoUsuarios);*/
 	}
 
 	public static ControladorChat getUnicaInstancia() {
@@ -49,6 +41,7 @@ public class ControladorChat {
 		return unicaInstancia;
 	}
 
+	
 	
 	//registrar un usuario
 	public boolean addUsuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena, String imagen) {
@@ -78,6 +71,8 @@ public class ControladorChat {
 	
 	
 	
+	
+	
 	//añadir un contacto
 	public void addContacto(Usuario usuario, String movil, String nombre) {
 		if (catalogoUsuarios.existeTlf(movil)) {
@@ -87,6 +82,8 @@ public class ControladorChat {
 			adaptadorContactoIndividual.registrarContactoIndividual(contactoi);
 		}
 	}
+	
+	
 	
 	
 	
@@ -111,9 +108,6 @@ public class ControladorChat {
 		adaptadorGrupo.borrarGrupo(grupo);		
 	}
 	
-	/*public void addMensaje(String texto, Date hora, String emoticono, Usuario usuario, ContactoIndividual contacto) {
-		metodosMensaje.addMensaje(texto, hora, emoticono, usuario, contacto);
-	}*/
 	
 	
 	//abandonar un grupo
@@ -144,6 +138,13 @@ public class ControladorChat {
 		adaptadorGrupo.modificarGrupo(group);
 	}
 	
+	
+	public void enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
+	Mensaje mensaje = emisor.enviarMensaje(texto, hora, emoticono, emisor, receptor);
+	adaptadorMensaje.registrarMensaje(mensaje);
+	adaptadorContactoIndividual.modificarContactoIndividual(receptor);
+
+	}
 	
 	
 	
