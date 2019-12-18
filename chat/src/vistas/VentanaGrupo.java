@@ -124,7 +124,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_textGroupName.gridy = 1;
 		frame.getContentPane().add(textGroupName, gbc_textGroupName);
 		textGroupName.setColumns(10);
-		textGroupName.setText(group.getNombre());
+		//textGroupName.setText(group.getNombre());
 		
 		JLabel lblMiembros = new JLabel("Miembros");
 		GridBagConstraints gbc_lblMiembros = new GridBagConstraints();
@@ -145,6 +145,7 @@ public class VentanaGrupo extends JFrame {
 		frame.getContentPane().add(scrollLista, gbc_scrollLista);
 		
 		final JList<ContactoIndividual> list = new JList<ContactoIndividual>(listContacts);
+
 
 		list.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
