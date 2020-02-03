@@ -68,24 +68,18 @@ public class ControladorChat {
 		return user.recuperarContactos(user);
 	}
 	
-	
-	
-	
-	
+	// comprobar si existe el tlf
+	public boolean existeTlf(String movil) {
+		return catalogoUsuarios.existeTlf(movil);
+	}
 	
 	//añadir un contacto
 	public void addContacto(Usuario usuario, String movil, String nombre) {
-		if (catalogoUsuarios.existeTlf(movil)) {
-			Usuario u = catalogoUsuarios.buscarUsuarioDelMovil(movil);
-			ContactoIndividual contactoi = usuario.addContacto(nombre, movil, u);
-			adaptadorUsuario.modificarUsuario(usuario);
-			adaptadorContactoIndividual.registrarContactoIndividual(contactoi);
-		}
+		Usuario u = catalogoUsuarios.buscarUsuarioDelMovil(movil);
+		ContactoIndividual contactoi = usuario.addContacto(nombre, movil, u);
+		adaptadorUsuario.modificarUsuario(usuario);
+		adaptadorContactoIndividual.registrarContactoIndividual(contactoi);
 	}
-	
-	
-	
-	
 	
 	//crear un grupo
 	public void addGrupo(String nombre, Usuario usuario, LinkedList<ContactoIndividual> miembros) {
@@ -145,11 +139,6 @@ public class ControladorChat {
 	adaptadorContactoIndividual.modificarContactoIndividual(receptor);
 
 	}
-	
-	
-	
-
-	
 	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
