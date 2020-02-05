@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Frame;
 
 @SuppressWarnings("serial")
 public class VentanaCrearContacto extends JDialog {
@@ -28,8 +29,8 @@ public class VentanaCrearContacto extends JDialog {
 	private final Usuario usuario;
 	private JLabel lblLosCamposNo;
 	
-	public VentanaCrearContacto(Usuario user) {
-		
+	public VentanaCrearContacto(Frame v, Usuario user) {
+		super(v);
 		this.usuario = user;
 		initialize();
 		this.setVisible(true);
@@ -41,6 +42,7 @@ public class VentanaCrearContacto extends JDialog {
 		lblLosCamposNo.setForeground(Color.RED);
 		getContentPane().add(lblLosCamposNo, BorderLayout.SOUTH);
 		
+		setBounds(250, 250, 491, 150);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 50, 0, 50, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
@@ -53,7 +55,7 @@ public class VentanaCrearContacto extends JDialog {
 		gbc_lblNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_lblNombre.anchor = GridBagConstraints.EAST;
 		gbc_lblNombre.gridx = 1;
-		gbc_lblNombre.gridy = 1;
+		gbc_lblNombre.gridy = 2;
 		getContentPane().add(lblNombre, gbc_lblNombre);
 		
 		textField = new JTextField();
@@ -61,7 +63,7 @@ public class VentanaCrearContacto extends JDialog {
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 2;
-		gbc_textField.gridy = 1;
+		gbc_textField.gridy = 2;
 		getContentPane().add(textField, gbc_textField);
 		textField.setColumns(10);
 		
@@ -70,7 +72,7 @@ public class VentanaCrearContacto extends JDialog {
 		gbc_lblTelfono.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTelfono.anchor = GridBagConstraints.EAST;
 		gbc_lblTelfono.gridx = 3;
-		gbc_lblTelfono.gridy = 1;
+		gbc_lblTelfono.gridy = 2;
 		getContentPane().add(lblTelfono, gbc_lblTelfono);
 		
 		txtTelfono = new JTextField();
@@ -78,7 +80,7 @@ public class VentanaCrearContacto extends JDialog {
 		gbc_txtTelfono.insets = new Insets(0, 0, 5, 0);
 		gbc_txtTelfono.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtTelfono.gridx = 4;
-		gbc_txtTelfono.gridy = 1;
+		gbc_txtTelfono.gridy = 2;
 		getContentPane().add(txtTelfono, gbc_txtTelfono);
 		txtTelfono.setColumns(10);
 		
@@ -96,19 +98,18 @@ public class VentanaCrearContacto extends JDialog {
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAceptar.gridx = 2;
-		gbc_btnAceptar.gridy = 2;
+		gbc_btnAceptar.gridy = 3;
 		getContentPane().add(btnAceptar, gbc_btnAceptar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener( new ActionListener() {
-			
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		});
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.gridx = 4;
-		gbc_btnCancelar.gridy = 2;
+		gbc_btnCancelar.gridy = 3;
 		getContentPane().add(btnCancelar, gbc_btnCancelar);
 	}
 	

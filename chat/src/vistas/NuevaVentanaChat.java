@@ -88,10 +88,9 @@ public class NuevaVentanaChat {
 		JMenuItem mitemCrearContacto = new JMenuItem("Crear contacto");
 		mitemCrearContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					JDialog ventanaContact = new VentanaCrearContacto(user);
+					JDialog ventanaContact = new VentanaCrearContacto(frame, user);
 					ventanaContact.setModal(true);
 					ventanaContact.setVisible(true);
-					frame.setVisible(false);
 					actualizarLista();
 			}
 		});
