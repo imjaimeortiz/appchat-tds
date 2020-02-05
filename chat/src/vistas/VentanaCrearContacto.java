@@ -30,11 +30,16 @@ public class VentanaCrearContacto extends JDialog {
 	
 	public VentanaCrearContacto(Usuario user) {
 		
+		this.usuario = user;
+		initialize();
+		this.setVisible(true);
+	}
+	
+	public void initialize() {
 		lblLosCamposNo = new JLabel("Los campos no son correctos");
 		lblLosCamposNo.setVisible(false);
 		lblLosCamposNo.setForeground(Color.RED);
 		getContentPane().add(lblLosCamposNo, BorderLayout.SOUTH);
-		this.usuario = user;
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 50, 0, 50, 0};
@@ -105,7 +110,6 @@ public class VentanaCrearContacto extends JDialog {
 		gbc_btnCancelar.gridx = 4;
 		gbc_btnCancelar.gridy = 2;
 		getContentPane().add(btnCancelar, gbc_btnCancelar);
-		
 	}
 	
 	public boolean checkCampos(String tlf, String nombre) {

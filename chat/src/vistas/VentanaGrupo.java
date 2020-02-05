@@ -25,6 +25,7 @@ import modelo.Usuario;
 
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
+import java.awt.Color;
 
 public class VentanaGrupo extends JFrame {
 	/**
@@ -48,6 +49,7 @@ public class VentanaGrupo extends JFrame {
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 	private boolean comprobar;
+	private JLabel lblIntroduceUnNombre;
 
 	/**
 	 * Create the panel.
@@ -57,6 +59,8 @@ public class VentanaGrupo extends JFrame {
 	public VentanaGrupo(Grupo group) {
 		this.group = group;
 		this.comprobar = false;
+		this.listContacts = new DefaultListModel<ContactoIndividual>();
+		this.listMembers = new DefaultListModel<ContactoIndividual>();
 		for (ContactoIndividual contactoIndividual : group.getContactos()) {
 			this.listMembers.addElement(contactoIndividual);
 		}
@@ -80,9 +84,7 @@ public class VentanaGrupo extends JFrame {
 	// CREAR GRUPO
 	public VentanaGrupo(Usuario admin) {
 		this.comprobar = false;
-		for (Contacto c : admin.getContactos()) {
-			if (c instanceof ContactoIndividual) this.listContacts.addElement((ContactoIndividual) c);
-		}
+		this.listContacts = new DefaultListModel<ContactoIndividual>();
 		this.listMembers = new DefaultListModel<ContactoIndividual>();
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
@@ -102,17 +104,27 @@ public class VentanaGrupo extends JFrame {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{40, 100, 0, 20, 85, 20, 100, 0, 20, 0};
-		gridBagLayout.rowHeights = new int[]{14, 0, 0, 65, 0, 50, 0, 20, 10, 0};
+		gridBagLayout.rowHeights = new int[]{14, 0, 0, 0, 65, 0, 50, 0, 20, 10, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
+		
+		lblIntroduceUnNombre = new JLabel("Introduce un nombre de grupo válido");
+		lblIntroduceUnNombre.setVisible(false);
+		lblIntroduceUnNombre.setForeground(Color.RED);
+		GridBagConstraints gbc_lblIntroduceUnNombre = new GridBagConstraints();
+		gbc_lblIntroduceUnNombre.gridwidth = 9;
+		gbc_lblIntroduceUnNombre.insets = new Insets(0, 0, 5, 5);
+		gbc_lblIntroduceUnNombre.gridx = 0;
+		gbc_lblIntroduceUnNombre.gridy = 1;
+		frame.getContentPane().add(lblIntroduceUnNombre, gbc_lblIntroduceUnNombre);
 		
 		lblListaContactos = new JLabel("Lista contactos");
 		GridBagConstraints gbc_lblListaContactos = new GridBagConstraints();
 		gbc_lblListaContactos.gridwidth = 2;
 		gbc_lblListaContactos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblListaContactos.gridx = 1;
-		gbc_lblListaContactos.gridy = 1;
+		gbc_lblListaContactos.gridy = 2;
 		frame.getContentPane().add(lblListaContactos, gbc_lblListaContactos);
 		
 		textGroupName = new JTextField();
@@ -121,17 +133,16 @@ public class VentanaGrupo extends JFrame {
 		gbc_textGroupName.insets = new Insets(0, 0, 5, 5);
 		gbc_textGroupName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textGroupName.gridx = 3;
-		gbc_textGroupName.gridy = 1;
+		gbc_textGroupName.gridy = 2;
 		frame.getContentPane().add(textGroupName, gbc_textGroupName);
 		textGroupName.setColumns(10);
-		//textGroupName.setText(group.getNombre());
 		
 		JLabel lblMiembros = new JLabel("Miembros");
 		GridBagConstraints gbc_lblMiembros = new GridBagConstraints();
 		gbc_lblMiembros.gridwidth = 2;
 		gbc_lblMiembros.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMiembros.gridx = 6;
-		gbc_lblMiembros.gridy = 1;
+		gbc_lblMiembros.gridy = 2;
 		frame.getContentPane().add(lblMiembros, gbc_lblMiembros);
 		
 		scrollLista = new JScrollPane();
@@ -141,11 +152,10 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollLista.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollLista.gridheight = 5;
 		gbc_scrollLista.gridx = 1;
-		gbc_scrollLista.gridy = 2;
+		gbc_scrollLista.gridy = 3;
 		frame.getContentPane().add(scrollLista, gbc_scrollLista);
 		
 		final JList<ContactoIndividual> list = new JList<ContactoIndividual>(listContacts);
-
 
 		list.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
@@ -167,7 +177,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollGrupo.fill = GridBagConstraints.BOTH;
 		gbc_scrollGrupo.gridheight = 5;
 		gbc_scrollGrupo.gridx = 6;
-		gbc_scrollGrupo.gridy = 2;
+		gbc_scrollGrupo.gridy = 3;
 		frame.getContentPane().add(scrollGrupo, gbc_scrollGrupo);
 		
 		final JList<ContactoIndividual> list2 = new JList<ContactoIndividual>(listMembers);
@@ -204,7 +214,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnAadir.anchor = GridBagConstraints.SOUTH;
 		gbc_btnAadir.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAadir.gridx = 3;
-		gbc_btnAadir.gridy = 3;
+		gbc_btnAadir.gridy = 4;
 		frame.getContentPane().add(btnAadir, gbc_btnAadir);
 		
 		btnEliminar = new JButton("<< Eliminar");
@@ -226,19 +236,20 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnEliminar.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnEliminar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEliminar.gridx = 3;
-		gbc_btnEliminar.gridy = 4;
+		gbc_btnEliminar.gridy = 5;
 		frame.getContentPane().add(btnEliminar, gbc_btnEliminar);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				comprobar = true;
+				if (textGroupName.getText().equals(null)) lblIntroduceUnNombre.setVisible(true);
+				else comprobar = true;
 			}
 		});
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAceptar.gridx = 1;
-		gbc_btnAceptar.gridy = 7;
+		gbc_btnAceptar.gridy = 8;
 		frame.getContentPane().add(btnAceptar, gbc_btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
@@ -250,7 +261,7 @@ public class VentanaGrupo extends JFrame {
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCancelar.gridx = 6;
-		gbc_btnCancelar.gridy = 7;
+		gbc_btnCancelar.gridy = 8;
 		frame.getContentPane().add(btnCancelar, gbc_btnCancelar);
 	}
 

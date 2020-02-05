@@ -10,15 +10,12 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JPasswordField;
 
-import org.eclipse.persistence.internal.oxm.NillableNodeValue;
-
 import javax.swing.JFormattedTextField;
 import javax.swing.JButton;
 import java.awt.Color;
 import com.toedter.calendar.JDateChooser;
 
 import controlador.ControladorChat;
-import modelo.Usuario;
 
 @SuppressWarnings("serial")
 public class VentanaRegistro extends JFrame {
@@ -33,7 +30,6 @@ public class VentanaRegistro extends JFrame {
 	private JLabel lblTodosLosCampos;
 	private JLabel lblLasContraseasDeben;
 	private JDateChooser dateChooser;
-	private Usuario user;
 	private JLabel lblDuplicated;
 
 	/**
