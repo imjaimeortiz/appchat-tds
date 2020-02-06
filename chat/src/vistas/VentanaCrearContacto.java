@@ -29,8 +29,7 @@ public class VentanaCrearContacto extends JDialog {
 	private final Usuario usuario;
 	private JLabel lblLosCamposNo;
 	
-	public VentanaCrearContacto(Frame v, Usuario user) {
-		super(v);
+	public VentanaCrearContacto(Usuario user) {
 		this.usuario = user;
 		initialize();
 		this.setVisible(true);

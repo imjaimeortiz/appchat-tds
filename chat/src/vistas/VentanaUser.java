@@ -79,6 +79,7 @@ public class VentanaUser {
 		btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon(VentanaChat.class.getResource(user.getImagen())));
 		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
+		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
 		gbc_btnNewButton.gridheight = 3;
 		gbc_btnNewButton.gridx = 4;
 		gbc_btnNewButton.gridy = 1;

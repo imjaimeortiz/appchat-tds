@@ -46,16 +46,16 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
 		adaptadorUsuario.registrarUsuario(contactoi.getUsuario());
 		
-		AdaptadorMensaje adaptadorM = AdaptadorMensaje.getUnicaInstancia();
+		/*AdaptadorMensaje adaptadorM = AdaptadorMensaje.getUnicaInstancia();
 		for (Mensaje m : contactoi.getMensajes())
 			adaptadorM.registrarMensaje(m);
-		
+		*/
 		// crear entidad contacto individual
 		eContactoIndividual = new Entidad();
 		eContactoIndividual.setNombre("contactoi");
 		eContactoIndividual.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad("movil", contactoi.getMovil()),
 				new Propiedad("usuario", String.valueOf(contactoi.getUsuario().getCodigo())),
-				new Propiedad("mensajes", obtenerCodigosMensajes(contactoi.getMensajes())),
+				new Propiedad("mensajes", null),
 				new Propiedad("nombre", contactoi.getNombre()))));
 		
 		// registrar entidad contacto individual

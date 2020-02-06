@@ -19,11 +19,13 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Chats> {
         boolean isSelected, boolean cellHasFocus) {
           
         String code = chat.getName();
-        ImageIcon imageIcon = new ImageIcon(getClass().getResource(chat.getPhotoPath()));
-        String date = chat.getDate().toString();
+        //ImageIcon imageIcon = new ImageIcon(getClass().getResource(chat.getPhotoPath()));
+        //String date = chat.getDate().toString();
          
-        setIcon(imageIcon);
-        setText(code+" "+date);
+        setIcon(null);
+        //setIcon(imageIcon);
+        setText(code);
+        //setText(code+" "+date);
         return this;
     }
      

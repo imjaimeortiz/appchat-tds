@@ -28,6 +28,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.GridLayout;
 import net.miginfocom.swing.MigLayout;
+import java.awt.CardLayout;
 
 public class NuevaVentanaChat {
 
@@ -42,10 +43,11 @@ public class NuevaVentanaChat {
 	private Usuario user;
 	private Grupo group;
 	private JTextField textField;
-	private JScrollPane scrollPaneChat;
 	private JScrollPane scrollPaneContacts;
 	private DefaultListModel<Chats> listModel;
 	private JList<Chats> list;
+	private JPanel panelCard;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Create the application.
@@ -69,7 +71,7 @@ public class NuevaVentanaChat {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
-		panel.setLayout(new MigLayout("", "[54px,fill][67px,fill][67px,fill][][][][grow][fill][fill][fill]", "[25px][grow][]"));
+		panel.setLayout(new MigLayout("", "[54px,fill][67px,fill][67px,fill][][][][grow][grow,fill][fill][fill]", "[25px][grow][]"));
 		
 		btnUser = new JButton("");
 		btnUser.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
@@ -88,15 +90,22 @@ public class NuevaVentanaChat {
 		JMenuItem mitemCrearContacto = new JMenuItem("Crear contacto");
 		mitemCrearContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					JDialog ventanaContact = new VentanaCrearContacto(frame, user);
+					JDialog ventanaContact = new VentanaCrearContacto(user);
 					ventanaContact.setModal(true);
 					ventanaContact.setVisible(true);
 					actualizarLista();
+					scrollPaneContacts.repaint();
+					scrollPaneContacts.revalidate();
 			}
 		});
+
+		
 		JMenuItem mitemMostrarContacto = new JMenuItem("Mostrar contactos");
 		mitemMostrarContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				for (Contacto c : user.getContactos()) {
+					System.out.println(c.getNombre());
+				}
 				new VentanaMostrarContactos(user);
 			}
 		});
@@ -147,7 +156,7 @@ public class NuevaVentanaChat {
 		panel.add(btnSearch, "cell 1 0,growx,aligny top");
 		panel.add(btnMenu, "cell 2 0,growx,aligny top");
 		
-		btnContact = new JButton("Name");
+		btnContact = new JButton(user.getNombre());
 		btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
 		panel.add(btnContact, "cell 7 0,growx,aligny top");
 		
@@ -168,8 +177,12 @@ public class NuevaVentanaChat {
 
 		scrollPaneContacts.setViewportView(list);
 		
-		scrollPaneChat = new JScrollPane();
-		panel.add(scrollPaneChat, "cell 4 1 6 1,grow");
+		panelCard = new JPanel();
+		panel.add(panelCard, "cell 4 1 6 1,grow");
+		panelCard.setLayout(new CardLayout(0, 0));
+		
+		scrollPane = new JScrollPane();
+		panelCard.add(scrollPane, "name_1114751964500");
 		
 		JButton btnNewButton = new JButton("");
 		btnNewButton.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/smile.png")));
@@ -192,7 +205,9 @@ public class NuevaVentanaChat {
 		for (Contacto c : user.getContactos()) {
 			if (c instanceof ContactoIndividual) {
 				Chats chat = new Chats(c.getNombre(), null, null);
+				//listModel = new DefaultListModel<Chats>();
 				listModel.addElement(chat);
+				list = new JList<Chats>(listModel);
 				list.setCellRenderer(new ChatRenderer());
 				list.addMouseListener( new MouseAdapter() {
 					public void mouseClicked(MouseEvent e) {
@@ -200,10 +215,10 @@ public class NuevaVentanaChat {
 							int index = list.getSelectedIndex();
 							if (index >= 0) {
 								Chats chat = list.getModel().getElementAt(index);
-								scrollPaneChat.setViewportView(chat.getTextArea());
+								scrollPane.setViewportView(chat.getTextArea());
 							}
-						}
-				     }
+					     }
+					}
 				});
 			}
 		}
