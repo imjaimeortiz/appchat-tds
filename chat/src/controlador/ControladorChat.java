@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.swing.ImageIcon;
-
 import modelo.CatalogoUsuarios;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
@@ -104,6 +102,9 @@ public class ControladorChat {
 		adaptadorGrupo.borrarGrupo(grupo);		
 	}
 	
+	public void setImage(String path, Usuario user) {
+		user.setImagen(path);
+	}
 	
 	
 	//abandonar un grupo

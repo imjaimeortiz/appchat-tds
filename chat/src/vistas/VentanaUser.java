@@ -3,18 +3,22 @@ package vistas;
 import javax.swing.JFrame;
 
 import modelo.Usuario;
-import java.awt.GridBagLayout;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import java.awt.GridBagConstraints;
+import javax.swing.JFileChooser;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import controlador.ControladorChat;
+
 import java.awt.GridLayout;
 import javax.swing.JLabel;
-import java.awt.FlowLayout;
 
 public class VentanaUser {
 
@@ -49,9 +53,15 @@ public class VentanaUser {
 		
 		btnCambiarImagen = new JButton("Cambiar foto perfil");
 		panel.add(btnCambiarImagen);
-		btnCambiarImagen.addActionListener( new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
+		btnCambiarImagen.addActionListener( e -> {
+			JFileChooser file = new JFileChooser();
+			FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
+			file.setFileFilter(imgFilter);
+			file.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			file.showOpenDialog(frame);
+			File f = file.getSelectedFile();
+			if (f != null) {
+				ControladorChat.getUnicaInstancia().setImage(f.getPath(), user);
 			}
 		});
 		
@@ -62,13 +72,7 @@ public class VentanaUser {
 				frame.dispose();
 			}
 		});
-		////////////////////////////////////////////////////////////
-		/////////////////////////////
-		//////////////////////////////////////////////
-		System.out.println("commit");
-		////////////////////////////////////////////////////////////
-		/////////////////////////////
-		//////////////////////////////////////////////
+
 		JPanel panel_1 = new JPanel();
 		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
 		

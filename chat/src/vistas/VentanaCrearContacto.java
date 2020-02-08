@@ -1,26 +1,20 @@
 package vistas;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import controlador.ControladorChat;
-import modelo.Contacto;
 import modelo.Usuario;
 import java.awt.GridBagLayout;
 import javax.swing.JTextField;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.List;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Frame;
 
 @SuppressWarnings("serial")
 public class VentanaCrearContacto extends JDialog {
