@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ImageIcon;
+
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorUsuarioDAO;
@@ -49,8 +51,8 @@ public class CatalogoUsuarios {
 		return usuarios.get(nombre); 
 	}
 	
-	public Usuario addUsuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena, String imagen) {
-		Usuario usuario = new Usuario(nombre, fechaNacimiento, movil, nick, contrasena, imagen);
+	public Usuario addUsuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena) {
+		Usuario usuario = new Usuario(nombre, fechaNacimiento, movil, nick, contrasena);
 		usuarios.put(usuario.getNick(),usuario);
 		return usuario;
 	}

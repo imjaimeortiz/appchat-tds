@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 import modelo.CatalogoUsuarios;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
@@ -44,9 +46,9 @@ public class ControladorChat {
 	
 	
 	//registrar un usuario
-	public boolean addUsuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena, String imagen) {
+	public boolean addUsuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena) {
 		if (catalogoUsuarios.getUsuario(nick) == null && !catalogoUsuarios.existeTlf(movil)) {
-			Usuario usuario = catalogoUsuarios.addUsuario(nombre, fechaNacimiento, movil, nick, contrasena, imagen);
+			Usuario usuario = catalogoUsuarios.addUsuario(nombre, fechaNacimiento, movil, nick, contrasena);
 			adaptadorUsuario.registrarUsuario(usuario);
 			return true;
 		}

@@ -3,9 +3,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import javax.swing.ImageIcon;
 
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
+import vistas.NuevaVentanaChat;
 import beans.Entidad;
 import beans.Propiedad;
 
@@ -180,7 +182,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 
 		
 
-		Usuario usuario = new Usuario(nombre, fechaNacimiento, movil, nick, contrasena, imagen);
+		Usuario usuario = new Usuario(nombre, fechaNacimiento, movil, nick, contrasena,imagen);
 		usuario.setCodigo(codigo);
 
 		

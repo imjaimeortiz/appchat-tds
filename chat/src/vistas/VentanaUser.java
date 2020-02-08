@@ -14,6 +14,7 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JLabel;
+import java.awt.FlowLayout;
 
 public class VentanaUser {
 
@@ -30,6 +31,7 @@ public class VentanaUser {
 	public VentanaUser(Usuario user) {
 		this.user = user;
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -37,7 +39,7 @@ public class VentanaUser {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 330, 300);
+		frame.setBounds(100, 100, 330, 296);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -69,21 +71,11 @@ public class VentanaUser {
 		
 		JPanel panel_2 = new JPanel();
 		frame.getContentPane().add(panel_2, BorderLayout.CENTER);
-		GridBagLayout gbl_panel_2 = new GridBagLayout();
-		gbl_panel_2.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panel_2.rowHeights = new int[]{0, 0, 0, 0, 0};
-		gbl_panel_2.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel_2.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel_2.setLayout(gbl_panel_2);
+		panel_2.setLayout(new BorderLayout(0, 0));
 		
 		btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(VentanaChat.class.getResource(user.getImagen())));
-		GridBagConstraints gbc_btnNewButton = new GridBagConstraints();
-		gbc_btnNewButton.fill = GridBagConstraints.VERTICAL;
-		gbc_btnNewButton.gridheight = 3;
-		gbc_btnNewButton.gridx = 4;
-		gbc_btnNewButton.gridy = 1;
-		panel_2.add(btnNewButton, gbc_btnNewButton);
+		btnNewButton.setIcon(new ImageIcon(VentanaUser.class.getResource(user.getImagen())));
+		panel_2.add(btnNewButton);
 	}
 
 }

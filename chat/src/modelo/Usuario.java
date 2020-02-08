@@ -32,6 +32,19 @@ public class Usuario {
 		this.gruposAdmin = new LinkedList<Grupo>();
 		this.contactos = new LinkedList<Contacto>();
 	}
+	// CON IMAGEN POR DEFECTO
+	public Usuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena) {
+		codigo = 0;
+		this.nombre = nombre;
+		this.fechaNacimiento = fechaNacimiento;
+		this.movil = movil;
+		this.nick = nick;
+		this.contrasena = contrasena;
+		this.imagen = "/vistas/avatar.png";
+		this.premium = false;
+		this.gruposAdmin = new LinkedList<Grupo>();
+		this.contactos = new LinkedList<Contacto>();
+	}
 
 	
 

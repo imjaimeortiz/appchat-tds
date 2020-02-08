@@ -158,6 +158,12 @@ public class NuevaVentanaChat {
 		
 		btnContact = new JButton(user.getNombre());
 		btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
+		btnContact.addActionListener( new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				new VentanaUser(user);
+			}
+		});
 		panel.add(btnContact, "cell 7 0,growx,aligny top");
 		
 		btnDelete = new JButton("");
@@ -205,7 +211,6 @@ public class NuevaVentanaChat {
 		for (Contacto c : user.getContactos()) {
 			if (c instanceof ContactoIndividual) {
 				Chats chat = new Chats(c.getNombre(), null, null);
-				//listModel = new DefaultListModel<Chats>();
 				listModel.addElement(chat);
 				list = new JList<Chats>(listModel);
 				list.setCellRenderer(new ChatRenderer());
