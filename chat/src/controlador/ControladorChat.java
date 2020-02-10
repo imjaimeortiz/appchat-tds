@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import modelo.CatalogoUsuarios;
+import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
@@ -162,5 +163,10 @@ public class ControladorChat {
 
 	public List<Usuario> getUsuarios() {
 		return catalogoUsuarios.getUsuarios();
+	}
+
+	public List<Contacto> getTodosContactos(Usuario user) {
+		return user.getContactos();
+		
 	}
 }

@@ -26,7 +26,6 @@ public class VentanaCrearContacto extends JDialog {
 	public VentanaCrearContacto(Usuario user) {
 		this.usuario = user;
 		initialize();
-		this.setVisible(true);
 	}
 	
 	public void initialize() {

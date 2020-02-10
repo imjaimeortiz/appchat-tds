@@ -11,7 +11,9 @@ import javax.swing.JList;
 import javax.swing.JMenuItem;
 
 import javax.swing.JTextField;
+import javax.swing.ListModel;
 
+import controlador.ControladorChat;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
@@ -44,8 +46,8 @@ public class NuevaVentanaChat {
 	private Grupo group;
 	private JTextField textField;
 	private JScrollPane scrollPaneContacts;
-	private DefaultListModel<Chats> listModel;
-	private JList<Chats> list;
+	private DefaultListModel<Contacto> listModel;
+	private JList<Contacto> list;
 	private JPanel panelCard;
 	private JScrollPane scrollPane;
 	
@@ -54,8 +56,9 @@ public class NuevaVentanaChat {
 	 */
 	public NuevaVentanaChat(Usuario user) {
 		this.user = user;
-		this.listModel = new DefaultListModel<Chats>();
-		this.list = new JList<Chats>(listModel);
+		this.listModel = new DefaultListModel<Contacto>();
+		this.list = new JList<Contacto>(listModel);
+		this.scrollPaneContacts = new JScrollPane();
 		initialize();
 		frame.setVisible(true);
 	}
@@ -68,6 +71,9 @@ public class NuevaVentanaChat {
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
+		
+		scrollPaneContacts.setViewportView(list);
+		list.setCellRenderer(new ChatRenderer());
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
@@ -88,19 +94,27 @@ public class NuevaVentanaChat {
 		addPopup(btnMenu, popupMenu);
 		
 		JMenuItem mitemCrearContacto = new JMenuItem("Crear contacto");
+		popupMenu.add(mitemCrearContacto);
 		mitemCrearContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					JDialog ventanaContact = new VentanaCrearContacto(user);
+					VentanaCrearContacto ventanaContact = new VentanaCrearContacto(user);
 					ventanaContact.setModal(true);
 					ventanaContact.setVisible(true);
-					actualizarLista();
-					scrollPaneContacts.repaint();
-					scrollPaneContacts.revalidate();
+					ControladorChat.getUnicaInstancia().getTodosContactos(user).stream().filter( c -> (!listModel.contains(c)))
+																						.forEach(c -> {
+																							listModel.addElement(c);
+																							// NEW PANELCHAT(c, useractual.getnombre, scrollpane, listmodel)
+																							//panelCard.add(c.toString(), panelchat);
+																							// paneles.put(c.toString(), panelchat)
+																							list.setModel(listModel);
+																							//scrollPaneContacts.setViewportView(list);
+																						});
 			}
 		});
 
 		
 		JMenuItem mitemMostrarContacto = new JMenuItem("Mostrar contactos");
+		popupMenu.add(mitemMostrarContacto);
 		mitemMostrarContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				for (Contacto c : user.getContactos()) {
@@ -111,6 +125,7 @@ public class NuevaVentanaChat {
 		});
 		
 		JMenuItem mitemCrearGrupo = new JMenuItem("Crear grupo");
+		popupMenu.add(mitemCrearGrupo);
 		mitemCrearGrupo.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					new VentanaGrupo(user);
@@ -118,6 +133,7 @@ public class NuevaVentanaChat {
 		});
 		
 		JMenuItem mitemModificarGrupo = new JMenuItem("Modificar grupo");
+		popupMenu.add(mitemModificarGrupo);
 		mitemModificarGrupo.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				gruposAdmin.setVisible(true);
@@ -131,10 +147,13 @@ public class NuevaVentanaChat {
 		});
 		
 		JMenuItem mitemEstadisticas = new JMenuItem("Mostrar estadísticas");
+		popupMenu.add(mitemEstadisticas);
 		
 		JMenuItem mitemPremium = new JMenuItem("Ir a premium");
+		popupMenu.add(mitemPremium);
 		
 		JMenuItem mitemCerrarSesion = new JMenuItem("Cerrar sesión");
+		popupMenu.add(mitemCerrarSesion);
 		mitemCerrarSesion.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 					frame.dispose();
@@ -142,14 +161,6 @@ public class NuevaVentanaChat {
 			}
 			
 		});
-		
-		popupMenu.add(mitemCrearContacto);
-		popupMenu.add(mitemMostrarContacto);
-		popupMenu.add(mitemCrearGrupo);
-		popupMenu.add(mitemModificarGrupo);
-		popupMenu.add(mitemEstadisticas);
-		popupMenu.add(mitemPremium);
-		popupMenu.add(mitemCerrarSesion);
 		
 		btnSearch = new JButton("");
 		btnSearch.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/chat.png")));
@@ -178,14 +189,12 @@ public class NuevaVentanaChat {
 		btnOptions.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/menu.png")));
 		panel.add(btnOptions, "cell 9 0,growx,aligny top");
 		
-		scrollPaneContacts = new JScrollPane();
 		panel.add(scrollPaneContacts, "cell 0 1 3 2,grow");
-
-		scrollPaneContacts.setViewportView(list);
 		
 		panelCard = new JPanel();
 		panel.add(panelCard, "cell 4 1 6 1,grow");
 		panelCard.setLayout(new CardLayout(0, 0));
+		panelCard.setVisible(false);
 		
 		scrollPane = new JScrollPane();
 		panelCard.add(scrollPane, "name_1114751964500");
@@ -207,11 +216,11 @@ public class NuevaVentanaChat {
 		}
 	}
 	
-	private void actualizarLista() {
+	/*private void actualizarLista() {
 		for (Contacto c : user.getContactos()) {
 			if (c instanceof ContactoIndividual) {
 				Chats chat = new Chats(c.getNombre(), null, null);
-				listModel.addElement(chat);
+				listModel.addElement(c);
 				list = new JList<Chats>(listModel);
 				list.setCellRenderer(new ChatRenderer());
 				list.addMouseListener( new MouseAdapter() {
@@ -227,7 +236,7 @@ public class NuevaVentanaChat {
 				});
 			}
 		}
-	}
+	}*/
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

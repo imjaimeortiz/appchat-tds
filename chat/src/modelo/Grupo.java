@@ -4,10 +4,13 @@ import java.sql.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
+
 public class Grupo extends Contacto {
 	private int codigo;
 	private Usuario admin;
 	private List<ContactoIndividual> contactos; // asociacion multiple con contacto individual
+	//private ImageIcon foto;
 	
 	
 	
@@ -15,8 +18,17 @@ public class Grupo extends Contacto {
 		super(nombre);
 		this.admin = administrador;
 		this.contactos = contactos;
+		//this.foto = foto;
 	}
 	
+	/*public ImageIcon getFoto() {
+		return foto;
+	}
+
+	public void setFoto(ImageIcon foto) {
+		this.foto = foto;
+	}*/
+
 	public Grupo(String nombre, Usuario administrador, List<ContactoIndividual> contactos, List<Mensaje> mensajes) {
 		super(nombre, mensajes);
 		this.admin = administrador;
