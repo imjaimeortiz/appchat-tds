@@ -148,8 +148,8 @@ public class Usuario {
 	}
 
 	//Añadir un nuevo grupo
-	public Grupo addGrupo(String nombre, LinkedList<ContactoIndividual> miembros, String foto) {
-		Grupo grupo = new Grupo(nombre, this, miembros, foto);
+	public Grupo addGrupo(String nombre, LinkedList<ContactoIndividual> miembros) {
+		Grupo grupo = new Grupo(nombre, this, miembros);
 		contactos.add(grupo);
 		gruposAdmin.add(grupo);
 		return grupo;

@@ -1,3 +1,4 @@
+
 package persistencia;
 
 import java.util.ArrayList;
@@ -60,6 +61,7 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 				Arrays.asList(new Propiedad("nombre", grupo.getNombre()),
 						new Propiedad("admin", String.valueOf(grupo.getAdmin().getCodigo())), 
 						new Propiedad("mensajes", obtenerCodigosMensajes(grupo.getMensajes())),
+						new Propiedad("foto", grupo.getFoto()),
 						new Propiedad("contactos", obtenerCodigosContactos(grupo.getContactos())))));
 		
 		// registrar entidad grupo

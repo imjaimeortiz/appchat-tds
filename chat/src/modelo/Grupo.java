@@ -9,6 +9,13 @@ public class Grupo extends Contacto {
 	private String foto;
 	
 	
+	// constructor imagen por defecto
+	public Grupo(String nombre, Usuario administrador, List<ContactoIndividual> contactos) {
+		super(nombre);
+		this.admin = administrador;
+		this.contactos = contactos;
+		this.foto = "/vistas/avatarGrupo.png";
+	}
 	
 	public Grupo(String nombre, Usuario administrador, List<ContactoIndividual> contactos, String foto) {
 		super(nombre);

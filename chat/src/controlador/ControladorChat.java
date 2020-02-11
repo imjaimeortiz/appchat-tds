@@ -84,7 +84,7 @@ public class ControladorChat {
 	
 	//crear un grupo
 	public void addGrupo(String nombre, Usuario usuario, LinkedList<ContactoIndividual> miembros) {
-		Grupo grupo = usuario.addGrupo(nombre, miembros, "/vistas/avatar.png");
+		Grupo grupo = usuario.addGrupo(nombre, miembros);
 		adaptadorGrupo.registrarGrupo(grupo);
 		adaptadorUsuario.modificarUsuario(usuario);
 		for (ContactoIndividual miembro : miembros) {
