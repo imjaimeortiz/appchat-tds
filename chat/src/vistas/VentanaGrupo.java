@@ -45,6 +45,8 @@ public class VentanaGrupo extends JFrame {
 	private List<ContactoIndividual> members;
 	private List<ContactoIndividual> nuevos;
 	private List<ContactoIndividual> eliminados;
+	private JList<ContactoIndividual> listContacts;
+	private JList<ContactoIndividual> listMembers;
 	private Grupo group;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
@@ -69,6 +71,8 @@ public class VentanaGrupo extends JFrame {
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
+		this.listContacts = new JList<ContactoIndividual>(listContactsModel);
+		this.listMembers = new JList<ContactoIndividual>(listMembersModel);
 		initialize();
 		if (comprobar == true) {
 			for(int i = 0; i < listMembersModel.getSize(); i++) {
@@ -86,14 +90,21 @@ public class VentanaGrupo extends JFrame {
 		this.comprobar = false;
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
+		this.members = new LinkedList<ContactoIndividual>();
+		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(admin)) {
+			if (c instanceof ContactoIndividual) members.add((ContactoIndividual) c);
+		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
+		this.listContacts = new JList<ContactoIndividual>(listContactsModel);
+		this.listMembers = new JList<ContactoIndividual>(listMembersModel);
 		initialize();
 		if (comprobar == true) {
 			for(int i = 0; i < listMembersModel.getSize(); i++) {
 				members.add(listMembersModel.get(i));
 			}
-			ControladorChat.getUnicaInstancia().addGrupo(textGroupName.getText(), admin, (LinkedList<ContactoIndividual>)members);
+			this.group = new Grupo(textGroupName.getText(), admin, members);
+			ControladorChat.getUnicaInstancia().addGrupo(group);
 		}
 		frame.setVisible(true);
 	}
@@ -155,7 +166,6 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollLista.gridy = 3;
 		frame.getContentPane().add(scrollLista, gbc_scrollLista);
 		
-		final JList<ContactoIndividual> listContacts = new JList<ContactoIndividual>(listContactsModel);
 		scrollLista.setViewportView(listContacts);
 		listContacts.setCellRenderer(new ChatRenderer());
 
@@ -166,6 +176,8 @@ public class VentanaGrupo extends JFrame {
 					eliminados.remove(listContacts.getSelectedValue());
 					listMembersModel.addElement(listContacts.getSelectedValue());
 					listContactsModel.removeElement(listContacts.getSelectedValue());
+					listContacts.setModel(listContactsModel);
+					listMembers.setModel(listMembersModel);
 				}
 		     }
 		});
@@ -180,7 +192,6 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollGrupo.gridy = 3;
 		frame.getContentPane().add(scrollGrupo, gbc_scrollGrupo);
 		
-		final JList<ContactoIndividual> listMembers = new JList<ContactoIndividual>(listMembersModel);
 		scrollGrupo.setViewportView(listMembers);
 		listMembers.setCellRenderer(new ChatRenderer());
 		
@@ -191,6 +202,8 @@ public class VentanaGrupo extends JFrame {
 					nuevos.remove(listMembers.getSelectedValue());
 					listContactsModel.addElement(listMembers.getSelectedValue());
 					listMembersModel.removeElement(listMembers.getSelectedValue());
+					listContacts.setModel(listContactsModel);
+					listMembers.setModel(listMembersModel);
 				}
 		     }
 		});
@@ -204,6 +217,8 @@ public class VentanaGrupo extends JFrame {
 						eliminados.remove(string);
 						listContactsModel.removeElement(string);
 						listMembersModel.addElement(string);
+						listContacts.setModel(listContactsModel);
+						listMembers.setModel(listMembersModel);
 					}
 				}
 			}
@@ -226,6 +241,8 @@ public class VentanaGrupo extends JFrame {
 						eliminados.add(string);
 						listContactsModel.addElement(string);
 						listMembersModel.removeElement(string);
+						listContacts.setModel(listContactsModel);
+						listMembers.setModel(listMembersModel);
 					}
 				}
 			}

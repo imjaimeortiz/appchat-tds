@@ -25,7 +25,7 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
         boolean isSelected, boolean cellHasFocus) {
         
 		String name;
-		if (chat.getNombre().equals(null)) {
+		if (!chat.getNombre().equals(null)) {
 			name = chat.getNombre();
 		}
 		else name = "";

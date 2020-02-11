@@ -83,15 +83,13 @@ public class ControladorChat {
 	}
 	
 	//crear un grupo
-	public void addGrupo(String nombre, Usuario usuario, LinkedList<ContactoIndividual> miembros) {
-		Grupo grupo = usuario.addGrupo(nombre, miembros);
+	public void addGrupo(Grupo grupo) {
 		adaptadorGrupo.registrarGrupo(grupo);
-		adaptadorUsuario.modificarUsuario(usuario);
-		for (ContactoIndividual miembro : miembros) {
+		adaptadorUsuario.modificarUsuario(grupo.getAdmin());
+		for (ContactoIndividual miembro : grupo.getContactos()) {
 			miembro.getUsuario().addGrupo(grupo);
 			adaptadorUsuario.modificarUsuario(miembro.getUsuario());
 		}
-		
 	}
 	
 	//eliminar un grupo
