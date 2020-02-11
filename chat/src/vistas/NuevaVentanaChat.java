@@ -57,6 +57,9 @@ public class NuevaVentanaChat {
 	public NuevaVentanaChat(Usuario user) {
 		this.user = user;
 		this.listModel = new DefaultListModel<Contacto>();
+		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(user)) {
+			listModel.addElement(c);
+		}
 		this.list = new JList<Contacto>(listModel);
 		this.scrollPaneContacts = new JScrollPane();
 		initialize();
@@ -103,11 +106,10 @@ public class NuevaVentanaChat {
 					ControladorChat.getUnicaInstancia().getTodosContactos(user).stream().filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
-																							// NEW PANELCHAT(c, useractual.getnombre, scrollpane, listmodel)
-																							//panelCard.add(c.toString(), panelchat);
-																							// paneles.put(c.toString(), panelchat)
+																							//Chats panelChat = new Chats(c, user.getNick(), scrollPane, listModel);
+																							//panelCard.add(c.toString(), panelChat);
 																							list.setModel(listModel);
-																							//scrollPaneContacts.setViewportView(list);
+																							scrollPaneContacts.setViewportView(list);
 																						});
 			}
 		});

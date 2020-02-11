@@ -4,6 +4,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 
+import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Usuario;
 import java.awt.FlowLayout;
@@ -20,14 +21,17 @@ public class VentanaMostrarContactos {
 	private JFrame frame;
 	private Usuario user;
 	private JTable table;
-	private LinkedList<ContactoIndividual> contactos;
+	private LinkedList<Contacto> contactos;
 	
 	/**
 	 * Create the application.
 	 */
 	public VentanaMostrarContactos(Usuario user) {
 		this.user = user;
-		this.contactos = new LinkedList<ContactoIndividual>();
+		this.contactos = new LinkedList<Contacto>();
+		for (Contacto contacto : ControladorChat.getUnicaInstancia().getTodosContactos(user)) {
+			contactos.add(contacto);
+		}
 		initialize();
 	}
 

@@ -13,6 +13,7 @@ public abstract class Contacto {
 	public Contacto(String nombre) {
 		codigo = 0;
 		this.nombre = nombre;
+		this.mensajes = new LinkedList<Mensaje>();
 	}
 	
 	public Contacto(String nombre, List<Mensaje> mensajes) {

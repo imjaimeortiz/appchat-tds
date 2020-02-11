@@ -40,8 +40,8 @@ public class VentanaGrupo extends JFrame {
 	private JFrame frame;
 	private JScrollPane scrollGrupo;
 	private JTextField textGroupName;
-	private DefaultListModel<ContactoIndividual> listContacts;
-	private DefaultListModel<ContactoIndividual> listMembers;
+	private DefaultListModel<ContactoIndividual> listContactsModel;
+	private DefaultListModel<ContactoIndividual> listMembersModel;
 	private List<ContactoIndividual> members;
 	private List<ContactoIndividual> nuevos;
 	private List<ContactoIndividual> eliminados;
@@ -59,20 +59,20 @@ public class VentanaGrupo extends JFrame {
 	public VentanaGrupo(Grupo group) {
 		this.group = group;
 		this.comprobar = false;
-		this.listContacts = new DefaultListModel<ContactoIndividual>();
-		this.listMembers = new DefaultListModel<ContactoIndividual>();
+		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
+		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
 		for (ContactoIndividual contactoIndividual : group.getContactos()) {
-			this.listMembers.addElement(contactoIndividual);
+			this.listMembersModel.addElement(contactoIndividual);
 		}
 		for (Contacto c : group.getAdmin().getContactos()) {
-			if (!listMembers.contains(c)) listContacts.addElement((ContactoIndividual) c);
+			if (!listMembersModel.contains(c)) listContactsModel.addElement((ContactoIndividual) c);
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
 		initialize();
 		if (comprobar == true) {
-			for(int i = 0; i < listMembers.getSize(); i++) {
-				members.add(listMembers.get(i));
+			for(int i = 0; i < listMembersModel.getSize(); i++) {
+				members.add(listMembersModel.get(i));
 			}
 			ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
 			ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
@@ -84,14 +84,14 @@ public class VentanaGrupo extends JFrame {
 	// CREAR GRUPO
 	public VentanaGrupo(Usuario admin) {
 		this.comprobar = false;
-		this.listContacts = new DefaultListModel<ContactoIndividual>();
-		this.listMembers = new DefaultListModel<ContactoIndividual>();
+		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
+		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
 		initialize();
 		if (comprobar == true) {
-			for(int i = 0; i < listMembers.getSize(); i++) {
-				members.add(listMembers.get(i));
+			for(int i = 0; i < listMembersModel.getSize(); i++) {
+				members.add(listMembersModel.get(i));
 			}
 			ControladorChat.getUnicaInstancia().addGrupo(textGroupName.getText(), admin, (LinkedList<ContactoIndividual>)members);
 		}
@@ -155,20 +155,20 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollLista.gridy = 3;
 		frame.getContentPane().add(scrollLista, gbc_scrollLista);
 		
-		final JList<ContactoIndividual> list = new JList<ContactoIndividual>(listContacts);
+		final JList<ContactoIndividual> listContacts = new JList<ContactoIndividual>(listContactsModel);
+		scrollLista.setViewportView(listContacts);
+		listContacts.setCellRenderer(new ChatRenderer());
 
-		list.addMouseListener( new MouseAdapter() {
+		listContacts.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					nuevos.add(list.getSelectedValue());
-					eliminados.remove(list.getSelectedValue());
-					listMembers.addElement(list.getSelectedValue());
-					listContacts.removeElement(list.getSelectedValue());
+					nuevos.add(listContacts.getSelectedValue());
+					eliminados.remove(listContacts.getSelectedValue());
+					listMembersModel.addElement(listContacts.getSelectedValue());
+					listContactsModel.removeElement(listContacts.getSelectedValue());
 				}
 		     }
 		});
-		
-		scrollLista.setViewportView(list);
 		
 		scrollGrupo = new JScrollPane();
 		GridBagConstraints gbc_scrollGrupo = new GridBagConstraints();
@@ -180,17 +180,17 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollGrupo.gridy = 3;
 		frame.getContentPane().add(scrollGrupo, gbc_scrollGrupo);
 		
-		final JList<ContactoIndividual> list2 = new JList<ContactoIndividual>(listMembers);
+		final JList<ContactoIndividual> listMembers = new JList<ContactoIndividual>(listMembersModel);
+		scrollGrupo.setViewportView(listMembers);
+		listMembers.setCellRenderer(new ChatRenderer());
 		
-		scrollGrupo.setViewportView(list2);
-
-		list2.addMouseListener( new MouseAdapter() {
+		listMembers.addMouseListener( new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					eliminados.add(list2.getSelectedValue());
-					nuevos.remove(list2.getSelectedValue());
-					listContacts.addElement(list2.getSelectedValue());
-					listMembers.removeElement(list2.getSelectedValue());
+					eliminados.add(listMembers.getSelectedValue());
+					nuevos.remove(listMembers.getSelectedValue());
+					listContactsModel.addElement(listMembers.getSelectedValue());
+					listMembersModel.removeElement(listMembers.getSelectedValue());
 				}
 		     }
 		});
@@ -198,12 +198,12 @@ public class VentanaGrupo extends JFrame {
 		btnAadir = new JButton("Añadir >>");
 		btnAadir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for (ContactoIndividual string : list.getSelectedValuesList()) {
-					if (!listMembers.contains(string)) {
-						nuevos.add(list.getSelectedValue());
+				for (ContactoIndividual string : listContacts.getSelectedValuesList()) {
+					if (!listMembersModel.contains(string)) {
+						nuevos.add(listContacts.getSelectedValue());
 						eliminados.remove(string);
-						listContacts.removeElement(string);
-						listMembers.addElement(string);
+						listContactsModel.removeElement(string);
+						listMembersModel.addElement(string);
 					}
 				}
 			}
@@ -220,12 +220,12 @@ public class VentanaGrupo extends JFrame {
 		btnEliminar = new JButton("<< Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for (ContactoIndividual string : list2.getSelectedValuesList()) {
-					if (!listContacts.contains(string)) {
+				for (ContactoIndividual string : listMembers.getSelectedValuesList()) {
+					if (!listContactsModel.contains(string)) {
 						nuevos.remove(string);
 						eliminados.add(string);
-						listContacts.addElement(string);
-						listMembers.removeElement(string);
+						listContactsModel.addElement(string);
+						listMembersModel.removeElement(string);
 					}
 				}
 			}

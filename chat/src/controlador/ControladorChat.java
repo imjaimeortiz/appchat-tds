@@ -65,7 +65,7 @@ public class ControladorChat {
 	}
 
 	// Obtener los contactos de un usuario
-	public LinkedList<ContactoIndividual> recuperarContactos(Usuario user) {
+	public LinkedList<Contacto> recuperarContactos(Usuario user) {
 		return user.recuperarContactos(user);
 	}
 	
@@ -84,7 +84,7 @@ public class ControladorChat {
 	
 	//crear un grupo
 	public void addGrupo(String nombre, Usuario usuario, LinkedList<ContactoIndividual> miembros) {
-		Grupo grupo = usuario.addGrupo(nombre, miembros);
+		Grupo grupo = usuario.addGrupo(nombre, miembros, "/vistas/avatar.png");
 		adaptadorGrupo.registrarGrupo(grupo);
 		adaptadorUsuario.modificarUsuario(usuario);
 		for (ContactoIndividual miembro : miembros) {
@@ -136,6 +136,9 @@ public class ControladorChat {
 		adaptadorGrupo.modificarGrupo(group);
 	}
 	
+	public List<ContactoIndividual> miembrosGrupo(Grupo g) {
+		return g.getContactos();
+	}
 	
 	public void enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
 	Mensaje mensaje = emisor.enviarMensaje(texto, hora, emoticono, emisor, receptor);

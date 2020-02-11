@@ -3,6 +3,8 @@ package vistas;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import modelo.Contacto;
+
 import java.awt.GridBagLayout;
 import javax.swing.JButton;
 import java.awt.GridBagConstraints;
@@ -20,28 +22,21 @@ public class Chats extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = -585496333970497924L;
-	private String name;
-	private String photoPath;
-	private LocalDate date;
-	private TextArea textArea;
+	private Contacto c;
+	private String user;
+	private JScrollPane scrollPane;
+	private DefaultListModel<Contacto> listModel;
 	/**
 	 * Create the panel.
 	 */
-	public Chats(String name, String photoPath, LocalDate date) {
-		this.name = name;
-		this.photoPath = photoPath;
-		this.date = date;
-//		this.textArea = textArea;
+	public Chats(Contacto c, String user, JScrollPane scrollPane, DefaultListModel<Contacto> listModel) {
+		this.c = c;
+		this.user = user;
+		this.scrollPane = scrollPane;
+		this.listModel = listModel;
 		initialize();
 	}
 
-	public TextArea getTextArea() {
-		return textArea;
-	}
-
-	public void setTextArea(TextArea textArea) {
-		this.textArea = textArea;
-	}
 
 	private void initialize() {
 		GridBagLayout gridBagLayout = new GridBagLayout();

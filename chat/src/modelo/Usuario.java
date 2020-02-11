@@ -137,19 +137,19 @@ public class Usuario {
 	}
 	
 	//recuperar los contactos
-	public LinkedList<ContactoIndividual> recuperarContactos(Usuario user) {
-		LinkedList<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
+	public LinkedList<Contacto> recuperarContactos(Usuario user) {
+		LinkedList<Contacto> contactos = new LinkedList<Contacto>();
 		for(Contacto c : user.getContactos()) {
-			if(c instanceof ContactoIndividual)
-				contactos.add((ContactoIndividual) c);	
+			//if(c instanceof ContactoIndividual)
+				contactos.add(c);	
 			
 		}
 		return contactos;
 	}
 
 	//Añadir un nuevo grupo
-	public Grupo addGrupo(String nombre, LinkedList<ContactoIndividual> miembros) {
-		Grupo grupo = new Grupo(nombre, this, miembros);
+	public Grupo addGrupo(String nombre, LinkedList<ContactoIndividual> miembros, String foto) {
+		Grupo grupo = new Grupo(nombre, this, miembros, foto);
 		contactos.add(grupo);
 		gruposAdmin.add(grupo);
 		return grupo;

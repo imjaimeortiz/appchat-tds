@@ -20,11 +20,19 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
 	 */
 	private static final long serialVersionUID = -1656778397280123692L;
 
+	@SuppressWarnings("deprecation")
 	public Component getListCellRendererComponent(JList <? extends Contacto> list, Contacto chat, int index,
         boolean isSelected, boolean cellHasFocus) {
-          
-        String name = chat.getNombre();
+        
+		String name;
+		if (chat.getNombre().equals(null)) {
+			name = chat.getNombre();
+		}
+		else name = "";
+		
         ImageIcon imageIcon;
+        String date;
+        
         if (chat instanceof ContactoIndividual) {
         	Usuario user = ((ContactoIndividual) chat).getUsuario();
 			if (!user.getImagen().equals(null)) {
@@ -33,17 +41,18 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
         	else {
         		imageIcon = new ImageIcon(getClass().getResource(("/vistas/avatar.png")));
         	}
-			 setIcon(imageIcon);
         }
-       // else if (chat instanceof Grupo)
-        //	imageIcon = ((Grupo) chat).getFoto();
-        //}
-        //String date = chat.getDate().toString();
+        
+        else {
+        	name = ((Grupo)chat).getNombre();
+        	imageIcon = new ImageIcon(getClass().getResource(((Grupo) chat).getFoto()));
+        }
+        
+        if (chat.getMensajes().size() == 0) date = "";
+		else date = chat.getMensajes().get(chat.getMensajes().size()-1).getHora().toLocaleString();
          
-       // setIcon(imageIcon);
-        //setIcon(imageIcon);
-        setText(name);
-        //setText(code+" "+date);
+        setIcon(imageIcon);
+        setText(name + " " + date);
         return this;
     }
 
