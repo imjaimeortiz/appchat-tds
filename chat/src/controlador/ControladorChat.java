@@ -85,6 +85,7 @@ public class ControladorChat {
 	//crear un grupo
 	public void addGrupo(Grupo grupo) {
 		adaptadorGrupo.registrarGrupo(grupo);
+		grupo.getAdmin().addGrupo(grupo);
 		adaptadorUsuario.modificarUsuario(grupo.getAdmin());
 		for (ContactoIndividual miembro : grupo.getContactos()) {
 			miembro.getUsuario().addGrupo(grupo);

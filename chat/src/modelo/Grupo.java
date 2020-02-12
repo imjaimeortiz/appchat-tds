@@ -14,7 +14,7 @@ public class Grupo extends Contacto {
 		super(nombre);
 		this.admin = administrador;
 		this.contactos = contactos;
-		this.foto = "/vistas/avatarGrupo.png";
+		this.foto = "/vistas/team.png";
 	}
 	
 	public Grupo(String nombre, Usuario administrador, List<ContactoIndividual> contactos, String foto) {

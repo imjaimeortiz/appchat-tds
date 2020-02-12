@@ -48,6 +48,7 @@ public class VentanaGrupo extends JFrame {
 	private JList<ContactoIndividual> listContacts;
 	private JList<ContactoIndividual> listMembers;
 	private Grupo group;
+	private Usuario admin;
 	private JButton btnAceptar;
 	private JButton btnCancelar;
 	private boolean comprobar;
@@ -92,11 +93,12 @@ public class VentanaGrupo extends JFrame {
 	// CREAR GRUPO
 	public VentanaGrupo(Usuario admin) {
 		this.comprobar = false;
+		this.admin = admin;
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
 		this.members = new LinkedList<ContactoIndividual>();
 		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(admin)) {
-			if (c instanceof ContactoIndividual) members.add((ContactoIndividual) c);
+			if (c instanceof ContactoIndividual) listContactsModel.addElement((ContactoIndividual) c);
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
@@ -107,13 +109,6 @@ public class VentanaGrupo extends JFrame {
 		listContacts.setModel(listContactsModel);
 		listMembers.setModel(listMembersModel);
 		initialize();
-		if (comprobar == true) {
-			for(int i = 0; i < listMembersModel.getSize(); i++) {
-				members.add(listMembersModel.get(i));
-			}
-			this.group = new Grupo(textGroupName.getText(), admin, members);
-			ControladorChat.getUnicaInstancia().addGrupo(group);
-		}
 		frame.setVisible(true);
 	}
 
@@ -272,7 +267,14 @@ public class VentanaGrupo extends JFrame {
 		btnAceptar.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textGroupName.getText().equals(null)) lblIntroduceUnNombre.setVisible(true);
-				else comprobar = true;
+				else {
+					for(int i = 0; i < listMembersModel.getSize(); i++) {
+						members.add(listMembersModel.get(i));
+					}
+					Grupo group = new Grupo(textGroupName.getText(), admin, members);
+					ControladorChat.getUnicaInstancia().addGrupo(group);
+					frame.dispose();
+				}
 			}
 		});
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
