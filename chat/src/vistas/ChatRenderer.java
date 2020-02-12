@@ -24,14 +24,14 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
 	public Component getListCellRendererComponent(JList <? extends Contacto> list, Contacto chat, int index,
         boolean isSelected, boolean cellHasFocus) {
         
-		String name;
+		String name = "";
+
 		if (!chat.getNombre().equals(null)) {
 			name = chat.getNombre();
 		}
-		else name = "";
 		
         ImageIcon imageIcon;
-        String date;
+        String date = "";
         
         if (chat instanceof ContactoIndividual) {
         	Usuario user = ((ContactoIndividual) chat).getUsuario();
@@ -48,8 +48,8 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
         	imageIcon = new ImageIcon(getClass().getResource(((Grupo) chat).getFoto()));
         }
         
-        if (chat.getMensajes().size() == 0) date = "";
-		else date = chat.getMensajes().get(chat.getMensajes().size()-1).getHora().toLocaleString();
+        if (chat.getMensajes().size() > 0) 
+        	date = chat.getMensajes().get(chat.getMensajes().size()-1).getHora().toLocaleString();
          
         setIcon(imageIcon);
         setText(name + " " + date);

@@ -71,8 +71,12 @@ public class VentanaGrupo extends JFrame {
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
+		this.scrollLista = new JScrollPane();
+		this.scrollGrupo = new JScrollPane();
 		this.listContacts = new JList<ContactoIndividual>(listContactsModel);
 		this.listMembers = new JList<ContactoIndividual>(listMembersModel);
+		listContacts.setModel(listContactsModel);
+		listMembers.setModel(listMembersModel);
 		initialize();
 		if (comprobar == true) {
 			for(int i = 0; i < listMembersModel.getSize(); i++) {
@@ -96,8 +100,12 @@ public class VentanaGrupo extends JFrame {
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
+		this.scrollLista = new JScrollPane();
+		this.scrollGrupo = new JScrollPane();
 		this.listContacts = new JList<ContactoIndividual>(listContactsModel);
 		this.listMembers = new JList<ContactoIndividual>(listMembersModel);
+		listContacts.setModel(listContactsModel);
+		listMembers.setModel(listMembersModel);
 		initialize();
 		if (comprobar == true) {
 			for(int i = 0; i < listMembersModel.getSize(); i++) {
@@ -156,7 +164,6 @@ public class VentanaGrupo extends JFrame {
 		gbc_lblMiembros.gridy = 2;
 		frame.getContentPane().add(lblMiembros, gbc_lblMiembros);
 		
-		scrollLista = new JScrollPane();
 		GridBagConstraints gbc_scrollLista = new GridBagConstraints();
 		gbc_scrollLista.gridwidth = 2;
 		gbc_scrollLista.fill = GridBagConstraints.BOTH;
@@ -178,11 +185,12 @@ public class VentanaGrupo extends JFrame {
 					listContactsModel.removeElement(listContacts.getSelectedValue());
 					listContacts.setModel(listContactsModel);
 					listMembers.setModel(listMembersModel);
+					scrollLista.setViewportView(listContacts);
+					scrollGrupo.setViewportView(listMembers);
 				}
 		     }
 		});
 		
-		scrollGrupo = new JScrollPane();
 		GridBagConstraints gbc_scrollGrupo = new GridBagConstraints();
 		gbc_scrollGrupo.gridwidth = 2;
 		gbc_scrollGrupo.insets = new Insets(0, 0, 5, 5);
@@ -219,6 +227,8 @@ public class VentanaGrupo extends JFrame {
 						listMembersModel.addElement(string);
 						listContacts.setModel(listContactsModel);
 						listMembers.setModel(listMembersModel);
+						scrollLista.setViewportView(listContacts);
+						scrollGrupo.setViewportView(listMembers);
 					}
 				}
 			}
@@ -243,6 +253,8 @@ public class VentanaGrupo extends JFrame {
 						listMembersModel.removeElement(string);
 						listContacts.setModel(listContactsModel);
 						listMembers.setModel(listMembersModel);
+						scrollLista.setViewportView(listContacts);
+						scrollGrupo.setViewportView(listMembers);
 					}
 				}
 			}

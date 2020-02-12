@@ -11,6 +11,7 @@ import java.awt.FlowLayout;
 import java.util.LinkedList;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorChat;
 import java.awt.GridBagLayout;
@@ -21,6 +22,7 @@ public class VentanaMostrarContactos {
 	private JFrame frame;
 	private Usuario user;
 	private JTable table;
+	private DefaultTableModel tableModel;
 	private LinkedList<Contacto> contactos;
 	
 	/**
@@ -51,7 +53,7 @@ public class VentanaMostrarContactos {
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		table = new JTable(contactos.size(), 4);
+		table = new JTable(contactos.size(), 3);
 		GridBagConstraints gbc_table = new GridBagConstraints();
 		gbc_table.anchor = GridBagConstraints.NORTHWEST;
 		gbc_table.gridx = 1;
