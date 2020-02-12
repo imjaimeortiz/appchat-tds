@@ -64,11 +64,11 @@ public class VentanaGrupo extends JFrame {
 		this.comprobar = false;
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
-		for (ContactoIndividual contactoIndividual : group.getContactos()) {
+		for (ContactoIndividual contactoIndividual : ControladorChat.getUnicaInstancia().miembrosGrupo(group)) {
 			this.listMembersModel.addElement(contactoIndividual);
 		}
-		for (Contacto c : group.getAdmin().getContactos()) {
-			if (!listMembersModel.contains(c)) listContactsModel.addElement((ContactoIndividual) c);
+		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(group.getAdmin())) {
+			if (c instanceof ContactoIndividual && !listMembersModel.contains(c)) listContactsModel.addElement((ContactoIndividual) c);
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
 		this.eliminados = new LinkedList<ContactoIndividual>();
@@ -79,14 +79,14 @@ public class VentanaGrupo extends JFrame {
 		listContacts.setModel(listContactsModel);
 		listMembers.setModel(listMembersModel);
 		initialize();
-		if (comprobar == true) {
+		/*if (comprobar == true) {
 			for(int i = 0; i < listMembersModel.getSize(); i++) {
 				members.add(listMembersModel.get(i));
 			}
 			ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
 			ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
 			ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());
-		}
+		}*/
 		frame.setVisible(true);
 	}
 	
@@ -272,6 +272,9 @@ public class VentanaGrupo extends JFrame {
 						members.add(listMembersModel.get(i));
 					}
 					Grupo group = new Grupo(textGroupName.getText(), admin, members);
+					ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
+					ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
+					ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());
 					ControladorChat.getUnicaInstancia().addGrupo(group);
 					frame.dispose();
 				}
