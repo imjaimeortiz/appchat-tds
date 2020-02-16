@@ -184,6 +184,14 @@ public class Usuario {
 	public Mensaje enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
 		return receptor.addMensaje(texto, hora, emoticono, emisor, receptor);
 	}
+	
+	public void mostrarEstadisticas() {
+		
+	}
+	
+	public void generarPDF() {
+		
+	}
 
 	
 

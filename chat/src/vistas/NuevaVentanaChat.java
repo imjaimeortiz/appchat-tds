@@ -150,9 +150,13 @@ public class NuevaVentanaChat {
 		
 		JMenuItem mitemEstadisticas = new JMenuItem("Mostrar estadísticas");
 		popupMenu.add(mitemEstadisticas);
+		//ControladorChat.mostrarEstadisticas(user)
 		
 		JMenuItem mitemPremium = new JMenuItem("Ir a premium");
 		popupMenu.add(mitemPremium);
+		//ControladorChat.setPremium(user);
+		
+		
 		
 		JMenuItem mitemCerrarSesion = new JMenuItem("Cerrar sesión");
 		popupMenu.add(mitemCerrarSesion);

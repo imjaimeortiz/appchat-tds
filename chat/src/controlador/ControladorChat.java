@@ -146,6 +146,22 @@ public class ControladorChat {
 
 	}
 	
+	public void setPremium(Usuario user) {
+		user.setPremium(true);
+	}
+	
+	public void mostrarEstadisticas(Usuario user) {
+		if(user.isPremium()) {
+			user.mostrarEstadisticas();
+		}
+	}
+	
+	public void generarPDF(Usuario user) {
+		if (user.isPremium()) {
+			user.generarPDF();
+		}
+	}
+	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {
