@@ -4,6 +4,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import java.awt.Component;
 
@@ -12,6 +13,13 @@ import javax.swing.JMenuItem;
 
 import javax.swing.JTextField;
 import javax.swing.ListModel;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import controlador.ControladorChat;
 import modelo.Contacto;
@@ -28,6 +36,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.LinkedList;
 import java.awt.GridLayout;
 import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
@@ -71,7 +80,7 @@ public class NuevaVentanaChat {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 577, 360);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
@@ -80,7 +89,15 @@ public class NuevaVentanaChat {
 		
 		JPanel panel = new JPanel();
 		frame.getContentPane().add(panel);
-		panel.setLayout(new MigLayout("", "[54px,fill][67px,fill][67px,fill][][][][grow][grow,fill][fill][fill]", "[25px][grow][]"));
+		panel.setLayout(new MigLayout("", "[54px,left][67px,center][67px,fill][][left][][grow][left][fill][left][fill][fill]", "[25px][grow][]"));
+		
+		list.addListSelectionListener( new ListSelectionListener() {
+			
+			@Override
+			public void valueChanged(ListSelectionEvent e) {
+				panelCard.show();
+			}
+		});
 		
 		btnUser = new JButton("");
 		btnUser.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
@@ -106,8 +123,8 @@ public class NuevaVentanaChat {
 					ControladorChat.getUnicaInstancia().getTodosContactos(user).stream().filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
-																							//Chats panelChat = new Chats(c, user.getNick(), scrollPane, listModel);
-																							//panelCard.add(c.toString(), panelChat);
+																							Chats panelChat = new Chats(c, user.getNick(), scrollPane, listModel);
+																							panelCard.add(c.toString(), panelChat);
 																							list.setModel(listModel);
 																							scrollPaneContacts.setViewportView(list);
 																						});
@@ -119,9 +136,6 @@ public class NuevaVentanaChat {
 		popupMenu.add(mitemMostrarContacto);
 		mitemMostrarContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				for (Contacto c : user.getContactos()) {
-					System.out.println(c.getNombre());
-				}
 				new VentanaMostrarContactos(user);
 			}
 		});
@@ -171,7 +185,7 @@ public class NuevaVentanaChat {
 		btnSearch = new JButton("");
 		btnSearch.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/chat.png")));
 		panel.add(btnSearch, "cell 1 0,growx,aligny top");
-		panel.add(btnMenu, "cell 2 0,growx,aligny top");
+		panel.add(btnMenu, "cell 2 0,alignx right,aligny top");
 		
 		btnContact = new JButton(user.getNombre());
 		btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
@@ -181,11 +195,15 @@ public class NuevaVentanaChat {
 				new VentanaUser(user);
 			}
 		});
-		panel.add(btnContact, "cell 7 0,growx,aligny top");
+		panel.add(btnContact, "cell 7 0,alignx left,aligny top");
+		
+		JButton btnNewButton_1 = new JButton("");
+		btnNewButton_1.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/order.png")));
+		panel.add(btnNewButton_1, "cell 8 0,growx");
 		
 		btnDelete = new JButton("");
 		btnDelete.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/delete-button.png")));
-		panel.add(btnDelete, "cell 8 0,growx,aligny top");
+		panel.add(btnDelete, "cell 10 0,growx,aligny top");
 		
 		btnOptions = new JButton("");
 		btnOptions.addActionListener(new ActionListener() {
@@ -193,12 +211,12 @@ public class NuevaVentanaChat {
 			}
 		});
 		btnOptions.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/menu.png")));
-		panel.add(btnOptions, "cell 9 0,growx,aligny top");
+		panel.add(btnOptions, "cell 11 0,growx,aligny top");
 		
 		panel.add(scrollPaneContacts, "cell 0 1 3 2,grow");
 		
 		panelCard = new JPanel();
-		panel.add(panelCard, "cell 4 1 6 1,grow");
+		panel.add(panelCard, "cell 4 1 8 1,grow");
 		panelCard.setLayout(new CardLayout(0, 0));
 		panelCard.setVisible(false);
 		
@@ -210,39 +228,17 @@ public class NuevaVentanaChat {
 		panel.add(btnNewButton, "cell 4 2");
 		
 		textField = new JTextField();
-		panel.add(textField, "cell 5 2 4 1,growx");
+		panel.add(textField, "cell 5 2 6 1,growx");
 		textField.setColumns(10);
 		
 		JButton btnSend = new JButton("Send");
-		panel.add(btnSend, "cell 9 2");
+		panel.add(btnSend, "cell 11 2");
 		
 		gruposAdmin = new JComboBox<Grupo>();
 		for (Grupo g : user.getGruposAdmin()) {
 			gruposAdmin.addItem(g);	
 		}
 	}
-	
-	/*private void actualizarLista() {
-		for (Contacto c : user.getContactos()) {
-			if (c instanceof ContactoIndividual) {
-				Chats chat = new Chats(c.getNombre(), null, null);
-				listModel.addElement(c);
-				list = new JList<Chats>(listModel);
-				list.setCellRenderer(new ChatRenderer());
-				list.addMouseListener( new MouseAdapter() {
-					public void mouseClicked(MouseEvent e) {
-						if (e.getClickCount() == 1) {
-							int index = list.getSelectedIndex();
-							if (index >= 0) {
-								Chats chat = list.getModel().getElementAt(index);
-								scrollPane.setViewportView(chat.getTextArea());
-							}
-					     }
-					}
-				});
-			}
-		}
-	}*/
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
