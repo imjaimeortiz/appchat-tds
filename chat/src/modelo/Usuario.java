@@ -181,7 +181,7 @@ public class Usuario {
 		}
 	}
 	
-	public Mensaje enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
+	public Mensaje enviarMensajeEmisor(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
 		
 		return receptor.addMensaje(texto, hora, emoticono, emisor, receptor);
 	}
@@ -197,6 +197,15 @@ public class Usuario {
 		ContactoIndividual contactoemisor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
 		return contactoemisor;
 	}
+	
+	public Mensaje recibirMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptro) {
+		Contacto contactoEmisor = existeContacto(emisor);
+		Mensaje mensaje = contactoEmisor.addMensaje(texto, hora, emoticono, emisor, (ContactoIndividual)contactoEmisor);
+		return mensaje;
+		
+	}
+	
+
 	
 	
 	public void mostrarEstadisticas() {

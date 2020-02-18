@@ -140,11 +140,12 @@ public class ControladorChat {
 	}
 	
 	public void enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
-	Contacto contactoDelEmisorEnElReceptor = receptor.getUsuario().existeContacto(emisor);
-	Mensaje mensaje = emisor.enviarMensaje(texto, hora, emoticono, emisor, receptor);
-	Mensaje mensaje1 = 
-	//Mensaje mensaje1 = emisor.enviarMensaje(texto, hora, emoticono, emisor, receptor);
+	
+	Mensaje mensaje = emisor.enviarMensajeEmisor(texto, hora, emoticono, emisor, receptor);
+	Mensaje mensaje1 = receptor.getUsuario().recibirMensaje(texto, hora, emoticono, emisor, receptor);
 	adaptadorMensaje.registrarMensaje(mensaje);
+	adaptadorMensaje.registrarMensaje(mensaje1);
+	adaptadorUsuario.modificarUsuario(receptor.getUsuario());
 	adaptadorContactoIndividual.modificarContactoIndividual(receptor);
 
 	}

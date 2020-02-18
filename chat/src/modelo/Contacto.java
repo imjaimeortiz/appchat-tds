@@ -55,5 +55,6 @@ public abstract class Contacto {
 		mensajes.add(mensaje);
 	}
 	
+	
 
 }
