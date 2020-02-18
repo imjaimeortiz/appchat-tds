@@ -182,8 +182,22 @@ public class Usuario {
 	}
 	
 	public Mensaje enviarMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
+		
 		return receptor.addMensaje(texto, hora, emoticono, emisor, receptor);
 	}
+	
+	public Contacto existeContacto(Usuario emisor) {
+		for(Contacto c : contactos) {
+			if(c instanceof ContactoIndividual) {
+				if(((ContactoIndividual) c).getUsuario().equals(emisor)) {
+					return c;
+				}
+			}
+		}
+		ContactoIndividual contactoemisor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
+		return contactoemisor;
+	}
+	
 	
 	public void mostrarEstadisticas() {
 		

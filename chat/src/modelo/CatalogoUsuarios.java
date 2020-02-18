@@ -33,6 +33,7 @@ public class CatalogoUsuarios {
 	
 	//devuelve todos los usuarios
 	public List<Usuario> getUsuarios(){
+		
 		ArrayList<Usuario> lista = new ArrayList<Usuario>();
 		for (Usuario u:usuarios.values()) 
 			lista.add(u);
