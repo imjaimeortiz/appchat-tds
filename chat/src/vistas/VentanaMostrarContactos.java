@@ -6,6 +6,7 @@ import javax.swing.JFrame;
 
 import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Grupo;
 import modelo.Usuario;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
@@ -53,13 +54,19 @@ public class VentanaMostrarContactos {
 		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
-		table = new JTable(contactos.size(), 3);
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.anchor = GridBagConstraints.NORTHWEST;
-		gbc_table.gridx = 1;
-		gbc_table.gridy = 0;
-		frame.getContentPane().add(table, gbc_table);
+		DefaultTableModel tableModel;
+		JTable table;
+		LinkedList<Contacto> contactos = ControladorChat.getUnicaInstancia().recuperarContactos(user);
+		for (Contacto contacto : contactos) {
+			if (contacto instanceof Grupo) contactos.remove(contacto);
+		}
+		ContactoIndividual[] arraycontactos = (ContactoIndividual[]) contactos.toArray();
+		tableModel = new DefaultTableModel(arraycontactos, 4);
 		
+		for (Contacto c : user.getContactos()) {
+			System.out.println(c.getNombre());
+		}
+				
 	}
 
 }

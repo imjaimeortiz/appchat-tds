@@ -1,10 +1,14 @@
 package vistas;
 
 import java.awt.Component;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JTable;
 import javax.swing.table.TableCellRenderer;
+
+import controlador.ControladorChat;
+import modelo.ContactoIndividual;
 
 public class ShowContactsRenderer implements TableCellRenderer{
 
@@ -16,8 +20,8 @@ public class ShowContactsRenderer implements TableCellRenderer{
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
-		// TODO Apéndice de método generado automáticamente
 		
+		LinkedList<ContactoIndividual> contactos = ControladorChat.getUnicaInstancia().recuperarContactos();		
 		
 		
 		return this;
