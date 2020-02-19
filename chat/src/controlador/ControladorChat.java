@@ -3,6 +3,7 @@ package controlador;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Vector;
 
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
@@ -190,5 +191,19 @@ public class ControladorChat {
 	public List<Contacto> getTodosContactos(Usuario user) {
 		return user.getContactos();
 		
+	}
+
+	public Vector<String> getGruposComun(Usuario user, ContactoIndividual c) {
+		LinkedList<Contacto> grupos = new LinkedList<>(); 
+		Vector<String> gruposComun = new Vector<>();
+		for (Contacto g : user.getContactos()) {
+			if (g instanceof Grupo)
+				grupos.add(g);
+		}
+		for (Contacto grupo : grupos) {
+			if (c.getUsuario().getContactos().contains(grupo))
+			gruposComun.add(grupo.getNombre());
+		}
+		return null;
 	}
 }

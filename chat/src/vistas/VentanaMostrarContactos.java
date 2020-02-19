@@ -10,6 +10,7 @@ import modelo.Grupo;
 import modelo.Usuario;
 import java.awt.FlowLayout;
 import java.util.LinkedList;
+import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -17,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import controlador.ControladorChat;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
+import javax.swing.BoxLayout;
 
 public class VentanaMostrarContactos {
 
@@ -25,6 +27,7 @@ public class VentanaMostrarContactos {
 	private JTable table;
 	private DefaultTableModel tableModel;
 	private LinkedList<Contacto> contactos;
+	private JTable table_1;
 	
 	/**
 	 * Create the application.
@@ -36,6 +39,7 @@ public class VentanaMostrarContactos {
 			contactos.add(contacto);
 		}
 		initialize();
+		frame.setVisible(true);
 	}
 
 	/**
@@ -45,28 +49,28 @@ public class VentanaMostrarContactos {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		
+		table_1 = new JTable();
+		frame.getContentPane().add(table_1);
 		
 		contactos = ControladorChat.getUnicaInstancia().recuperarContactos(user);
-		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{67, 300, 0};
-		gridBagLayout.rowHeights = new int[]{1, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
 		
-		DefaultTableModel tableModel;
-		JTable table;
+		DefaultTableModel tableModel = new DefaultTableModel();
 		LinkedList<Contacto> contactos = ControladorChat.getUnicaInstancia().recuperarContactos(user);
 		for (Contacto contacto : contactos) {
 			if (contacto instanceof Grupo) contactos.remove(contacto);
 		}
-		ContactoIndividual[] arraycontactos = (ContactoIndividual[]) contactos.toArray();
-		tableModel = new DefaultTableModel(arraycontactos, 4);
-		
-		for (Contacto c : user.getContactos()) {
-			System.out.println(c.getNombre());
+		for (int i = 0; i < contactos.size(); i++) {
+			Vector<Object> vector = new Vector<Object>();
+			ContactoIndividual c = (ContactoIndividual)contactos.get(i);
+			vector.add(c.getNombre());
+			vector.add(c.getFoto());
+			vector.add(ControladorChat.getUnicaInstancia().getGruposComun(user, c));
+			tableModel.insertRow(i, vector);
 		}
-				
+		table_1.getColumnModel().getColumn(1).setCellRenderer(new ShowContactsRenderer());
+		table_1.setModel(tableModel);	
 	}
 
 }
