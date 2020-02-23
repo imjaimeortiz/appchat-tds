@@ -5,6 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
+
 public class Usuario {
 	private int codigo;
 	private String nombre;
@@ -201,11 +202,8 @@ public class Usuario {
 		return receptor.addMensaje(texto, hora, emoticono, emisor, receptor);
 	}
 	
+
 	public Contacto existeContacto(Usuario emisor) {
-		contactos.stream().filter(c -> (c instanceof ContactoIndivudual))
-		.forEach(c -> );
-	}
-	/*public Contacto existeContacto(Usuario emisor) {
 		for(Contacto c : contactos) {
 			if(c instanceof ContactoIndividual) {
 				if(((ContactoIndividual) c).getUsuario().equals(emisor)) {
@@ -215,10 +213,10 @@ public class Usuario {
 		}
 		ContactoIndividual contactoemisor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
 		return contactoemisor;
-	}*/
+	}
 	
 	public Mensaje recibirMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptro) {
-		Contacto contactoEmisor = existeContacto(emisor);
+		Contacto contactoEmisor= existeContacto(emisor);
 		Mensaje mensaje = contactoEmisor.addMensaje(texto, hora, emoticono, emisor, (ContactoIndividual)contactoEmisor);
 		return mensaje;
 		
