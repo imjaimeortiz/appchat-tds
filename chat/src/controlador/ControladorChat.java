@@ -206,4 +206,8 @@ public class ControladorChat {
 		}
 		return null;
 	}
+
+	public boolean tlfValid(String tlf) {
+		return tlf.length() == 9;
+	}
 }
