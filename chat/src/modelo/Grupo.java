@@ -73,21 +73,37 @@ public class Grupo extends Contacto {
 	}
 	
 	public void addContactos(List<ContactoIndividual> nuevos) {
+		nuevos.stream().forEach(contacto -> {
+					addContacto(contacto);
+					contacto.getUsuario().addGrupo(this);
+	});
+		
+	}
+	
+	/*public void addContactos(List<ContactoIndividual> nuevos) {
 		for (ContactoIndividual contacto : nuevos) {
 			this.addContacto(contacto);
 			contacto.getUsuario().addGrupo(this);
 		}
-	}
+	}*/
 
 	public void removeContacto(ContactoIndividual contactoIndividual) {
 		contactos.remove(contactoIndividual);
 	}
+	
+	
 	public void removeContactos(List<ContactoIndividual> eliminados) {
+		eliminados.stream().forEach(contacto -> {
+			removeContacto(contacto);
+			contacto.getUsuario().removeGrupo(this);
+		});
+	}
+	/*public void removeContactos(List<ContactoIndividual> eliminados) {
 		for (ContactoIndividual contacto : eliminados) {
 			this.removeContacto(contacto);
 			contacto.getUsuario().removeGrupo(this);
 	}
-	}
+	}*/
 	
 
 	

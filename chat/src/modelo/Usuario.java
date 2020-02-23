@@ -137,7 +137,13 @@ public class Usuario {
 	}
 	
 	//recuperar los contactos
-	public LinkedList<Contacto> recuperarContactos(Usuario user) {
+	public LinkedList<Contacto> recuperarContactos(Usuario user){
+		LinkedList<Contacto> contactos = new LinkedList<Contacto>();
+		user.getContactos().stream().forEach(contacto -> contactos.add(contacto));
+		return contactos;
+	}
+	
+	/*public LinkedList<Contacto> recuperarContactos(Usuario user) {
 		LinkedList<Contacto> contactos = new LinkedList<Contacto>();
 		for(Contacto c : user.getContactos()) {
 			//if(c instanceof ContactoIndividual)
@@ -145,7 +151,7 @@ public class Usuario {
 			
 		}
 		return contactos;
-	}
+	}*/
 
 	//Añadir un nuevo grupo
 	public Grupo addGrupo(String nombre, LinkedList<ContactoIndividual> miembros) {
@@ -171,6 +177,15 @@ public class Usuario {
 	}
 	
 	public void abandonarGrupo(Grupo grupo) {
+		grupo.getContactos().stream().filter(contacto -> contacto.getMovil().equals(getMovil()))
+		.forEach(c -> grupo.removeContacto(c));
+		
+		if (grupo.getAdmin().equals(this) && grupo.getContactos().size() > 0) {
+			grupo.setAdmin(grupo.getContactos().get(0).getUsuario());
+		}
+	}
+	
+	/*public void abandonarGrupo(Grupo grupo) {
 		for (ContactoIndividual c : grupo.getContactos()) {
 			if (c.getMovil().equals(this.getMovil())) {
 				grupo.removeContacto(c);
@@ -179,7 +194,7 @@ public class Usuario {
 		if (grupo.getAdmin().equals(this) && grupo.getContactos().size() > 0) {
 			grupo.setAdmin(grupo.getContactos().get(0).getUsuario());
 		}
-	}
+	}*/
 	
 	public Mensaje enviarMensajeEmisor(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
 		
@@ -187,6 +202,10 @@ public class Usuario {
 	}
 	
 	public Contacto existeContacto(Usuario emisor) {
+		contactos.stream().filter(c -> (c instanceof ContactoIndivudual))
+		.forEach(c -> );
+	}
+	/*public Contacto existeContacto(Usuario emisor) {
 		for(Contacto c : contactos) {
 			if(c instanceof ContactoIndividual) {
 				if(((ContactoIndividual) c).getUsuario().equals(emisor)) {
@@ -196,7 +215,7 @@ public class Usuario {
 		}
 		ContactoIndividual contactoemisor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
 		return contactoemisor;
-	}
+	}*/
 	
 	public Mensaje recibirMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptro) {
 		Contacto contactoEmisor = existeContacto(emisor);
