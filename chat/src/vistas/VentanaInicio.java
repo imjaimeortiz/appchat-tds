@@ -42,7 +42,7 @@ public class VentanaInicio extends JFrame {
 			public void run() {
 				try {
                     //here you can put the selected theme class name in JTattoo
-                    UIManager.setLookAndFeel("com.jtattoo.plaf.noire.NoireLookAndFeel");
+                    UIManager.setLookAndFeel("com.jtattoo.plaf.graphite.GraphiteLookAndFeel");
          
                 } catch (ClassNotFoundException ex) {
                     java.util.logging.Logger.getLogger(VentanaInicio.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);

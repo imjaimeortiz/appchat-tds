@@ -239,7 +239,7 @@ public class VentanaRegistro extends JFrame {
 	private boolean checkFields() {
 		if ( nameField.getText().isEmpty() ||
 			 phoneField.getText().isEmpty() ||
-			 !ControladorChat.getUnicaInstancia().existeTlf(phoneField.getText()) ||
+			 ControladorChat.getUnicaInstancia().existeTlf(phoneField.getText()) ||
 			 //!ControladorChat.getUnicaInstancia().tlfValid(phoneField.getText()) ||
 			 userField.getText().isEmpty() ||
 			 emailField.getText().isEmpty()) {
