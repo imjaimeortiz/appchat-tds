@@ -215,12 +215,9 @@ public class Usuario {
 		return null;
 	}
 	
-	public Mensaje recibirMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptro) {
-		Contacto contactoEmisor= existeContacto(emisor);
-		if(contactoEmisor == null) {
-			ContactoIndividual contactoemisor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
-		}
-		Mensaje mensaje = contactoEmisor.addMensaje(texto, hora, emoticono, emisor, (ContactoIndividual)contactoEmisor);
+	public Mensaje recibirMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor, ContactoIndividual contactoEmisorEnReceptro) {
+		
+		Mensaje mensaje = contactoEmisorEnReceptro.addMensaje(texto, hora, emoticono, emisor, receptor);
 		return mensaje;
 		
 	}
