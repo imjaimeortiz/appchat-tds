@@ -11,7 +11,7 @@ public class Mensaje {
 	private ContactoIndividual contacto; //receptor
 	
 	public Mensaje(String texto, Date hora, String emoticono, Usuario usuario, ContactoIndividual contacto) {
-		codigo =0;
+		codigo = 0;
 		this.texto = texto;
 		this.hora = hora;
 		this.emoticono = emoticono;

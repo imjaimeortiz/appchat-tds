@@ -55,13 +55,15 @@ public class VentanaUser {
 		panel.add(btnCambiarImagen);
 		btnCambiarImagen.addActionListener( e -> {
 			JFileChooser file = new JFileChooser();
-			FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
+			FileNameExtensionFilter imgFilter = new FileNameExtensionFilter("PNG Images", "png");
 			file.setFileFilter(imgFilter);
 			file.setFileSelectionMode(JFileChooser.FILES_ONLY);
 			file.showOpenDialog(frame);
 			File f = file.getSelectedFile();
 			if (f != null) {
-				ControladorChat.getUnicaInstancia().setImage(f.getPath(), user);
+				String path = file.getSelectedFile().getAbsolutePath();
+				ControladorChat.getUnicaInstancia().setImage(path, user);
+				btnNewButton.setIcon(new ImageIcon(VentanaUser.class.getResource(path)));
 			}
 		});
 		

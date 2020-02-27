@@ -79,8 +79,9 @@ public class ControladorChat {
 	public void addContacto(Usuario usuario, String movil, String nombre) {
 		Usuario u = catalogoUsuarios.buscarUsuarioDelMovil(movil);
 		ContactoIndividual contactoi = usuario.addContacto(nombre, movil, u);
-		adaptadorUsuario.modificarUsuario(usuario);
 		adaptadorContactoIndividual.registrarContactoIndividual(contactoi);
+		adaptadorUsuario.modificarUsuario(usuario);
+		
 	}
 	
 	//crear un grupo
