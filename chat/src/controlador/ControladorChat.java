@@ -70,6 +70,14 @@ public class ControladorChat {
 		return user.recuperarContactos(user);
 	}
 	
+	public LinkedList<ContactoIndividual> recuperarContactosIndividuales(Usuario user) {
+		LinkedList<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
+		for (Contacto contacto : recuperarContactos(user)) {
+			if (contacto instanceof ContactoIndividual) contactos.add((ContactoIndividual) contacto);
+		}
+		return contactos;
+	}
+	
 	// comprobar si existe el tlf
 	public boolean existeTlf(String movil) {
 		return catalogoUsuarios.existeTlf(movil);
@@ -199,10 +207,10 @@ public class ControladorChat {
 		return catalogoUsuarios.getUsuarios();
 	}
 
-	public List<Contacto> getTodosContactos(Usuario user) {
+	/*public List<Contacto> getTodosContactos(Usuario user) {
 		return user.getContactos();
 		
-	}
+	}*/
 
 	public Vector<String> getGruposComun(Usuario user, ContactoIndividual c) {
 		LinkedList<Contacto> grupos = new LinkedList<>(); 

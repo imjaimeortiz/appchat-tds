@@ -19,25 +19,19 @@ import controlador.ControladorChat;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import javax.swing.BoxLayout;
+import javax.swing.JScrollPane;
 
 public class VentanaMostrarContactos {
 
 	private JFrame frame;
 	private Usuario user;
 	private JTable table;
-	private DefaultTableModel tableModel;
-	private LinkedList<Contacto> contactos;
-	private JTable table_1;
 	
 	/**
 	 * Create the application.
 	 */
 	public VentanaMostrarContactos(Usuario user) {
 		this.user = user;
-		this.contactos = new LinkedList<Contacto>();
-		for (Contacto contacto : ControladorChat.getUnicaInstancia().getTodosContactos(user)) {
-			contactos.add(contacto);
-		}
 		initialize();
 		frame.setVisible(true);
 	}
@@ -51,16 +45,19 @@ public class VentanaMostrarContactos {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
-		table_1 = new JTable();
-		frame.getContentPane().add(table_1);
-		
-		contactos = ControladorChat.getUnicaInstancia().recuperarContactos(user);
+		JScrollPane scrollPane = new JScrollPane();
+		frame.getContentPane().add(scrollPane);
 		
 		DefaultTableModel tableModel = new DefaultTableModel();
-		LinkedList<Contacto> contactos = ControladorChat.getUnicaInstancia().recuperarContactos(user);
-		for (Contacto contacto : contactos) {
-			if (contacto instanceof Grupo) contactos.remove(contacto);
-		}
+
+		table = new JTable();
+		table.setModel(tableModel);
+		table.setEnabled(false);
+		table.getColumn("Imagen").setCellRenderer(new ShowContactsRenderer());
+		scrollPane.setViewportView(table);
+		
+		LinkedList<ContactoIndividual>contactos = ControladorChat.getUnicaInstancia().recuperarContactosIndividuales(user);
+		
 		for (int i = 0; i < contactos.size(); i++) {
 			Vector<Object> vector = new Vector<Object>();
 			ContactoIndividual c = (ContactoIndividual)contactos.get(i);
@@ -69,8 +66,7 @@ public class VentanaMostrarContactos {
 			vector.add(ControladorChat.getUnicaInstancia().getGruposComun(user, c));
 			tableModel.insertRow(i, vector);
 		}
-		table_1.getColumnModel().getColumn(1).setCellRenderer(new ShowContactsRenderer());
-		table_1.setModel(tableModel);	
+		
 	}
 
 }
