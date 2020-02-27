@@ -54,15 +54,15 @@ public class Chats extends JPanel {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 219, 0};
-		gridBagLayout.rowHeights = new int[]{100, 50, 50, 50, 50, 0};
+		gridBagLayout.rowHeights = new int[]{100, 50, 50, 30, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridheight = 4;
+		gbc_scrollPane.gridheight = 3;
 		gbc_scrollPane.gridwidth = 6;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
@@ -73,20 +73,20 @@ public class Chats extends JPanel {
 		scrollPane.setViewportView(chat);
 		chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
 		
-		JPanel panel = new JPanel();
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.gridwidth = 6;
-		gbc_panel.insets = new Insets(0, 0, 0, 5);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 0;
-		gbc_panel.gridy = 4;
-		add(panel, gbc_panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		JPanel panelSend = new JPanel();
+		GridBagConstraints gbc_panelSend = new GridBagConstraints();
+		gbc_panelSend.gridwidth = 6;
+		gbc_panelSend.fill = GridBagConstraints.BOTH;
+		gbc_panelSend.gridx = 0;
+		gbc_panelSend.gridy = 3;
+		add(panelSend, gbc_panelSend);
+		
+		GridBagLayout gbl_panelSend = new GridBagLayout();
+		gbl_panelSend.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelSend.rowHeights = new int[]{0, 0};
+		gbl_panelSend.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelSend.rowWeights = new double[]{1.0, Double.MIN_VALUE};
+		panelSend.setLayout(gbl_panelSend);
 		
 		JButton btnEmoji = new JButton("");
 		btnEmoji.setIcon(new ImageIcon(Chats.class.getResource("/vistas/smile.png")));
@@ -96,7 +96,7 @@ public class Chats extends JPanel {
 		gbc_btnEmoji.insets = new Insets(0, 0, 0, 5);
 		gbc_btnEmoji.gridx = 0;
 		gbc_btnEmoji.gridy = 0;
-		panel.add(btnEmoji, gbc_btnEmoji);
+		panelSend.add(btnEmoji, gbc_btnEmoji);
 		
 		JTextArea textArea = new JTextArea();
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
@@ -105,7 +105,7 @@ public class Chats extends JPanel {
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 1;
 		gbc_textArea.gridy = 0;
-		panel.add(textArea, gbc_textArea);
+		panelSend.add(textArea, gbc_textArea);
 		
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener( new ActionListener() {
@@ -123,6 +123,6 @@ public class Chats extends JPanel {
 		gbc_btnSend.anchor = GridBagConstraints.EAST;
 		gbc_btnSend.gridx = 9;
 		gbc_btnSend.gridy = 0;
-		panel.add(btnSend, gbc_btnSend);
+		panelSend.add(btnSend, gbc_btnSend);
 	}	
 }

@@ -5,7 +5,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
 import java.awt.Component;
 import java.awt.GridBagConstraints;
@@ -13,25 +12,16 @@ import java.awt.GridBagConstraints;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 
-import javax.swing.JTextField;
-import javax.swing.ListModel;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
-import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.text.StyledEditorKit.ForegroundAction;
 
 import controlador.ControladorChat;
 import modelo.Contacto;
-import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
@@ -39,13 +29,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
-import java.awt.GridLayout;
-import net.miginfocom.swing.MigLayout;
 import java.awt.CardLayout;
-import java.awt.Color;
-import javax.swing.BoxLayout;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
@@ -76,7 +61,7 @@ public class NuevaVentanaChat {
 		this.user = user;
 		this.listModel = new DefaultListModel<Contacto>();
 		this.mapa = new HashMap<String, Chats>();
-		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(user)) {
+		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(user)) {
 			listModel.addElement(c);
 		}
 		initialize();
@@ -98,7 +83,6 @@ public class NuevaVentanaChat {
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		panelCard = new JPanel();
-		//panelCard.setVisible(false);
 		GridBagConstraints gbc_panelCard = new GridBagConstraints();
 		gbc_panelCard.gridheight = 2;
 		gbc_panelCard.fill = GridBagConstraints.BOTH;
@@ -163,7 +147,7 @@ public class NuevaVentanaChat {
 					VentanaCrearContacto ventanaContact = new VentanaCrearContacto(user);
 					ventanaContact.setModal(true);
 					ventanaContact.setVisible(true);
-					ControladorChat.getUnicaInstancia().getTodosContactos(user).stream().filter( c -> (!listModel.contains(c)))
+					ControladorChat.getUnicaInstancia().recuperarContactos(user).stream().filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
 																							panelChat = new Chats(c, user.getNick(), scrollPaneContacts, listModel);

@@ -1,14 +1,12 @@
 package vistas;
 
-import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 
-import modelo.Contacto;
 import modelo.ContactoIndividual;
-import modelo.Grupo;
 import modelo.Usuario;
-import java.awt.FlowLayout;
+
 import java.util.LinkedList;
 import java.util.Vector;
 
@@ -16,10 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import controlador.ControladorChat;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import javax.swing.BoxLayout;
-import javax.swing.JScrollPane;
+import java.awt.GridLayout;
 
 public class VentanaMostrarContactos {
 
@@ -43,7 +38,7 @@ public class VentanaMostrarContactos {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
+		frame.getContentPane().setLayout(new GridLayout(0, 1, 0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane);

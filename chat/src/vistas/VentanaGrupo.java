@@ -67,7 +67,7 @@ public class VentanaGrupo extends JFrame {
 		for (ContactoIndividual contactoIndividual : ControladorChat.getUnicaInstancia().miembrosGrupo(group)) {
 			this.listMembersModel.addElement(contactoIndividual);
 		}
-		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(group.getAdmin())) {
+		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(group.getAdmin())) {
 			if (c instanceof ContactoIndividual && !listMembersModel.contains(c)) listContactsModel.addElement((ContactoIndividual) c);
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
@@ -97,7 +97,7 @@ public class VentanaGrupo extends JFrame {
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
 		this.members = new LinkedList<ContactoIndividual>();
-		for (Contacto c : ControladorChat.getUnicaInstancia().getTodosContactos(admin)) {
+		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(admin)) {
 			if (c instanceof ContactoIndividual) listContactsModel.addElement((ContactoIndividual) c);
 		}
 		this.nuevos = new LinkedList<ContactoIndividual>();
