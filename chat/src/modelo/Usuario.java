@@ -1,5 +1,7 @@
 package modelo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -197,9 +199,9 @@ public class Usuario {
 		}
 	}*/
 	
-	public Mensaje enviarMensajeEmisor(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor) {
+	public Mensaje enviarMensajeEmisor(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto c) {
 		
-		return receptor.addMensaje(texto, hora, emoticono, emisor, receptor);
+		return c.addMensaje(texto, localDate, emoticono, emisor, c);
 	}
 	
 
@@ -215,7 +217,7 @@ public class Usuario {
 		return null;
 	}
 	
-	public Mensaje recibirMensaje(String texto, Date hora, String emoticono, Usuario emisor, ContactoIndividual receptor, ContactoIndividual contactoEmisorEnReceptro) {
+	public Mensaje recibirMensaje(String texto, LocalDateTime hora, int emoticono, Usuario emisor, ContactoIndividual receptor, ContactoIndividual contactoEmisorEnReceptro) {
 		
 		Mensaje mensaje = contactoEmisorEnReceptro.addMensaje(texto, hora, emoticono, emisor, receptor);
 		return mensaje;

@@ -3,6 +3,9 @@ package persistencia;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -12,7 +15,9 @@ import beans.Entidad;
 import beans.Propiedad;
 import modelo.Mensaje;
 import modelo.Usuario;
+import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Grupo;
 import tds.driver.FactoriaServicioPersistencia;
 import tds.driver.ServicioPersistencia;
 
@@ -50,7 +55,11 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		adaptadorUsuario.registrarUsuario(mensaje.getUsuario());
 		
 		AdaptadorContactoIndividual adaptadorContacto = AdaptadorContactoIndividual.getUnicaInstancia();
-		adaptadorContacto.registrarContactoIndividual(mensaje.getContacto());
+		AdaptadorGrupo adaptadorGrupo = AdaptadorGrupo.getUnicaInstancia();
+		Contacto c = mensaje.getContacto();
+		if (c instanceof ContactoIndividual)
+			adaptadorContacto.registrarContactoIndividual((ContactoIndividual) c);
+		else adaptadorGrupo.registrarGrupo((Grupo)c);
 		
 		// crear entidad mensaje
 		eMensaje = new Entidad();
@@ -82,7 +91,7 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "hora");
 		servPersistencia.anadirPropiedadEntidad(eMensaje, "hora", mensaje.getHora().toString());
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "emoticono");
-		servPersistencia.anadirPropiedadEntidad(eMensaje, "emoticono", mensaje.getEmoticono());
+		servPersistencia.anadirPropiedadEntidad(eMensaje, "emoticono", String.valueOf(mensaje.getEmoticono()));
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "usuario");
 		servPersistencia.anadirPropiedadEntidad(eMensaje, "usuario",
 				String.valueOf(mensaje.getUsuario().getCodigo()));
@@ -93,14 +102,14 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 	public Mensaje recuperarMensaje(int codigo) {
 		Entidad eMensaje;
 		String texto;
-		Date hora = null ;
-		String emoticono;
+		LocalDateTime hora = null ;
+		int emoticono;
 		Usuario usuario;
 		ContactoIndividual contacto;
 
 		eMensaje = servPersistencia.recuperarEntidad(codigo);
 		texto = servPersistencia.recuperarPropiedadEntidad(eMensaje, "texto");
-		emoticono = servPersistencia.recuperarPropiedadEntidad(eMensaje, "emoticono");
+		emoticono = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "emoticono"));
 		
 		// Para recuperar el usuario se lo solicita al adaptador usuario
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
@@ -111,12 +120,10 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		contacto = adaptadorContacto.recuperarContactoIndividual(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "contacto")));
 				
 		
-		try {
-			hora = (Date) dateFormat.parse(servPersistencia.recuperarPropiedadEntidad(eMensaje, "hora"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		
+		String fechaAux = servPersistencia.recuperarPropiedadEntidad(eMensaje, "fecha");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		hora = LocalDateTime.parse(fechaAux, formatter);
+
 		
 		Mensaje mensaje = new Mensaje(texto, hora, emoticono, usuario, contacto);
 		mensaje.setCodigo(codigo);

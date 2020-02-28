@@ -1,22 +1,24 @@
 package modelo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Mensaje {
 	private int codigo;
 	private String texto;
-	private Date hora;
-	private String emoticono;
+	private LocalDateTime hora;
+	private int emoticono;
 	private Usuario usuario; // emisor
-	private ContactoIndividual contacto; //receptor
+	private Contacto contacto; //receptor
 	
-	public Mensaje(String texto, Date hora, String emoticono, Usuario usuario, ContactoIndividual contacto) {
+	public Mensaje(String texto, LocalDateTime hora2, int emoticono, Usuario usuario, Contacto c) {
 		codigo = 0;
 		this.texto = texto;
-		this.hora = hora;
+		this.hora = hora2;
 		this.emoticono = emoticono;
 		this.usuario = usuario;
-		this.contacto = contacto;
+		this.contacto = c;
 	}
 
 	public Usuario getUsuario() {
@@ -43,27 +45,27 @@ public class Mensaje {
 		this.texto = texto;
 	}
 
-	public Date getHora() {
+	public LocalDateTime getHora() {
 		return hora;
 	}
 
-	public void setHora(Date hora) {
+	public void setHora(LocalDateTime hora) {
 		this.hora = hora;
 	}
 
-	public String getEmoticono() {
+	public int getEmoticono() {
 		return emoticono;
 	}
 
-	public void setEmoticono(String emoticono) {
+	public void setEmoticono(int emoticono) {
 		this.emoticono = emoticono;
 	}
 
-	public ContactoIndividual getContacto() {
+	public Contacto getContacto() {
 		return contacto;
 	}
 
-	public void setContacto(ContactoIndividual contacto) {
+	public void setContacto(Contacto contacto) {
 		this.contacto = contacto;
 	}
 	

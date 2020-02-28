@@ -1,15 +1,21 @@
 package vistas;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+
 import tds.BubbleText;
 
 import javax.swing.JScrollPane;
 
 import modelo.Contacto;
+import modelo.ContactoIndividual;
+import modelo.Mensaje;
+import modelo.Usuario;
 
 import java.awt.Color;
 import java.awt.Dimension;
 
+import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import java.awt.GridLayout;
@@ -18,10 +24,14 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
+
+import controlador.ControladorChat;
 
 public class Chats extends JPanel {
 
@@ -30,15 +40,17 @@ public class Chats extends JPanel {
 	 */
 	private static final long serialVersionUID = -585496333970497924L;
 	private Contacto c;
-	private String user;
+	private Usuario user;
 	private JScrollPane scrollPaneContacts;
 	private DefaultListModel<Contacto> listModel;
 	private JPanel chat;
+	private JPopupMenu popupMenu;
+	private JTextArea textArea;
 	
 	/**
 	 * Create the panel.
 	 */
-	public Chats(Contacto c, String user, JScrollPane scrollPaneContacts, DefaultListModel<Contacto> listModel) {
+	public Chats(Contacto c, Usuario user, JScrollPane scrollPaneContacts, DefaultListModel<Contacto> listModel) {
 		this.c = c;
 		this.user = user;
 		this.scrollPaneContacts = scrollPaneContacts;
@@ -73,6 +85,8 @@ public class Chats extends JPanel {
 		scrollPane.setViewportView(chat);
 		chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
 		
+		textArea = new JTextArea();
+		
 		JPanel panelSend = new JPanel();
 		GridBagConstraints gbc_panelSend = new GridBagConstraints();
 		gbc_panelSend.gridwidth = 6;
@@ -97,8 +111,18 @@ public class Chats extends JPanel {
 		gbc_btnEmoji.gridx = 0;
 		gbc_btnEmoji.gridy = 0;
 		panelSend.add(btnEmoji, gbc_btnEmoji);
+		btnEmoji.add(popupMenu);
+		for (int i = 0; i <= BubbleText.MAXICONO; i++) {
+			final int emoji = i;
+			JButton btn = new JButton();
+			btn.setIcon(BubbleText.getEmoji(i));
+			popupMenu.add((Action) BubbleText.getEmoji(i));
+			btn.addActionListener(e -> {
+				ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), emoji, user, c);
+				mostrarMensaje(chat);
+			});
+		}
 		
-		JTextArea textArea = new JTextArea();
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.gridwidth = 8;
 		gbc_textArea.insets = new Insets(0, 0, 0, 5);
@@ -112,10 +136,7 @@ public class Chats extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String m = textArea.getText();
-				BubbleText b = new BubbleText(chat, m, Color.GREEN, "Tú", BubbleText.SENT);
-				chat.add(b);
-				textArea.setText(null);
+				mostrarMensaje(chat);
 			}
 		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
@@ -125,4 +146,11 @@ public class Chats extends JPanel {
 		gbc_btnSend.gridy = 0;
 		panelSend.add(btnSend, gbc_btnSend);
 	}	
+	
+	private void mostrarMensaje(JPanel chat) {
+		String m = textArea.getText();
+		BubbleText b = new BubbleText(chat, m, Color.GREEN, "Tú", BubbleText.SENT);
+		chat.add(b);
+		textArea.setText(null);
+	}
 }

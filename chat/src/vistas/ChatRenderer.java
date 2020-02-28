@@ -49,7 +49,7 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
         }
         
         if (chat.getMensajes().size() > 0) 
-        	date = chat.getMensajes().get(chat.getMensajes().size()-1).getHora().toLocaleString();
+        	date = chat.getMensajes().get(chat.getMensajes().size()-1).getHora().toString();
          
         setIcon(imageIcon);
         setText(name + " " + date);

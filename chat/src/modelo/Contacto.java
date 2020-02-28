@@ -1,5 +1,7 @@
 package modelo;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,8 +47,8 @@ public abstract class Contacto {
 		return mensajes;
 	}
 	
-	public Mensaje addMensaje(String texto, Date hora, String emoticono, Usuario usuario, ContactoIndividual contacto) {
-		Mensaje mensaje = new Mensaje(texto, hora, emoticono, usuario, contacto);
+	public Mensaje addMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario usuario, Contacto c) {
+		Mensaje mensaje = new Mensaje(texto, localDate, emoticono, usuario, c);
 		mensajes.add(mensaje);
 		return mensaje;
 	}

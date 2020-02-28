@@ -150,7 +150,7 @@ public class NuevaVentanaChat {
 					ControladorChat.getUnicaInstancia().recuperarContactos(user).stream().filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
-																							panelChat = new Chats(c, user.getNick(), scrollPaneContacts, listModel);
+																							panelChat = new Chats(c, user, scrollPaneContacts, listModel);
 																							mapa.put(c.toString(), panelChat);
 																							panelCard.add(c.toString(), panelChat);
 																							list.setModel(listModel);
