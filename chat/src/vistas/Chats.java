@@ -8,30 +8,21 @@ import tds.BubbleText;
 import javax.swing.JScrollPane;
 
 import modelo.Contacto;
-import modelo.ContactoIndividual;
-import modelo.Mensaje;
 import modelo.Usuario;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
-import javax.swing.Action;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
-import java.awt.GridLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
-
-import controlador.ControladorChat;
 
 public class Chats extends JPanel {
 
@@ -111,7 +102,7 @@ public class Chats extends JPanel {
 		gbc_btnEmoji.gridx = 0;
 		gbc_btnEmoji.gridy = 0;
 		panelSend.add(btnEmoji, gbc_btnEmoji);
-		btnEmoji.add(popupMenu);
+		/*btnEmoji.add(popupMenu);
 		for (int i = 0; i <= BubbleText.MAXICONO; i++) {
 			final int emoji = i;
 			JButton btn = new JButton();
@@ -121,7 +112,7 @@ public class Chats extends JPanel {
 				ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), emoji, user, c);
 				mostrarMensaje(chat);
 			});
-		}
+		}*/
 		
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.gridwidth = 8;

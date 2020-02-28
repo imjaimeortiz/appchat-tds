@@ -1,6 +1,5 @@
 package vistas;
 
-
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
@@ -8,7 +7,6 @@ import modelo.ContactoIndividual;
 import modelo.Usuario;
 
 import java.util.LinkedList;
-import java.util.Vector;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -44,23 +42,22 @@ public class VentanaMostrarContactos {
 		frame.getContentPane().add(scrollPane);
 		
 		DefaultTableModel tableModel = new DefaultTableModel();
-
+		tableModel.addColumn("Nombre");
+		tableModel.addColumn("Teléfono");
+		tableModel.addColumn("Imagen");
+		tableModel.addColumn("Grupos");
+		
+		LinkedList<ContactoIndividual>contactos = ControladorChat.getUnicaInstancia().recuperarContactosIndividuales(user);
+		
+		for (ContactoIndividual contactoIndividual : contactos) {
+			tableModel.addRow(new Object[] { contactoIndividual.getNombre(),  contactoIndividual.getMovil(), contactoIndividual.getFoto(), ControladorChat.getUnicaInstancia().getGruposComun(user, contactoIndividual) });
+		}
+		
 		table = new JTable();
 		table.setModel(tableModel);
 		table.setEnabled(false);
 		table.getColumn("Imagen").setCellRenderer(new ShowContactsRenderer());
 		scrollPane.setViewportView(table);
-		
-		LinkedList<ContactoIndividual>contactos = ControladorChat.getUnicaInstancia().recuperarContactosIndividuales(user);
-		
-		for (int i = 0; i < contactos.size(); i++) {
-			Vector<Object> vector = new Vector<Object>();
-			ContactoIndividual c = (ContactoIndividual)contactos.get(i);
-			vector.add(c.getNombre());
-			vector.add(c.getFoto());
-			vector.add(ControladorChat.getUnicaInstancia().getGruposComun(user, c));
-			tableModel.insertRow(i, vector);
-		}
 		
 	}
 
