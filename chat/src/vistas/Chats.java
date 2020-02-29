@@ -27,8 +27,13 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
+import javax.swing.MenuElement;
 
 import controlador.ControladorChat;
+import java.awt.Component;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class Chats extends JPanel {
 
@@ -41,7 +46,6 @@ public class Chats extends JPanel {
 	private JScrollPane scrollPaneContacts;
 	private DefaultListModel<Contacto> listModel;
 	private JPanel chat;
-	private JPopupMenu popupMenu;
 	private JTextArea textArea;
 	
 	/**
@@ -99,6 +103,54 @@ public class Chats extends JPanel {
 		
 		JButton btnEmoji = new JButton("");
 		btnEmoji.setIcon(new ImageIcon(Chats.class.getResource("/vistas/smile.png")));
+
+		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(btnEmoji, popupMenu);
+		btnEmoji.addMouseListener( new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				popupMenu.show(e.getComponent(), e.getX(), e.getY());
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+		for(int i=0; i<BubbleText.MAXICONO; i++) {
+			JButton emoji = new JButton();
+			emoji.setIcon(BubbleText.getEmoji(i));
+			popupMenu.add(emoji);
+			final int emojiSelect = i;
+			emoji.addActionListener( e-> {
+				Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje("", LocalDateTime.now(), emojiSelect, user, c);
+				mostrarMensaje(m, chat);
+			});
+		}
+		
+		
 		GridBagConstraints gbc_btnEmoji = new GridBagConstraints();
 		gbc_btnEmoji.fill = GridBagConstraints.VERTICAL;
 		gbc_btnEmoji.anchor = GridBagConstraints.WEST;
@@ -153,5 +205,22 @@ public class Chats extends JPanel {
 		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
 		chat.add(b);
 		textArea.setText(null);
+	}
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
 	}
 }
