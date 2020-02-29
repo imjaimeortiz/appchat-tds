@@ -61,9 +61,6 @@ public class NuevaVentanaChat {
 		this.user = user;
 		this.listModel = new DefaultListModel<Contacto>();
 		this.mapa = new HashMap<String, Chats>();
-		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(user)) {
-			listModel.addElement(c);
-		}
 		initialize();
 		frame.setVisible(true);
 	}
@@ -105,6 +102,14 @@ public class NuevaVentanaChat {
 		gbl_panelBotones.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panelBotones.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelBotones.setLayout(gbl_panelBotones);
+		
+		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(user)) {
+			listModel.addElement(c);
+			Chats chat = new Chats(c, user, scrollPaneContacts, listModel);
+			mapa.put(c.toString(), chat);
+			panelCard.add(c.toString(), chat);
+			
+		}
 		
 		btnSearch = new JButton("");
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();

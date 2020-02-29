@@ -8,6 +8,7 @@ import tds.BubbleText;
 import javax.swing.JScrollPane;
 
 import modelo.Contacto;
+import modelo.Mensaje;
 import modelo.Usuario;
 
 import java.awt.Color;
@@ -19,10 +20,15 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
+
+import controlador.ControladorChat;
 
 public class Chats extends JPanel {
 
@@ -48,7 +54,7 @@ public class Chats extends JPanel {
 		this.listModel = listModel;
 		
 		initialize();
-		this.setVisible(true);
+		//this.setVisible(true);
 
 	}
 
@@ -56,17 +62,16 @@ public class Chats extends JPanel {
 	private void initialize() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 219, 0};
-		gridBagLayout.rowHeights = new int[]{100, 50, 50, 30, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 0};
+		gridBagLayout.rowHeights = new int[]{50, 39, 0, 0, 52, 31, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
-		gbc_scrollPane.gridheight = 3;
-		gbc_scrollPane.gridwidth = 6;
+		gbc_scrollPane.gridheight = 5;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
 		gbc_scrollPane.gridy = 0;
@@ -80,16 +85,15 @@ public class Chats extends JPanel {
 		
 		JPanel panelSend = new JPanel();
 		GridBagConstraints gbc_panelSend = new GridBagConstraints();
-		gbc_panelSend.gridwidth = 6;
 		gbc_panelSend.fill = GridBagConstraints.BOTH;
 		gbc_panelSend.gridx = 0;
-		gbc_panelSend.gridy = 3;
+		gbc_panelSend.gridy = 5;
 		add(panelSend, gbc_panelSend);
 		
 		GridBagLayout gbl_panelSend = new GridBagLayout();
 		gbl_panelSend.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panelSend.rowHeights = new int[]{0, 0};
-		gbl_panelSend.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelSend.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 		gbl_panelSend.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelSend.setLayout(gbl_panelSend);
 		
@@ -127,7 +131,8 @@ public class Chats extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mostrarMensaje(chat);
+				Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), -1, user, c);
+				mostrarMensaje(m, chat);
 			}
 		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
@@ -136,11 +141,16 @@ public class Chats extends JPanel {
 		gbc_btnSend.gridx = 9;
 		gbc_btnSend.gridy = 0;
 		panelSend.add(btnSend, gbc_btnSend);
+		
+		LinkedList<Mensaje> mensajes = ControladorChat.getUnicaInstancia().mensajesConContacto(c);
+		mensajes.stream()
+			.forEach(m->mostrarMensaje(m, chat));
+		
 	}	
 	
-	private void mostrarMensaje(JPanel chat) {
-		String m = textArea.getText();
-		BubbleText b = new BubbleText(chat, m, Color.GREEN, "Tú", BubbleText.SENT);
+	private void mostrarMensaje(Mensaje m, JPanel chat) {
+		String msj = m.getTexto();
+		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
 		chat.add(b);
 		textArea.setText(null);
 	}

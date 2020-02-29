@@ -12,6 +12,7 @@ import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
+import persistencia.AdaptadorContactoIndividual;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorContactoIndividualDAO;
@@ -150,7 +151,7 @@ public class ControladorChat {
 		return g.getContactos();
 	}
 	
-	public void enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto c) {
+	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto c) {
 	
 	Mensaje mensaje = emisor.enviarMensajeEmisor(texto, localDate, emoticono, emisor, c);
 	Mensaje mensaje1;
@@ -159,11 +160,12 @@ public class ControladorChat {
 		ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) c).getUsuario().existeContacto(emisor);
 		if(contactoDelEmisorEnElReceptor== null) {
 			contactoDelEmisorEnElReceptor = ((ContactoIndividual) c).getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
-			
+			adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
 			adaptadorUsuario.modificarUsuario(((ContactoIndividual) c).getUsuario());
 			
 		}
 			mensaje1 = ((ContactoIndividual) c).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) c, contactoDelEmisorEnElReceptor);
+			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);
 			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
 		
 		adaptadorMensaje.registrarMensaje(mensaje);
@@ -176,17 +178,18 @@ public class ControladorChat {
 			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().existeContacto(emisor);
 			if(contactoDelEmisorEnElReceptor== null) {
 				contactoDelEmisorEnElReceptor = ((ContactoIndividual) c).getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
-				
+				adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
 				adaptadorUsuario.modificarUsuario(((ContactoIndividual) c).getUsuario());
-				
 			}
 			mensaje1 = contactoIndividual.getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, contactoIndividual, contactoDelEmisorEnElReceptor);
+			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);
 			adaptadorMensaje.registrarMensaje(mensaje1);
 
 		}
 		adaptadorMensaje.registrarMensaje(mensaje);
 		adaptadorGrupo.modificarGrupo((Grupo)c);
 	}
+	return mensaje;
 
 	}
 	
@@ -248,5 +251,9 @@ public class ControladorChat {
 
 	public boolean tlfValid(String tlf) {
 		return tlf.length() == 9;
+	}
+
+	public LinkedList<Mensaje> mensajesConContacto(Contacto c) {
+		return (LinkedList<Mensaje>) c.getMensajes();
 	}
 }

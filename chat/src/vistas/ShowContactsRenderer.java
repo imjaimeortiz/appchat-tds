@@ -13,11 +13,10 @@ public class ShowContactsRenderer implements TableCellRenderer{
 	 * 
 	 */
 	JLabel label;
-	ImageIcon icon = new ImageIcon(getClass().getResource("sample.png"));
 
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
 			boolean hasFocus, int row, int column) {
-		    label.setText((String) value);
+			ImageIcon icon = new ImageIcon(getClass().getResource((String) value));
 		    label.setIcon(icon);
 		    return label;
 	}
