@@ -16,6 +16,7 @@ import java.awt.Color;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
@@ -69,7 +70,7 @@ public class Chats extends JPanel {
 		gridBagLayout.columnWidths = new int[]{0, 0};
 		gridBagLayout.rowHeights = new int[]{50, 39, 0, 0, 52, 31, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -105,6 +106,7 @@ public class Chats extends JPanel {
 		btnEmoji.setIcon(new ImageIcon(Chats.class.getResource("/vistas/smile.png")));
 
 		JPopupMenu popupMenu = new JPopupMenu();
+		popupMenu.setLayout(new GridLayout(6, 4));
 		addPopup(btnEmoji, popupMenu);
 		btnEmoji.addMouseListener( new MouseListener() {
 			

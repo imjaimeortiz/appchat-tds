@@ -272,10 +272,10 @@ public class VentanaGrupo extends JFrame {
 						members.add(listMembersModel.get(i));
 					}
 					Grupo group = new Grupo(textGroupName.getText(), admin, members);
+					ControladorChat.getUnicaInstancia().addGrupo(group);
 					ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
 					ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
 					ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());
-					ControladorChat.getUnicaInstancia().addGrupo(group);
 					frame.dispose();
 				}
 			}
@@ -298,5 +298,15 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnCancelar.gridy = 8;
 		frame.getContentPane().add(btnCancelar, gbc_btnCancelar);
 	}
+
+	public Grupo getGroup() {
+		return group;
+	}
+
+	public void setGroup(Grupo group) {
+		this.group = group;
+	}
+	
+	
 
 }

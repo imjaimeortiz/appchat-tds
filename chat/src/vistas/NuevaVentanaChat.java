@@ -50,7 +50,7 @@ public class NuevaVentanaChat {
 	private DefaultListModel<Contacto> listModel;
 	private JList<Contacto> list;
 	private Map<String, Chats> mapa;
-	private Chats panelChat;
+	private Chats chat;
 	private JPanel panelCard;
 
 	
@@ -99,7 +99,7 @@ public class NuevaVentanaChat {
 		GridBagLayout gbl_panelBotones = new GridBagLayout();
 		gbl_panelBotones.columnWidths = new int[]{59, 49, 49, 49, 117, 0, 0, 49, 0, 0, 0};
 		gbl_panelBotones.rowHeights = new int[]{25, 0};
-		gbl_panelBotones.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelBotones.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotones.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelBotones.setLayout(gbl_panelBotones);
 		
@@ -155,9 +155,9 @@ public class NuevaVentanaChat {
 					ControladorChat.getUnicaInstancia().recuperarContactos(user).stream().filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
-																							panelChat = new Chats(c, user, scrollPaneContacts, listModel);
-																							mapa.put(c.toString(), panelChat);
-																							panelCard.add(c.toString(), panelChat);
+																							chat = new Chats(c, user, scrollPaneContacts, listModel);
+																							mapa.put(c.toString(), chat);
+																							panelCard.add(c.toString(), chat);
 																							list.setModel(listModel);
 																						});
 			}
@@ -177,6 +177,16 @@ public class NuevaVentanaChat {
 				mitemCrearGrupo.addActionListener( new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 							new VentanaGrupo(user);
+							ControladorChat.getUnicaInstancia().recuperarContactos(user).stream()
+								.filter(c -> (!listModel.contains(c)))
+								.forEach(c -> {
+									listModel.addElement(c);
+									chat = new Chats(c, user, scrollPaneContacts, listModel);
+									mapa.put(c.toString(), chat);
+									panelCard.add(c.toString(), chat);
+									list.setModel(listModel);
+								});
+								
 					}
 				});
 				
