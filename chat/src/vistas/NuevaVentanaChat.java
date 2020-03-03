@@ -18,6 +18,7 @@ import javax.swing.event.ListSelectionListener;
 import controlador.ControladorChat;
 import modelo.Contacto;
 import modelo.Grupo;
+import modelo.Mensaje;
 import modelo.Usuario;
 
 import javax.swing.JButton;
@@ -29,6 +30,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
@@ -184,9 +186,8 @@ public class NuevaVentanaChat {
 									chat = new Chats(c, user, scrollPaneContacts, listModel);
 									mapa.put(c.toString(), chat);
 									panelCard.add(c.toString(), chat);
-									list.setModel(listModel);
 								});
-								
+							list.setModel(listModel);			
 					}
 				});
 				

@@ -87,7 +87,6 @@ public class VentanaGrupo extends JFrame {
 			ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
 			ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());
 		}*/
-		frame.setVisible(true);
 	}
 	
 	// CREAR GRUPO
@@ -109,7 +108,6 @@ public class VentanaGrupo extends JFrame {
 		listContacts.setModel(listContactsModel);
 		listMembers.setModel(listMembersModel);
 		initialize();
-		frame.setVisible(true);
 	}
 
 	private void initialize() {
@@ -297,6 +295,8 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnCancelar.gridx = 6;
 		gbc_btnCancelar.gridy = 8;
 		frame.getContentPane().add(btnCancelar, gbc_btnCancelar);
+		
+		frame.setVisible(true);
 	}
 
 	public Grupo getGroup() {

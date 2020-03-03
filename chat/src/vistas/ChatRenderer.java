@@ -20,7 +20,6 @@ public class ChatRenderer extends JButton implements ListCellRenderer<Contacto> 
 	 */
 	private static final long serialVersionUID = -1656778397280123692L;
 
-	@SuppressWarnings("deprecation")
 	public Component getListCellRendererComponent(JList <? extends Contacto> list, Contacto chat, int index,
         boolean isSelected, boolean cellHasFocus) {
         

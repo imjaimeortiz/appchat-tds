@@ -12,7 +12,6 @@ import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
-import persistencia.AdaptadorContactoIndividual;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorContactoIndividualDAO;
@@ -177,9 +176,11 @@ public class ControladorChat {
 		for (ContactoIndividual contactoIndividual : contactos) {
 			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().existeContacto(emisor);
 			if(contactoDelEmisorEnElReceptor== null) {
-				contactoDelEmisorEnElReceptor = ((ContactoIndividual) c).getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
-				adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
-				adaptadorUsuario.modificarUsuario(((ContactoIndividual) c).getUsuario());
+				for(ContactoIndividual ci : ((Grupo) c).getContactos()) {
+					contactoDelEmisorEnElReceptor = ci.getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
+					adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
+					adaptadorUsuario.modificarUsuario(ci.getUsuario());
+				}
 			}
 			mensaje1 = contactoIndividual.getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, contactoIndividual, contactoDelEmisorEnElReceptor);
 			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);

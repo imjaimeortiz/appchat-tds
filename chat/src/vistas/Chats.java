@@ -21,14 +21,12 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JTextArea;
-import javax.swing.MenuElement;
 
 import controlador.ControladorChat;
 import java.awt.Component;
@@ -85,6 +83,10 @@ public class Chats extends JPanel {
 		chat = new JPanel();
 		scrollPane.setViewportView(chat);
 		chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
+		
+		LinkedList<Mensaje> mensajes = ControladorChat.getUnicaInstancia().mensajesConContacto(c);
+		mensajes.stream()
+			.forEach(m->mostrarMensaje(m, chat));
 		
 		textArea = new JTextArea();
 		
@@ -195,11 +197,7 @@ public class Chats extends JPanel {
 		gbc_btnSend.gridx = 9;
 		gbc_btnSend.gridy = 0;
 		panelSend.add(btnSend, gbc_btnSend);
-		
-		LinkedList<Mensaje> mensajes = ControladorChat.getUnicaInstancia().mensajesConContacto(c);
-		mensajes.stream()
-			.forEach(m->mostrarMensaje(m, chat));
-		
+	
 	}	
 	
 	private void mostrarMensaje(Mensaje m, JPanel chat) {
@@ -207,6 +205,13 @@ public class Chats extends JPanel {
 		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
 		chat.add(b);
 		textArea.setText(null);
+		LinkedList<Contacto> listAux = new LinkedList<Contacto>();
+		for (int i = 0; i < listModel.getSize(); i++) {
+			if (listModel.get(i).equals(c)) listAux.addFirst(c);
+			else listAux.add(listModel.get(i));
+		}
+		listModel.clear();
+		listAux.stream().forEach(c-> listModel.addElement(c));
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

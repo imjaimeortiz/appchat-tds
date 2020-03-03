@@ -17,8 +17,6 @@ import java.awt.event.ActionListener;
 import javax.swing.UIManager;
 
 import controlador.ControladorChat;
-import modelo.CatalogoUsuarios;
-import modelo.Usuario;
 
 import java.awt.Color;
 
