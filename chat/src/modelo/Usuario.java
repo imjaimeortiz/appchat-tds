@@ -5,6 +5,13 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.swing.text.Document;
+
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
+
+
 
 
 public class Usuario {
@@ -230,7 +237,11 @@ public class Usuario {
 		
 	}
 	
-	public void toPDF(List<String> contactos) {
+	/*public void toPDF(List<String> contactos) throws FileNotFoundException{
+		FileOutputStream archivo = new FileOutputStream("C:\\Usuarios\\Luu\\Escritorio\\Contactos.pdf");
+		Document documento = new Document();
+		PdfWriter
+		
 		
 	}
 	
@@ -252,7 +263,7 @@ public class Usuario {
 		toPDF(contactosToPdf);
 		
 	}
-
+*/
 	
 
 	
