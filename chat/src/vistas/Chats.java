@@ -189,6 +189,7 @@ public class Chats extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), -1, user, c);
 				mostrarMensaje(m, chat);
+				textArea.setText(null);
 			}
 		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
@@ -204,7 +205,6 @@ public class Chats extends JPanel {
 		String msj = m.getTexto();
 		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
 		chat.add(b);
-		textArea.setText(null);
 		LinkedList<Contacto> listAux = new LinkedList<Contacto>();
 		for (int i = 0; i < listModel.getSize(); i++) {
 			if (listModel.get(i).equals(c)) listAux.addFirst(c);
