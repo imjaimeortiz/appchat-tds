@@ -230,7 +230,26 @@ public class Usuario {
 		
 	}
 	
+	public void toPDF(List<String> contactos) {
+		
+	}
+	
 	public void generarPDF() {
+		List<String> contactosToPdf = new LinkedList<String>();
+		for(Contacto c : contactos) {
+			if(c instanceof Grupo) {
+				for(ContactoIndividual ci : ((Grupo) c).getContactos()) {
+					String contactog = ci.getMovil() + ci.getNombre();
+					contactosToPdf.add(contactog);
+				}
+				
+			}else {
+				String contacto = ((ContactoIndividual) c).getMovil() + c.getNombre();
+				contactosToPdf.add(contacto);	
+			}	
+		}
+		
+		toPDF(contactosToPdf);
 		
 	}
 
