@@ -204,10 +204,10 @@ public class Usuario {
 	}
 	
 
-	public Contacto existeContacto(Usuario emisor) {
-		for(Contacto c : contactos) {
-			if(c instanceof ContactoIndividual) {
-				if(((ContactoIndividual) c).getUsuario().equals(emisor)) {
+	public Contacto contactoEnReceptor(Usuario emisor) {
+		for (Contacto c : contactos) {
+			if (c instanceof ContactoIndividual) {
+				if (((ContactoIndividual) c).getUsuario().equals(emisor)) {
 					return c;
 				}
 			}

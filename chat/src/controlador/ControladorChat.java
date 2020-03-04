@@ -156,25 +156,26 @@ public class ControladorChat {
 	Mensaje mensaje1;
 	
 	if (c instanceof ContactoIndividual) {
-		ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) c).getUsuario().existeContacto(emisor);
-		if(contactoDelEmisorEnElReceptor== null) {
-			contactoDelEmisorEnElReceptor = ((ContactoIndividual) c).getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
+		ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) c).getUsuario().contactoEnReceptor(emisor);
+		
+		if (contactoDelEmisorEnElReceptor== null) {
+			contactoDelEmisorEnElReceptor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
+			((ContactoIndividual) c).getUsuario().addContacto(contactoDelEmisorEnElReceptor);
 			adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
-			adaptadorUsuario.modificarUsuario(((ContactoIndividual) c).getUsuario());
-			
+			adaptadorUsuario.modificarUsuario(((ContactoIndividual) c).getUsuario());	
 		}
 			mensaje1 = ((ContactoIndividual) c).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) c, contactoDelEmisorEnElReceptor);
 			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);
 			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
 		
-		adaptadorMensaje.registrarMensaje(mensaje);
-		adaptadorMensaje.registrarMensaje(mensaje1);
-		adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) c);
+			adaptadorMensaje.registrarMensaje(mensaje);
+			adaptadorMensaje.registrarMensaje(mensaje1);
+			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) c);
 		
 	} else {
 		LinkedList<ContactoIndividual> contactos = (LinkedList<ContactoIndividual>) ((Grupo) c).getContactos();
 		for (ContactoIndividual contactoIndividual : contactos) {
-			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().existeContacto(emisor);
+			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().contactoEnReceptor(emisor);
 			if(contactoDelEmisorEnElReceptor== null) {
 				for(ContactoIndividual ci : ((Grupo) c).getContactos()) {
 					contactoDelEmisorEnElReceptor = ci.getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
