@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
@@ -61,7 +62,7 @@ public class VentanaGrupo extends JFrame {
 	// MODIFICAR GRUPO
 	public VentanaGrupo(Grupo group) {
 		this.group = group;
-		this.comprobar = false;
+		this.comprobar = true;
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
 		for (ContactoIndividual contactoIndividual : ControladorChat.getUnicaInstancia().miembrosGrupo(group)) {
@@ -79,14 +80,6 @@ public class VentanaGrupo extends JFrame {
 		listContacts.setModel(listContactsModel);
 		listMembers.setModel(listMembersModel);
 		initialize();
-		/*if (comprobar == true) {
-			for(int i = 0; i < listMembersModel.getSize(); i++) {
-				members.add(listMembersModel.get(i));
-			}
-			ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
-			ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
-			ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());
-		}*/
 	}
 	
 	// CREAR GRUPO
@@ -269,8 +262,10 @@ public class VentanaGrupo extends JFrame {
 					for(int i = 0; i < listMembersModel.getSize(); i++) {
 						members.add(listMembersModel.get(i));
 					}
-					Grupo group = new Grupo(textGroupName.getText(), admin, members);
-					ControladorChat.getUnicaInstancia().addGrupo(group);
+					if (!comprobar) {
+						group = new Grupo(textGroupName.getText(), admin, members);						
+						ControladorChat.getUnicaInstancia().addGrupo(group);
+					}
 					ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
 					ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
 					ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());

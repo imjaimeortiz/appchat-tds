@@ -97,6 +97,7 @@ public class ControladorChat {
 	public void addGrupo(Grupo grupo) {
 		adaptadorGrupo.registrarGrupo(grupo);
 		grupo.getAdmin().addGrupo(grupo);
+		grupo.getAdmin().addGrupoAdmin(grupo);
 		adaptadorUsuario.modificarUsuario(grupo.getAdmin());
 		for (ContactoIndividual miembro : grupo.getContactos()) {
 			miembro.getUsuario().addGrupo(grupo);
@@ -115,6 +116,10 @@ public class ControladorChat {
 	
 	public void setImage(String path, Usuario user) {
 		user.setImagen(path);
+	}
+	
+	public void modificarGrupo(Grupo grupo) {
+		adaptadorGrupo.modificarGrupo(grupo);
 	}
 	
 	
@@ -205,11 +210,11 @@ public class ControladorChat {
 		}
 	}
 	
-	public void generarPDF(Usuario user) {
+	/*public void generarPDF(Usuario user) {
 		if (user.isPremium()) {
 			user.generarPDF();
 		}
-	}
+	}*/
 	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
@@ -257,5 +262,9 @@ public class ControladorChat {
 
 	public LinkedList<Mensaje> mensajesConContacto(Contacto c) {
 		return (LinkedList<Mensaje>) c.getMensajes();
+	}
+	
+	public LinkedList<Grupo> gruposAdmin (Usuario user) {
+		return (LinkedList<Grupo>) user.getGruposAdmin();
 	}
 }

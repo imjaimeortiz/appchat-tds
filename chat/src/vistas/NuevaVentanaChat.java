@@ -44,7 +44,6 @@ public class NuevaVentanaChat {
 	private JButton btnContact;
 	private JButton btnDelete;
 	private JButton btnOptions;
-	private JComboBox<Grupo> gruposAdmin;
 
 	private Usuario user;
 	private Grupo group;
@@ -190,18 +189,11 @@ public class NuevaVentanaChat {
 							list.setModel(listModel);			
 					}
 				});
-				
 				JMenuItem mitemModificarGrupo = new JMenuItem("Modificar grupo");
 				popupMenu.add(mitemModificarGrupo);
 				mitemModificarGrupo.addActionListener( new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						gruposAdmin.setVisible(true);
-						gruposAdmin.addActionListener( new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
-								group = (Grupo) gruposAdmin.getSelectedItem();
-								new VentanaGrupo(group);
-							}
-						});
+						new VentanaModificarGrupo(user);
 					}
 				});
 				
@@ -295,11 +287,6 @@ public class NuevaVentanaChat {
 		frame.getContentPane().add(scrollPaneContacts, gbc_scrollPaneContacts);
 		scrollPaneContacts.setViewportView(list);
 		list.setCellRenderer(new ChatRenderer());
-		
-		gruposAdmin = new JComboBox<Grupo>();
-		for (Grupo g : user.getGruposAdmin()) {
-			gruposAdmin.addItem(g);	
-		}
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
