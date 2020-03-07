@@ -63,6 +63,8 @@ public class VentanaGrupo extends JFrame {
 	public VentanaGrupo(Grupo group) {
 		this.group = group;
 		this.comprobar = true;
+		this.nuevos = new LinkedList<ContactoIndividual>();
+		this.eliminados = new LinkedList<ContactoIndividual>();
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
 		for (ContactoIndividual contactoIndividual : ControladorChat.getUnicaInstancia().miembrosGrupo(group)) {
@@ -71,8 +73,6 @@ public class VentanaGrupo extends JFrame {
 		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(group.getAdmin())) {
 			if (c instanceof ContactoIndividual && !listMembersModel.contains(c)) listContactsModel.addElement((ContactoIndividual) c);
 		}
-		this.nuevos = new LinkedList<ContactoIndividual>();
-		this.eliminados = new LinkedList<ContactoIndividual>();
 		this.scrollLista = new JScrollPane();
 		this.scrollGrupo = new JScrollPane();
 		this.listContacts = new JList<ContactoIndividual>(listContactsModel);
@@ -141,6 +141,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_textGroupName.gridy = 2;
 		frame.getContentPane().add(textGroupName, gbc_textGroupName);
 		textGroupName.setColumns(10);
+		if (comprobar) textGroupName.setText(group.getNombre());
 		
 		JLabel lblMiembros = new JLabel("Miembros");
 		GridBagConstraints gbc_lblMiembros = new GridBagConstraints();
@@ -259,16 +260,17 @@ public class VentanaGrupo extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (textGroupName.getText().equals(null)) lblIntroduceUnNombre.setVisible(true);
 				else {
-					for(int i = 0; i < listMembersModel.getSize(); i++) {
+					/*for(int i = 0; i < listMembersModel.getSize(); i++) {
 						members.add(listMembersModel.get(i));
-					}
+					}*/
 					if (!comprobar) {
-						group = new Grupo(textGroupName.getText(), admin, members);						
+						group = new Grupo(textGroupName.getText(), admin, members);
 						ControladorChat.getUnicaInstancia().addGrupo(group);
+					} else {
+						ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
+						ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
+						ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());	
 					}
-					ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
-					ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
-					ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());
 					frame.dispose();
 				}
 			}

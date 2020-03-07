@@ -2,6 +2,7 @@ package vistas;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.swing.JFrame;
@@ -17,13 +18,14 @@ public class VentanaModificarGrupo {
 
 	private JFrame frame;
 	private JComboBox<String> comboBox;
+	private LinkedList<Grupo> grupos;
 	
 	/**
 	 * Create the application.
 	 */
 	public VentanaModificarGrupo(Usuario user) {
 		this.comboBox = new JComboBox<String>();
-		LinkedList<Grupo> grupos = ControladorChat.getUnicaInstancia().gruposAdmin(user);
+		this.grupos = ControladorChat.getUnicaInstancia().gruposAdmin(user);
 		for (Grupo grupo : grupos) {
 			comboBox.addItem(grupo.getNombre());
 		}		
@@ -36,17 +38,20 @@ public class VentanaModificarGrupo {
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(200, 200, 250, 90);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
 		comboBox.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaGrupo((Grupo) comboBox.getSelectedItem());
+				String group = (String) comboBox.getSelectedItem();
+				for (Grupo g : grupos) {
+					if (g.getNombre().equals(group)) {
+						new VentanaGrupo(g);
+						frame.dispose();
+					}
+				}
 			}
 		});
-
-		
-		
 		frame.getContentPane().add(comboBox);
 		frame.setVisible(true);
 	}
