@@ -42,7 +42,6 @@ public class Chats extends JPanel {
 	private static final long serialVersionUID = -585496333970497924L;
 	private Contacto c;
 	private Usuario user;
-	private JScrollPane scrollPaneContacts;
 	private DefaultListModel<Contacto> listModel;
 	private JPanel chat;
 	private JTextArea textArea;
@@ -50,15 +49,11 @@ public class Chats extends JPanel {
 	/**
 	 * Create the panel.
 	 */
-	public Chats(Contacto c, Usuario user, JScrollPane scrollPaneContacts, DefaultListModel<Contacto> listModel) {
+	public Chats(Contacto c, Usuario user, DefaultListModel<Contacto> listModel) {
 		this.c = c;
 		this.user = user;
-		this.scrollPaneContacts = scrollPaneContacts;
 		this.listModel = listModel;
-		
 		initialize();
-		//this.setVisible(true);
-
 	}
 
 

@@ -12,25 +12,19 @@ import java.awt.GridBagConstraints;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
-
 import controlador.ControladorChat;
 import modelo.Contacto;
-import modelo.Grupo;
-import modelo.Mensaje;
 import modelo.Usuario;
 
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import java.awt.CardLayout;
 import java.awt.GridBagLayout;
@@ -46,7 +40,6 @@ public class NuevaVentanaChat {
 	private JButton btnOptions;
 
 	private Usuario user;
-	private Grupo group;
 	private JScrollPane scrollPaneContacts;
 	private DefaultListModel<Contacto> listModel;
 	private JList<Contacto> list;
@@ -106,11 +99,11 @@ public class NuevaVentanaChat {
 		
 		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(user)) {
 			listModel.addElement(c);
-			Chats chat = new Chats(c, user, scrollPaneContacts, listModel);
+			Chats chat = new Chats(c, user, listModel);
 			mapa.put(c.toString(), chat);
 			panelCard.add(c.toString(), chat);
-			
 		}
+		panelCard.setVisible(false);
 		
 		btnSearch = new JButton("");
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
@@ -156,7 +149,7 @@ public class NuevaVentanaChat {
 					ControladorChat.getUnicaInstancia().recuperarContactos(user).stream().filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
-																							chat = new Chats(c, user, scrollPaneContacts, listModel);
+																							chat = new Chats(c, user, listModel);
 																							mapa.put(c.toString(), chat);
 																							panelCard.add(c.toString(), chat);
 																							list.setModel(listModel);
@@ -182,7 +175,7 @@ public class NuevaVentanaChat {
 								.filter(c -> (!listModel.contains(c)))
 								.forEach(c -> {
 									listModel.addElement(c);
-									chat = new Chats(c, user, scrollPaneContacts, listModel);
+									chat = new Chats(c, user, listModel);
 									mapa.put(c.toString(), chat);
 									panelCard.add(c.toString(), chat);
 								});
@@ -263,17 +256,32 @@ public class NuevaVentanaChat {
 		btnOptions.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/menu.png")));
 				
 		this.list = new JList<Contacto>(listModel);
-		list.addListSelectionListener( new ListSelectionListener() {
+		list.addMouseListener( new MouseListener() {
 			
 			@Override
-			public void valueChanged(ListSelectionEvent e) {
-				if (e.getValueIsAdjusting()) {
+			public void mouseReleased(MouseEvent e) {
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				if (e.getClickCount() > 0) {
 					Contacto c = list.getSelectedValue();
 					CardLayout card = (CardLayout) (panelCard.getLayout());
 					card.show(panelCard, c.toString());
 					panelCard.setVisible(true);
 				}
-				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
 			}
 		});
 		

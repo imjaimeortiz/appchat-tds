@@ -10,10 +10,6 @@ import javax.swing.text.Document;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-
-
-
-
 public class Usuario {
 	private int codigo;
 	private String nombre;
