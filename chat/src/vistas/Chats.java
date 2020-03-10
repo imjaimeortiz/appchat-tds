@@ -45,6 +45,7 @@ public class Chats extends JPanel {
 	private DefaultListModel<Contacto> listModel;
 	private JPanel chat;
 	private JTextArea textArea;
+	private LinkedList<Mensaje> mensajes;
 	
 	/**
 	 * Create the panel.
@@ -53,6 +54,7 @@ public class Chats extends JPanel {
 		this.c = c;
 		this.user = user;
 		this.listModel = listModel;
+		this.mensajes = ControladorChat.getUnicaInstancia().mensajesConContacto(c);
 		initialize();
 	}
 
@@ -78,10 +80,6 @@ public class Chats extends JPanel {
 		chat = new JPanel();
 		scrollPane.setViewportView(chat);
 		chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-		
-		LinkedList<Mensaje> mensajes = ControladorChat.getUnicaInstancia().mensajesConContacto(c);
-		mensajes.stream()
-			.forEach(m->mostrarMensaje(m, chat));
 		
 		textArea = new JTextArea();
 		
@@ -177,6 +175,9 @@ public class Chats extends JPanel {
 		gbc_textArea.gridy = 0;
 		panelSend.add(textArea, gbc_textArea);
 		
+		mensajes.stream()
+			.forEach(m->mostrarMensaje(m, chat));
+		
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener( new ActionListener() {
 			
@@ -198,6 +199,7 @@ public class Chats extends JPanel {
 	
 	private void mostrarMensaje(Mensaje m, JPanel chat) {
 		String msj = m.getTexto();
+		System.out.println(msj);
 		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
 		chat.add(b);
 		LinkedList<Contacto> listAux = new LinkedList<Contacto>();
