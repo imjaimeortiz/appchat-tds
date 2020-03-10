@@ -199,7 +199,8 @@ public class Chats extends JPanel {
 	
 	private void mostrarMensaje(Mensaje m, JPanel chat) {
 		String msj = m.getTexto();
-		System.out.println(msj);
+		//System.out.println(msj);
+	
 		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
 		chat.add(b);
 		LinkedList<Contacto> listAux = new LinkedList<Contacto>();
