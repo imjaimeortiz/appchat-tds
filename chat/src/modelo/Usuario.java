@@ -1,14 +1,21 @@
 package modelo;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.text.Document;
-
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.List;
+
+
+
+
+
 
 public class Usuario {
 	private int codigo;
@@ -233,10 +240,9 @@ public class Usuario {
 		
 	}
 	
-	/*public void toPDF(List<String> contactos) throws FileNotFoundException{
+	public void toPDF(List<String> contactos) throws FileNotFoundException, DocumentException {
 		FileOutputStream archivo = new FileOutputStream("C:\\Usuarios\\Luu\\Escritorio\\Contactos.pdf");
-		Document documento = new Document();
-		PdfWriter
+		
 		
 		
 	}
@@ -259,7 +265,7 @@ public class Usuario {
 		toPDF(contactosToPdf);
 		
 	}
-	*/
+	
 
 	
 	
