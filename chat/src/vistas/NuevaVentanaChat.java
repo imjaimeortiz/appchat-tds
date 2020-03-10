@@ -14,6 +14,8 @@ import javax.swing.JMenuItem;
 
 import controlador.ControladorChat;
 import modelo.Contacto;
+import modelo.ContactoIndividual;
+import modelo.Grupo;
 import modelo.Usuario;
 
 import javax.swing.JButton;
@@ -91,7 +93,7 @@ public class NuevaVentanaChat {
 		gbc_panelBotones.gridy = 0;
 		frame.getContentPane().add(panelBotones, gbc_panelBotones);
 		GridBagLayout gbl_panelBotones = new GridBagLayout();
-		gbl_panelBotones.columnWidths = new int[]{59, 49, 49, 49, 117, 0, 0, 49, 0, 0, 0};
+		gbl_panelBotones.columnWidths = new int[]{59, 100, 49, 49, 117, 0, 0, 49, 0, 0, 0};
 		gbl_panelBotones.rowHeights = new int[]{25, 0};
 		gbl_panelBotones.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotones.rowWeights = new double[]{1.0, Double.MIN_VALUE};
@@ -114,14 +116,20 @@ public class NuevaVentanaChat {
 		panelBotones.add(btnSearch, gbc_btnSearch);
 		btnSearch.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/chat.png")));
 		
-		btnUser = new JButton("");
+		btnUser = new JButton(user.getNombre());
 		GridBagConstraints gbc_btnUser = new GridBagConstraints();
 		gbc_btnUser.fill = GridBagConstraints.BOTH;
 		gbc_btnUser.insets = new Insets(0, 0, 0, 5);
 		gbc_btnUser.gridx = 1;
 		gbc_btnUser.gridy = 0;
 		panelBotones.add(btnUser, gbc_btnUser);
-		btnUser.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
+		btnUser.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(user.getImagen())));
+		btnUser.addActionListener( new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+				new VentanaUser(user);
+			}
+		});
 		
 		final JPopupMenu popupMenu = new JPopupMenu();
 		final JButton btnMenu = new JButton("");
@@ -209,21 +217,14 @@ public class NuevaVentanaChat {
 					}
 					
 				});
-		
-		btnContact = new JButton(user.getNombre());
+		btnContact = new JButton("");
 		GridBagConstraints gbc_btnContact = new GridBagConstraints();
 		gbc_btnContact.fill = GridBagConstraints.BOTH;
 		gbc_btnContact.insets = new Insets(0, 0, 0, 5);
 		gbc_btnContact.gridx = 4;
 		gbc_btnContact.gridy = 0;
 		panelBotones.add(btnContact, gbc_btnContact);
-		btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/avatar.png")));
-		btnContact.addActionListener( new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
-				new VentanaUser(user);
-			}
-		});
+		btnContact.setVisible(false);
 		
 		JButton btnNewButton_1 = new JButton("");
 		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
@@ -266,6 +267,11 @@ public class NuevaVentanaChat {
 			public void mousePressed(MouseEvent e) {
 				if (e.getClickCount() > 0) {
 					Contacto c = list.getSelectedValue();
+					btnContact.setText(c.getNombre());
+					if (c instanceof ContactoIndividual)
+						btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((ContactoIndividual) c).getFoto())));
+					else btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((Grupo) c).getFoto())));
+					btnContact.setVisible(true);
 					CardLayout card = (CardLayout) (panelCard.getLayout());
 					card.show(panelCard, c.toString());
 					panelCard.setVisible(true);

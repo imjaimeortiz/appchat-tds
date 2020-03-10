@@ -240,12 +240,12 @@ public class Usuario {
 		
 	}
 	
-	public void toPDF(List<String> contactos) throws FileNotFoundException, DocumentException {
+	/*public void toPDF(List<String> contactos) throws FileNotFoundException, DocumentException {
 		FileOutputStream archivo = new FileOutputStream("C:\\Usuarios\\Luu\\Escritorio\\Contactos.pdf");
 		
 		
 		
-	}
+	}*/
 	
 	public void generarPDF() {
 		List<String> contactosToPdf = new LinkedList<String>();
@@ -262,7 +262,7 @@ public class Usuario {
 			}	
 		}
 		
-		toPDF(contactosToPdf);
+		//toPDF(contactosToPdf);
 		
 	}
 	
