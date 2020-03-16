@@ -5,7 +5,6 @@ import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -259,6 +258,7 @@ public class VentanaGrupo extends JDialog {
 				else {
 					if (!comprobar) {
 						group = new Grupo(textGroupName.getText(), admin, members);
+						for(ContactoIndividual c : members) System.out.println(c.getNombre());
 						ControladorChat.getUnicaInstancia().addGrupo(admin, group);
 					} else {
 						ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
