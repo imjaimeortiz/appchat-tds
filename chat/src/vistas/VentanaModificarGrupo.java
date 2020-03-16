@@ -45,7 +45,9 @@ public class VentanaModificarGrupo {
 				String group = (String) comboBox.getSelectedItem();
 				for (Grupo g : grupos) {
 					if (g.getNombre().equals(group)) {
-						new VentanaGrupo(g);
+						VentanaGrupo ventanaGrupo = new VentanaGrupo(g);
+						ventanaGrupo.setModal(true);
+						ventanaGrupo.setVisible(true);
 						frame.dispose();
 					}
 				}

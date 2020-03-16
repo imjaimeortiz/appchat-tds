@@ -4,7 +4,7 @@ import javax.swing.JLabel;
 
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
-import javax.swing.JFrame;
+import javax.swing.JDialog;
 
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,7 +27,7 @@ import javax.swing.JList;
 import javax.swing.DefaultListModel;
 import java.awt.Color;
 
-public class VentanaGrupo extends JFrame {
+public class VentanaGrupo extends JDialog {
 	/**
 	 * 
 	 */
@@ -37,7 +37,6 @@ public class VentanaGrupo extends JFrame {
 	private JButton btnAadir;
 	private JLabel lblListaContactos;
 	private JScrollPane scrollLista;
-	private JFrame frame;
 	private JScrollPane scrollGrupo;
 	private JTextField textGroupName;
 	private DefaultListModel<ContactoIndividual> listContactsModel;
@@ -103,15 +102,13 @@ public class VentanaGrupo extends JFrame {
 	}
 
 	private void initialize() {
-		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{40, 100, 0, 20, 85, 20, 100, 0, 20, 0};
 		gridBagLayout.rowHeights = new int[]{14, 0, 0, 0, 65, 0, 50, 0, 20, 10, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		frame.getContentPane().setLayout(gridBagLayout);
+		getContentPane().setLayout(gridBagLayout);
 		
 		lblIntroduceUnNombre = new JLabel("Introduce un nombre de grupo válido");
 		lblIntroduceUnNombre.setVisible(false);
@@ -121,7 +118,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_lblIntroduceUnNombre.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIntroduceUnNombre.gridx = 0;
 		gbc_lblIntroduceUnNombre.gridy = 1;
-		frame.getContentPane().add(lblIntroduceUnNombre, gbc_lblIntroduceUnNombre);
+		getContentPane().add(lblIntroduceUnNombre, gbc_lblIntroduceUnNombre);
 		
 		lblListaContactos = new JLabel("Lista contactos");
 		GridBagConstraints gbc_lblListaContactos = new GridBagConstraints();
@@ -129,7 +126,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_lblListaContactos.insets = new Insets(0, 0, 5, 5);
 		gbc_lblListaContactos.gridx = 1;
 		gbc_lblListaContactos.gridy = 2;
-		frame.getContentPane().add(lblListaContactos, gbc_lblListaContactos);
+		getContentPane().add(lblListaContactos, gbc_lblListaContactos);
 		
 		textGroupName = new JTextField();
 		GridBagConstraints gbc_textGroupName = new GridBagConstraints();
@@ -138,7 +135,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_textGroupName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textGroupName.gridx = 3;
 		gbc_textGroupName.gridy = 2;
-		frame.getContentPane().add(textGroupName, gbc_textGroupName);
+		getContentPane().add(textGroupName, gbc_textGroupName);
 		textGroupName.setColumns(10);
 		if (comprobar) textGroupName.setText(group.getNombre());
 		
@@ -148,7 +145,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_lblMiembros.insets = new Insets(0, 0, 5, 5);
 		gbc_lblMiembros.gridx = 6;
 		gbc_lblMiembros.gridy = 2;
-		frame.getContentPane().add(lblMiembros, gbc_lblMiembros);
+		getContentPane().add(lblMiembros, gbc_lblMiembros);
 		
 		GridBagConstraints gbc_scrollLista = new GridBagConstraints();
 		gbc_scrollLista.gridwidth = 2;
@@ -157,7 +154,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollLista.gridheight = 5;
 		gbc_scrollLista.gridx = 1;
 		gbc_scrollLista.gridy = 3;
-		frame.getContentPane().add(scrollLista, gbc_scrollLista);
+		getContentPane().add(scrollLista, gbc_scrollLista);
 		
 		scrollLista.setViewportView(listContacts);
 		listContacts.setCellRenderer(new ChatRenderer());
@@ -184,7 +181,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_scrollGrupo.gridheight = 5;
 		gbc_scrollGrupo.gridx = 6;
 		gbc_scrollGrupo.gridy = 3;
-		frame.getContentPane().add(scrollGrupo, gbc_scrollGrupo);
+		getContentPane().add(scrollGrupo, gbc_scrollGrupo);
 		
 		scrollGrupo.setViewportView(listMembers);
 		listMembers.setCellRenderer(new ChatRenderer());
@@ -226,7 +223,7 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnAadir.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAadir.gridx = 3;
 		gbc_btnAadir.gridy = 4;
-		frame.getContentPane().add(btnAadir, gbc_btnAadir);
+		getContentPane().add(btnAadir, gbc_btnAadir);
 		
 		btnEliminar = new JButton("<< Eliminar");
 		btnEliminar.addActionListener(new ActionListener() {
@@ -252,25 +249,23 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnEliminar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEliminar.gridx = 3;
 		gbc_btnEliminar.gridy = 5;
-		frame.getContentPane().add(btnEliminar, gbc_btnEliminar);
+		getContentPane().add(btnEliminar, gbc_btnEliminar);
 		
 		btnAceptar = new JButton("Aceptar");
 		btnAceptar.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (textGroupName.getText().equals(null)) lblIntroduceUnNombre.setVisible(true);
 				else {
-					/*for(int i = 0; i < listMembersModel.getSize(); i++) {
-						members.add(listMembersModel.get(i));
-					}*/
 					if (!comprobar) {
 						group = new Grupo(textGroupName.getText(), admin, members);
-						ControladorChat.getUnicaInstancia().addGrupo(group);
+						for(ContactoIndividual c : members) System.out.println(c.getNombre());
+						ControladorChat.getUnicaInstancia().addGrupo(admin, group);
 					} else {
 						ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);
 						ControladorChat.getUnicaInstancia().eliminarContactosGrupo(group, eliminados);
 						ControladorChat.getUnicaInstancia().actualizarNombreGrupo(group, textGroupName.getText());	
 					}
-					frame.dispose();
+					dispose();
 				}
 			}
 		});
@@ -278,31 +273,19 @@ public class VentanaGrupo extends JFrame {
 		gbc_btnAceptar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnAceptar.gridx = 1;
 		gbc_btnAceptar.gridy = 8;
-		frame.getContentPane().add(btnAceptar, gbc_btnAceptar);
+		getContentPane().add(btnAceptar, gbc_btnAceptar);
 		
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
+				dispose();
 			}
 		});
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(0, 0, 5, 5);
 		gbc_btnCancelar.gridx = 6;
 		gbc_btnCancelar.gridy = 8;
-		frame.getContentPane().add(btnCancelar, gbc_btnCancelar);
-		
-		frame.setVisible(true);
+		getContentPane().add(btnCancelar, gbc_btnCancelar);
 	}
-
-	public Grupo getGroup() {
-		return group;
-	}
-
-	public void setGroup(Grupo group) {
-		this.group = group;
-	}
-	
-	
 
 }

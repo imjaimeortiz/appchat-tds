@@ -99,14 +99,16 @@ public class ControladorChat {
 	}
 	
 	//crear un grupo
-	public void addGrupo(Grupo grupo) {
+	public void addGrupo(Usuario admin, Grupo grupo) {
 		adaptadorGrupo.registrarGrupo(grupo);
-		grupo.getAdmin().addGrupo(grupo);
-		grupo.getAdmin().addGrupoAdmin(grupo);
-		adaptadorUsuario.modificarUsuario(grupo.getAdmin());
+		admin.addGrupo(grupo);
+		admin.addGrupoAdmin(grupo);
+		adaptadorUsuario.modificarUsuario(admin);
 		for (ContactoIndividual miembro : grupo.getContactos()) {
-			miembro.getUsuario().addGrupo(grupo);
-			adaptadorUsuario.modificarUsuario(miembro.getUsuario());
+			if (!miembro.getUsuario().equals(admin)) {
+				miembro.getUsuario().addGrupo(grupo);
+				adaptadorUsuario.modificarUsuario(miembro.getUsuario());
+			}
 		}
 	}
 	
@@ -121,6 +123,7 @@ public class ControladorChat {
 	
 	public void setImage(String path, Usuario user) {
 		user.setImagen(path);
+		adaptadorUsuario.modificarUsuario(user);
 	}
 	
 	public void modificarGrupo(Grupo grupo) {
@@ -139,15 +142,15 @@ public class ControladorChat {
 	//añadir contactos a un grupo
 	public void agregarContactosGrupo(Grupo group, List<ContactoIndividual> nuevos) {
 		group.addContactos(nuevos);
-		catalogoUsuarios.modificarUsuarios(nuevos);
 		adaptadorGrupo.modificarGrupo(group);
+		catalogoUsuarios.modificarUsuarios(nuevos);
 	}
 
 	//eliminar contactos de un grupo
 	public void eliminarContactosGrupo(Grupo group, List<ContactoIndividual> eliminados) {
 		group.removeContactos(eliminados);
-		catalogoUsuarios.modificarUsuarios(eliminados);
 		adaptadorGrupo.modificarGrupo(group);
+		catalogoUsuarios.modificarUsuarios(eliminados);
 	}
 	
 	//cambiar nombre del grupo
@@ -264,18 +267,16 @@ public class ControladorChat {
 		
 	}*/
 
-	public Vector<String> getGruposComun(Usuario user, ContactoIndividual c) {
-		LinkedList<Contacto> grupos = new LinkedList<>(); 
-		Vector<String> gruposComun = new Vector<>();
+	public LinkedList<String> getGruposComun(Usuario user, ContactoIndividual c) {
+		LinkedList<String> gruposComun = new LinkedList<>();
 		for (Contacto g : user.getContactos()) {
-			if (g instanceof Grupo)
-				grupos.add(g);
+			if (g instanceof Grupo) {
+				for (ContactoIndividual contactoIndividual : ((Grupo) g).getContactos()) {
+					if (c.equals(contactoIndividual)) gruposComun.add(g.getNombre());
+				}
+			}
 		}
-		for (Contacto grupo : grupos) {
-			if (c.getUsuario().getContactos().contains(grupo))
-			gruposComun.add(grupo.getNombre());
-		}
-		return null;
+		return gruposComun;
 	}
 
 	public boolean tlfValid(String tlf) {

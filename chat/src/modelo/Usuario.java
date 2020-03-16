@@ -250,12 +250,30 @@ public class Usuario {
 		
 	}
 	
+<<<<<<< HEAD
 	public int getMensajesEnviadosUltimoMes() {
 		int cont = 0;
+=======
+	/*public void toPDF(List<String> contactos) throws FileNotFoundException, DocumentException {
+		FileOutputStream archivo = new FileOutputStream("C:\\Usuarios\\Luu\\Escritorio\\Contactos.pdf");
+		
+		
+		
+	}*/
+	
+	public void generarPDF() {
+		List<String> contactosToPdf = new LinkedList<String>();
+>>>>>>> d17e2fe88c67b8beb591f22f74b943dcaeca1e86
 		for(Contacto c : contactos) {
 			cont += c.getMensajesEnviados(this);
 		}
+<<<<<<< HEAD
 		return cont;
+=======
+		
+		//toPDF(contactosToPdf);
+		
+>>>>>>> d17e2fe88c67b8beb591f22f74b943dcaeca1e86
 	}
 	
 
