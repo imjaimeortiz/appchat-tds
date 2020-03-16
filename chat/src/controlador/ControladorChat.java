@@ -1,6 +1,8 @@
 package controlador;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.chrono.MinguoChronology;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -9,6 +11,9 @@ import java.util.Vector;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
+import modelo.Descuento;
+import modelo.DescuentoFecha;
+import modelo.DescuentoMensajes;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
@@ -200,8 +205,25 @@ public class ControladorChat {
 
 	}
 	
-	public void setPremium(Usuario user) {
+	public int setPremium(Usuario user) {
+		int pago = 50;
+		int pago1 = 100; 
+		int pago2 = 100;
+		LocalDate fechaDescuento = LocalDate.now().minusMonths(4);
+		if(user.getFechaRegistro().isBefore(fechaDescuento)) {
+			Descuento desc = new DescuentoFecha();
+			pago1 = pago - desc.getDescuento();
+		}
+		if(user.getMensajesEnviadosUltimoMes() > 50) {
+			Descuento desc1 = new DescuentoMensajes();
+			pago2 = pago - desc1.getDescuento();
+		}
+		
 		user.setPremium(true);
+		adaptadorUsuario.modificarUsuario(user);
+		int min = Math.min(pago, pago1);
+		int precio = Math.min(min, pago2);
+		return precio;
 	}
 	
 	public void mostrarEstadisticas(Usuario user) {

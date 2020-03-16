@@ -2,6 +2,7 @@ package modelo;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
@@ -25,6 +26,7 @@ public class Usuario {
 	private String nick;
 	private String contrasena;
 	private String imagen;
+	private LocalDate fechaRegistro;
 	private boolean premium;
 	private List<Grupo> gruposAdmin; // bidireccionalidad con grupo
 	//private Estado estado; // unidirecconalidad 0..1 con estado
@@ -41,6 +43,7 @@ public class Usuario {
 		this.contrasena = contrasena;
 		this.imagen = imagen;
 		this.premium = false;
+		this.fechaRegistro = LocalDate.now();
 		this.gruposAdmin = new LinkedList<Grupo>();
 		this.contactos = new LinkedList<Contacto>();
 	}
@@ -115,7 +118,14 @@ public class Usuario {
 	public void setImagen(String imagen) {
 		this.imagen = imagen;
 	}
+	
 
+	public LocalDate getFechaRegistro() {
+		return fechaRegistro;
+	}
+	public void setFechaRegistro(LocalDate fechaRegistro) {
+		this.fechaRegistro = fechaRegistro;
+	}
 	public boolean isPremium() {
 		return premium;
 	}
@@ -240,31 +250,15 @@ public class Usuario {
 		
 	}
 	
-	public void toPDF(List<String> contactos) throws FileNotFoundException, DocumentException {
-		FileOutputStream archivo = new FileOutputStream("C:\\Usuarios\\Luu\\Escritorio\\Contactos.pdf");
-		
-		
-		
+	public int getMensajesEnviadosUltimoMes() {
+		int cont = 0;
+		for(Contacto c : contactos) {
+			cont += c.getMensajesEnviados(this);
+		}
+		return cont;
 	}
 	
-	public void generarPDF() {
-		List<String> contactosToPdf = new LinkedList<String>();
-		for(Contacto c : contactos) {
-			if(c instanceof Grupo) {
-				for(ContactoIndividual ci : ((Grupo) c).getContactos()) {
-					String contactog = ci.getMovil() + ci.getNombre();
-					contactosToPdf.add(contactog);
-				}
-				
-			}else {
-				String contacto = ((ContactoIndividual) c).getMovil() + c.getNombre();
-				contactosToPdf.add(contacto);	
-			}	
-		}
-		
-		toPDF(contactosToPdf);
-		
-	}
+
 	
 
 	
