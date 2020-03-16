@@ -94,14 +94,16 @@ public class ControladorChat {
 	}
 	
 	//crear un grupo
-	public void addGrupo(Grupo grupo) {
+	public void addGrupo(Usuario admin, Grupo grupo) {
 		adaptadorGrupo.registrarGrupo(grupo);
-		grupo.getAdmin().addGrupo(grupo);
-		grupo.getAdmin().addGrupoAdmin(grupo);
-		adaptadorUsuario.modificarUsuario(grupo.getAdmin());
+		admin.addGrupo(grupo);
+		admin.addGrupoAdmin(grupo);
+		adaptadorUsuario.modificarUsuario(admin);
 		for (ContactoIndividual miembro : grupo.getContactos()) {
-			miembro.getUsuario().addGrupo(grupo);
-			adaptadorUsuario.modificarUsuario(miembro.getUsuario());
+			if (!miembro.getUsuario().equals(admin)) {
+				miembro.getUsuario().addGrupo(grupo);
+				adaptadorUsuario.modificarUsuario(miembro.getUsuario());
+			}
 		}
 	}
 	
@@ -116,6 +118,7 @@ public class ControladorChat {
 	
 	public void setImage(String path, Usuario user) {
 		user.setImagen(path);
+		adaptadorUsuario.modificarUsuario(user);
 	}
 	
 	public void modificarGrupo(Grupo grupo) {

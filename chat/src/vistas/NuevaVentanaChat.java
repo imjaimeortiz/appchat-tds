@@ -154,7 +154,8 @@ public class NuevaVentanaChat {
 					VentanaCrearContacto ventanaContact = new VentanaCrearContacto(user);
 					ventanaContact.setModal(true);
 					ventanaContact.setVisible(true);
-					ControladorChat.getUnicaInstancia().recuperarContactos(user).stream().filter( c -> (!listModel.contains(c)))
+					ControladorChat.getUnicaInstancia().recuperarContactos(user).stream()
+																						.filter( c -> (!listModel.contains(c)))
 																						.forEach(c -> {
 																							listModel.addElement(c);
 																							chat = new Chats(c, user, listModel);
@@ -178,7 +179,9 @@ public class NuevaVentanaChat {
 				popupMenu.add(mitemCrearGrupo);
 				mitemCrearGrupo.addActionListener( new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-							new VentanaGrupo(user);
+							VentanaGrupo ventanaGrupo = new VentanaGrupo(user);
+							ventanaGrupo.setModal(true);
+							ventanaGrupo.setVisible(true);
 							ControladorChat.getUnicaInstancia().recuperarContactos(user).stream()
 								.filter(c -> (!listModel.contains(c)))
 								.forEach(c -> {
@@ -186,8 +189,8 @@ public class NuevaVentanaChat {
 									chat = new Chats(c, user, listModel);
 									mapa.put(c.toString(), chat);
 									panelCard.add(c.toString(), chat);
+									list.setModel(listModel);			
 								});
-							list.setModel(listModel);			
 					}
 				});
 				JMenuItem mitemModificarGrupo = new JMenuItem("Modificar grupo");

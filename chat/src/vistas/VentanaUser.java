@@ -18,6 +18,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import controlador.ControladorChat;
 
 import java.awt.GridLayout;
+import java.awt.Image;
+
 import javax.swing.JLabel;
 
 public class VentanaUser {
@@ -25,9 +27,9 @@ public class VentanaUser {
 	private JFrame frame;
 	private Usuario user;
 	private JLabel lblUserName;
-	private JButton btnNewButton;
 	private JButton btnSalir;
 	private JButton btnCambiarImagen;
+	private JLabel labelImage;
 
 	/**
 	 * Create the application.
@@ -51,6 +53,20 @@ public class VentanaUser {
 		frame.getContentPane().add(panel, BorderLayout.SOUTH);
 		panel.setLayout(new GridLayout(1, 0, 0, 0));
 		
+		JPanel panel_1 = new JPanel();
+		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
+		
+		lblUserName = new JLabel(user.getNombre());
+		panel_1.add(lblUserName);
+		
+		JPanel panel_2 = new JPanel();
+		frame.getContentPane().add(panel_2, BorderLayout.CENTER);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		labelImage = new JLabel("");
+		labelImage.setIcon(redimensionar(new ImageIcon(user.getImagen())));
+		panel_2.add(labelImage, BorderLayout.CENTER);
+		
 		btnCambiarImagen = new JButton("Cambiar foto perfil");
 		panel.add(btnCambiarImagen);
 		btnCambiarImagen.addActionListener( e -> {
@@ -62,8 +78,10 @@ public class VentanaUser {
 			File f = file.getSelectedFile();
 			if (f != null) {
 				String path = file.getSelectedFile().getAbsolutePath();
+				ImageIcon img = new ImageIcon(path);
+				ImageIcon red = redimensionar(img);
 				ControladorChat.getUnicaInstancia().setImage(path, user);
-				btnNewButton.setIcon(new ImageIcon(VentanaUser.class.getResource(path)));
+				labelImage.setIcon(red);
 			}
 		});
 		
@@ -74,20 +92,16 @@ public class VentanaUser {
 				frame.dispose();
 			}
 		});
-
-		JPanel panel_1 = new JPanel();
-		frame.getContentPane().add(panel_1, BorderLayout.NORTH);
-		
-		lblUserName = new JLabel(user.getNombre());
-		panel_1.add(lblUserName);
-		
-		JPanel panel_2 = new JPanel();
-		frame.getContentPane().add(panel_2, BorderLayout.CENTER);
-		panel_2.setLayout(new BorderLayout(0, 0));
-		
-		btnNewButton = new JButton("");
-		btnNewButton.setIcon(new ImageIcon(VentanaUser.class.getResource(user.getImagen())));
-		panel_2.add(btnNewButton);
+	}
+	
+	private ImageIcon redimensionar(ImageIcon imagen) {
+		int heigth = imagen.getIconHeight();
+		int width = imagen.getIconWidth();
+		int newWidth = 200;
+		int newHeigth = (heigth * newWidth) / width;
+		Image image = imagen.getImage();
+		Image nueva = image.getScaledInstance(newWidth, newHeigth, java.awt.Image.SCALE_SMOOTH);
+		return new ImageIcon(nueva);
 	}
 
 }
