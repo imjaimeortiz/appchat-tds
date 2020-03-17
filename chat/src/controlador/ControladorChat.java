@@ -247,13 +247,10 @@ public class ControladorChat {
 
 	public LinkedList<String> getGruposComun(Usuario user, ContactoIndividual c) {
 		LinkedList<String> gruposComun = new LinkedList<>();
-		for (Contacto g : user.getContactos()) {
-			if (g instanceof Grupo) {
-				for (ContactoIndividual contactoIndividual : ((Grupo) g).getContactos()) {
-					if (c.equals(contactoIndividual)) gruposComun.add(g.getNombre());
-				}
-			}
-		}
+		for (Contacto g : user.getContactos())
+			if (g instanceof Grupo)
+				if (c.getUsuario().getContactos().contains(g))
+					gruposComun.add(g.getNombre());
 		return gruposComun;
 	}
 

@@ -50,7 +50,7 @@ public class VentanaMostrarContactos {
 		LinkedList<ContactoIndividual>contactos = ControladorChat.getUnicaInstancia().recuperarContactosIndividuales(user);
 		
 		for (ContactoIndividual contactoIndividual : contactos) {
-			tableModel.addRow(new Object[] { contactoIndividual.getNombre(),  contactoIndividual.getMovil(), contactoIndividual.getFoto(), ControladorChat.getUnicaInstancia().getGruposComun(user, contactoIndividual) });
+			tableModel.addRow(new Object[] { contactoIndividual.getNombre(),  contactoIndividual.getMovil(), contactoIndividual.getUsuario().getImagen(), ControladorChat.getUnicaInstancia().getGruposComun(user, contactoIndividual) });
 		}
 		
 		table = new JTable();

@@ -41,7 +41,6 @@ public class VentanaGrupo extends JDialog {
 	private JTextField textGroupName;
 	private DefaultListModel<ContactoIndividual> listContactsModel;
 	private DefaultListModel<ContactoIndividual> listMembersModel;
-	private List<ContactoIndividual> members;
 	private List<ContactoIndividual> nuevos;
 	private List<ContactoIndividual> eliminados;
 	private JList<ContactoIndividual> listContacts;
@@ -86,7 +85,6 @@ public class VentanaGrupo extends JDialog {
 		this.admin = admin;
 		this.listContactsModel = new DefaultListModel<ContactoIndividual>();
 		this.listMembersModel = new DefaultListModel<ContactoIndividual>();
-		this.members = new LinkedList<ContactoIndividual>();
 		for (Contacto c : ControladorChat.getUnicaInstancia().recuperarContactos(admin)) {
 			if (c instanceof ContactoIndividual) listContactsModel.addElement((ContactoIndividual) c);
 		}
@@ -257,8 +255,7 @@ public class VentanaGrupo extends JDialog {
 				if (textGroupName.getText().equals(null)) lblIntroduceUnNombre.setVisible(true);
 				else {
 					if (!comprobar) {
-						group = new Grupo(textGroupName.getText(), admin, members);
-						for(ContactoIndividual c : members) System.out.println(c.getNombre());
+						group = new Grupo(textGroupName.getText(), admin, nuevos);
 						ControladorChat.getUnicaInstancia().addGrupo(admin, group);
 					} else {
 						ControladorChat.getUnicaInstancia().agregarContactosGrupo(group, nuevos);

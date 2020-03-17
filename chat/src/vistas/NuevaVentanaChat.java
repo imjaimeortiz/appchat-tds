@@ -272,7 +272,7 @@ public class NuevaVentanaChat {
 					Contacto c = list.getSelectedValue();
 					btnContact.setText(c.getNombre());
 					if (c instanceof ContactoIndividual)
-						btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((ContactoIndividual) c).getFoto())));
+						btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((ContactoIndividual) c).getUsuario().getImagen())));
 					else btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((Grupo) c).getFoto())));
 					btnContact.setVisible(true);
 					CardLayout card = (CardLayout) (panelCard.getLayout());
