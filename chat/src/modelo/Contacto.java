@@ -1,6 +1,8 @@
 package modelo;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -55,6 +57,15 @@ public abstract class Contacto {
 		mensajes.add(mensaje);
 	}
 	
-	
+	public int getMensajesEnviados(Usuario user) {
+		Month now = LocalDateTime.now().getMonth();
+		int cont = 0;
+		for(Mensaje m : mensajes) {
+			if((m.getUsuario().equals(user))&& (m.getHora().getMonth().equals(now))){
+				cont ++;
+			}
+		}
+		return cont;
+	}
 
 }

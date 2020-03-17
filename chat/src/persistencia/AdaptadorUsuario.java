@@ -74,7 +74,8 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 						new Propiedad("movil", usuario.getMovil()),
 						new Propiedad("nick", usuario.getNick()), 
 						new Propiedad("contrasena", usuario.getContrasena()),
-						new Propiedad("imagen", usuario.getImagen()), 
+						new Propiedad("imagen", usuario.getImagen()),
+						new Propiedad("fechaRegistro", dateFormat.format(usuario.getFechaRegistro())),
 						new Propiedad("premium", String.valueOf(usuario.isPremium())),
 						new Propiedad("gruposAdmin", obtenerCodigosGrupos(usuario.getGruposAdmin())),
 						new Propiedad("contactos", obtenerCodigosContactos(usuario.getContactos())))));
@@ -127,6 +128,8 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "contrasena", usuario.getContrasena());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "imagen");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "imagen", usuario.getImagen());
+		servPersistencia.eliminarPropiedadEntidad(eUsuario, "fecha registro");
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "fecha registro",dateFormat.format(usuario.getFechaRegistro()));
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "premium");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "premium", String.valueOf(usuario.isPremium()));
 		String gruposAdmin = obtenerCodigosGrupos(usuario.getGruposAdmin());
@@ -153,6 +156,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		String nick;
 		String contrasena;
 		String imagen;
+		Date fechaRegistro = null;
 		boolean premium;
 		List<Grupo> gruposAdmin = new LinkedList<Grupo>();
 		List<Contacto> contactos = new LinkedList<Contacto>();
@@ -166,6 +170,12 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		
 		try {
 			fechaNacimiento = dateFormat.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fecha nacimiento"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			fechaRegistro = dateFormat.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fecha registro"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}

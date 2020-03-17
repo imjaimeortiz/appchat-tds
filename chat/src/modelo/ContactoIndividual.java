@@ -1,5 +1,7 @@
 package modelo;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,6 +45,16 @@ public class ContactoIndividual extends Contacto {
 
 	public void setMovil(String movil) {
 		this.movil = movil;
+	}
+	
+	public List<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
+		List<Mensaje> mensajes = new ArrayList<Mensaje>();
+		for(Mensaje m : mensajes) {
+			if((m.getTexto().equals(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
+				mensajes.add(m);
+			}
+		}
+		return mensajes;
 	}
 
 }
