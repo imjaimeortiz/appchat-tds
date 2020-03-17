@@ -2,11 +2,11 @@ package controlador;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.chrono.MinguoChronology;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Vector;
+
 
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
@@ -208,6 +208,10 @@ public class ControladorChat {
 
 	}
 	
+	//Para el descuento comprobamos si el ususario cumple los requisitos de ambos tipos
+	//en el caso de que cumpla ambos nos quedamos con el menor precio a pagar
+	///////// HABRIA QUE VER SI DEVOLVER DE ALGUNA FORMA EL TIPO DE DESCUENTO QUE SE HA APLICADO
+	/////////PARA INFORMAR AL USUARIO EN LA VENTANA ??????????????
 	public int setPremium(Usuario user) {
 		int pago = 50;
 		int pago1 = 100; 
@@ -228,6 +232,24 @@ public class ControladorChat {
 		int precio = Math.min(min, pago2);
 		return precio;
 	}
+	
+	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
+		LocalDateTime i = null;
+		LocalDateTime f = null;
+		if(inicio != null && fin != null) {
+			i = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			f = fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		}
+		if(contacto instanceof ContactoIndividual) {
+			return ((ContactoIndividual)contacto).buscarMensajes(texto, i, f);
+		}else {
+			return ((Grupo)contacto).buscarMensajes(texto, nombre, i, f);
+		}
+	}
+	
+	
+	
+	
 	
 	public void mostrarEstadisticas(Usuario user) {
 		if(user.isPremium()) {
