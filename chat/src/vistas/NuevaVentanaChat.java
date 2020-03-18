@@ -29,6 +29,7 @@ import java.awt.event.MouseListener;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
@@ -123,6 +124,7 @@ public class NuevaVentanaChat {
 		gbc_btnUser.gridx = 1;
 		gbc_btnUser.gridy = 0;
 		panelBotones.add(btnUser, gbc_btnUser);
+		if (user.isPremium()) btnUser.setBackground(Color.YELLOW);
 		btnUser.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(user.getImagen())));
 		btnUser.addActionListener( new ActionListener() {
 			
@@ -201,15 +203,24 @@ public class NuevaVentanaChat {
 					}
 				});
 				
+				
+				JMenuItem mitemPremium = new JMenuItem("Ir a premium");
+				popupMenu.add(mitemPremium);
+				mitemPremium.addActionListener( new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						new VentanaPremium(user);
+						btnUser.setBackground(Color.YELLOW);
+					}
+				});
+				
 				JMenuItem mitemEstadisticas = new JMenuItem("Mostrar estadísticas");
 				popupMenu.add(mitemEstadisticas);
 				//ControladorChat.mostrarEstadisticas(user)
 				
-				JMenuItem mitemPremium = new JMenuItem("Ir a premium");
-				popupMenu.add(mitemPremium);
-				//ControladorChat.setPremium(user);
-				
-				
+				JMenuItem mitemPDF = new JMenuItem("Generar PDF");
+				popupMenu.add(mitemPDF);				
 				
 				JMenuItem mitemCerrarSesion = new JMenuItem("Cerrar sesión");
 				popupMenu.add(mitemCerrarSesion);

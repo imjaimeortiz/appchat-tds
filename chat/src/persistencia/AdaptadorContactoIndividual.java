@@ -32,7 +32,7 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 
 	/* cuando se registra un contacto individual se le asigna un identificador unico */
 	public void registrarContactoIndividual(ContactoIndividual contactoi) {
-		Entidad eContactoIndividual = null;
+		Entidad eContactoIndividual;
 		// Si la entidad estÃ¡ registrada no la registra de nuevo
 		boolean existe = true; 
 		try {
@@ -44,19 +44,20 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 		
 		//registrar los atributos que son objetos
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
-		adaptadorUsuario.registrarUsuario(contactoi.getUsuario());
-		
 		AdaptadorMensaje adaptadorM = AdaptadorMensaje.getUnicaInstancia();
+		
+		adaptadorUsuario.registrarUsuario(contactoi.getUsuario());
 		for (Mensaje m : contactoi.getMensajes())
 			adaptadorM.registrarMensaje(m);
 		
 		// crear entidad contacto individual
 		eContactoIndividual = new Entidad();
 		eContactoIndividual.setNombre("contactoi");
-		eContactoIndividual.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad("movil", contactoi.getMovil()),
+		eContactoIndividual.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(
+				new Propiedad("movil", contactoi.getMovil()),
+				new Propiedad("nombre", contactoi.getNombre()),
 				new Propiedad("usuario", String.valueOf(contactoi.getUsuario().getCodigo())),
-				new Propiedad("mensajes", obtenerCodigosMensajes(contactoi.getMensajes())),
-				new Propiedad("nombre", contactoi.getNombre()))));
+				new Propiedad("mensajes", obtenerCodigosMensajes(contactoi.getMensajes())))));
 		
 		// registrar entidad contacto individual
 		eContactoIndividual = servPersistencia.registrarEntidad(eContactoIndividual);

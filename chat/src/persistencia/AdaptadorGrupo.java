@@ -33,7 +33,7 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 
 	/* cuando se registra un grupo se le asigna un identificador unico */
 	public void registrarGrupo(Grupo grupo) {
-		Entidad eGrupo = null;
+		Entidad eGrupo;
 		// Si la entidad estÃ¡ registrada no la registra de nuevo
 		boolean existe = true; 
 		try {

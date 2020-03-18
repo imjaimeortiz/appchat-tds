@@ -212,25 +212,29 @@ public class ControladorChat {
 	//en el caso de que cumpla ambos nos quedamos con el menor precio a pagar
 	///////// HABRIA QUE VER SI DEVOLVER DE ALGUNA FORMA EL TIPO DE DESCUENTO QUE SE HA APLICADO
 	/////////PARA INFORMAR AL USUARIO EN LA VENTANA ??????????????
-	public int setPremium(Usuario user) {
-		int pago = 50;
-		int pago1 = 100; 
-		int pago2 = 100;
+	public double setPrecioFinal(Usuario user) {
+		double pago = 29.99;
+		//int pago1 = 100; 
+		//int pago2 = 100;
 		LocalDate fechaDescuento = LocalDate.now().minusMonths(4);
-		if(user.getFechaRegistro().isBefore(fechaDescuento)) {
-			Descuento desc = new DescuentoFecha();
-			pago1 = pago - desc.getDescuento();
-		}
-		if(user.getMensajesEnviadosUltimoMes() > 50) {
+		if (user.getMensajesEnviadosUltimoMes() > 50) {
 			Descuento desc1 = new DescuentoMensajes();
-			pago2 = pago - desc1.getDescuento();
+			return pago - desc1.getDescuento();
+		}
+		else if (user.getFechaRegistro().isBefore(fechaDescuento)) {
+			Descuento desc = new DescuentoFecha();
+			return pago - desc.getDescuento();
 		}
 		
+		return pago;
+		/*int min = Math.min(pago, pago1);
+		int precio = Math.min(min, pago2);
+		return precio;*/
+	}
+	
+	public void setPremium(Usuario user) {
 		user.setPremium(true);
 		adaptadorUsuario.modificarUsuario(user);
-		int min = Math.min(pago, pago1);
-		int precio = Math.min(min, pago2);
-		return precio;
 	}
 	
 	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
@@ -309,4 +313,5 @@ public class ControladorChat {
 	public LinkedList<Grupo> gruposAdmin (Usuario user) {
 		return (LinkedList<Grupo>) user.getGruposAdmin();
 	}
+
 }

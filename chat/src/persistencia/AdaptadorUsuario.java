@@ -1,6 +1,8 @@
 package persistencia;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 import tds.driver.FactoriaServicioPersistencia;
@@ -20,6 +22,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorUsuario unicaInstancia = null;
 	private SimpleDateFormat dateFormat;
+	private DateTimeFormatter format;
 
 	public static AdaptadorUsuario getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null)
@@ -31,6 +34,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 	private AdaptadorUsuario() { 
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia(); 
 		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+		format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	}
 
 	/* cuando se registra un usuario se le asigna un identificador Ãºnico */
@@ -46,9 +50,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		}
 		if (existe) return;
 
-		AdaptadorGrupo adaptadorGrupo = AdaptadorGrupo.getUnicaInstancia();
-		for (Grupo g : usuario.getGruposAdmin())
-			adaptadorGrupo.registrarGrupo(g);
+		//AdaptadorGrupo adaptadorGrupo = AdaptadorGrupo.getUnicaInstancia();
 		
 		AdaptadorContactoIndividual adaptadorCI = AdaptadorContactoIndividual.getUnicaInstancia();
 		AdaptadorGrupo adaptadorG = AdaptadorGrupo.getUnicaInstancia();
@@ -61,6 +63,9 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 			}
 			
 		}
+		for (Grupo g : usuario.getGruposAdmin())
+			adaptadorG.registrarGrupo(g);
+		
 			
 	
 
@@ -75,7 +80,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 						new Propiedad("nick", usuario.getNick()), 
 						new Propiedad("contrasena", usuario.getContrasena()),
 						new Propiedad("imagen", usuario.getImagen()),
-						new Propiedad("fechaRegistro", dateFormat.format(usuario.getFechaRegistro())),
+						new Propiedad("fechaRegistro", format.format(usuario.getFechaRegistro())),
 						new Propiedad("premium", String.valueOf(usuario.isPremium())),
 						new Propiedad("gruposAdmin", obtenerCodigosGrupos(usuario.getGruposAdmin())),
 						new Propiedad("contactos", obtenerCodigosContactos(usuario.getContactos())))));
@@ -129,7 +134,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "imagen");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "imagen", usuario.getImagen());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "fecha registro");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "fecha registro",dateFormat.format(usuario.getFechaRegistro()));
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "fecha registro",format.format(usuario.getFechaRegistro()));
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "premium");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "premium", String.valueOf(usuario.isPremium()));
 		String gruposAdmin = obtenerCodigosGrupos(usuario.getGruposAdmin());
@@ -156,7 +161,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		String nick;
 		String contrasena;
 		String imagen;
-		Date fechaRegistro = null;
+		LocalDate fechaRegistro = null;
 		boolean premium;
 		List<Grupo> gruposAdmin = new LinkedList<Grupo>();
 		List<Contacto> contactos = new LinkedList<Contacto>();
@@ -174,11 +179,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 			e.printStackTrace();
 		}
 		
-		try {
-			fechaRegistro = dateFormat.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fecha registro"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		fechaRegistro= LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaRegistro"),format);
 		
 		nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nombre");
 		movil = servPersistencia.recuperarPropiedadEntidad(eUsuario, "movil");
@@ -189,7 +190,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 
 		
 
-		Usuario usuario = new Usuario(nombre, fechaNacimiento, movil, nick, contrasena,imagen);
+		Usuario usuario = new Usuario(nombre, fechaNacimiento, movil, nick, contrasena,imagen, fechaRegistro);
 		usuario.setCodigo(codigo);
 
 		
