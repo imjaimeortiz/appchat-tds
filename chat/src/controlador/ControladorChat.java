@@ -163,34 +163,36 @@ public class ControladorChat {
 		return g.getContactos();
 	}
 	
-	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto c) {
+	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto receptor) {
 	
-	Mensaje mensaje = emisor.enviarMensajeEmisor(texto, localDate, emoticono, emisor, c);
+	//guardar el mensaje en el contacto receptor del emisor
+	Mensaje mensaje = emisor.enviarMensajeEmisor(texto, localDate, emoticono, emisor, receptor);
 	Mensaje mensaje1;
 	
-	if (c instanceof ContactoIndividual) {
-		ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) c).getUsuario().contactoEnReceptor(emisor);
+	if (receptor instanceof ContactoIndividual) {
+		ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) receptor).getUsuario().buscarEmisor(emisor);
 		
 		if (contactoDelEmisorEnElReceptor== null) {
+			//si el receptor no tiene el contacto del emisor se crea
 			contactoDelEmisorEnElReceptor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
-			((ContactoIndividual) c).getUsuario().addContacto(contactoDelEmisorEnElReceptor);
+			((ContactoIndividual) receptor).getUsuario().addContacto(contactoDelEmisorEnElReceptor);
 			adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
-			adaptadorUsuario.modificarUsuario(((ContactoIndividual) c).getUsuario());	
+			adaptadorUsuario.modificarUsuario(((ContactoIndividual) receptor).getUsuario());	
 		}
-			mensaje1 = ((ContactoIndividual) c).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) c, contactoDelEmisorEnElReceptor);
-			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);
+			// guardar mensaje en el contacto emisor del receptor
+			mensaje1 = ((ContactoIndividual) receptor).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) receptor, contactoDelEmisorEnElReceptor);
+			
 			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
-		
 			adaptadorMensaje.registrarMensaje(mensaje);
 			adaptadorMensaje.registrarMensaje(mensaje1);
-			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) c);
+			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) receptor);
 		
 	} else {
-		LinkedList<ContactoIndividual> contactos = (LinkedList<ContactoIndividual>) ((Grupo) c).getContactos();
+		LinkedList<ContactoIndividual> contactos = (LinkedList<ContactoIndividual>) ((Grupo) receptor).getContactos();
 		for (ContactoIndividual contactoIndividual : contactos) {
-			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().contactoEnReceptor(emisor);
+			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().buscarEmisor(emisor);
 			if(contactoDelEmisorEnElReceptor== null) {
-				for(ContactoIndividual ci : ((Grupo) c).getContactos()) {
+				for(ContactoIndividual ci : ((Grupo) receptor).getContactos()) {
 					contactoDelEmisorEnElReceptor = ci.getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
 					adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
 					adaptadorUsuario.modificarUsuario(ci.getUsuario());
@@ -202,7 +204,7 @@ public class ControladorChat {
 
 		}
 		adaptadorMensaje.registrarMensaje(mensaje);
-		adaptadorGrupo.modificarGrupo((Grupo)c);
+		adaptadorGrupo.modificarGrupo((Grupo)receptor);
 	}
 	return mensaje;
 

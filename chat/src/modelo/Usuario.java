@@ -219,13 +219,13 @@ public class Usuario {
 		}
 	}*/
 	
-	public Mensaje enviarMensajeEmisor(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto c) {
+	public Mensaje enviarMensajeEmisor(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto receptor) {
 		
-		return c.addMensaje(texto, localDate, emoticono, emisor, c);
+		return receptor.addMensaje(texto, localDate, emoticono, emisor, receptor);
 	}
 	
 
-	public Contacto contactoEnReceptor(Usuario emisor) {
+	public Contacto buscarEmisor(Usuario emisor) {
 		for (Contacto c : contactos) {
 			if (c instanceof ContactoIndividual) {
 				if (((ContactoIndividual) c).getUsuario().equals(emisor)) {
@@ -237,9 +237,9 @@ public class Usuario {
 		return null;
 	}
 	
-	public Mensaje recibirMensaje(String texto, LocalDateTime hora, int emoticono, Usuario emisor, ContactoIndividual receptor, ContactoIndividual contactoEmisorEnReceptro) {
+	public Mensaje recibirMensaje(String texto, LocalDateTime hora, int emoticono, Usuario emisor, ContactoIndividual receptor, ContactoIndividual contactoDelEmisorEnElReceptor) {
 		
-		Mensaje mensaje = contactoEmisorEnReceptro.addMensaje(texto, hora, emoticono, emisor, receptor);
+		Mensaje mensaje = contactoDelEmisorEnElReceptor.addMensaje(texto, hora, emoticono, emisor, receptor);
 		return mensaje;
 		
 	}
