@@ -45,7 +45,6 @@ public class Chats extends JPanel {
 	private DefaultListModel<Contacto> listModel;
 	private JPanel chat;
 	private JTextArea textArea;
-	private LinkedList<Mensaje> mensajes;
 	
 	/**
 	 * Create the panel.
@@ -54,7 +53,6 @@ public class Chats extends JPanel {
 		this.c = c;
 		this.user = user;
 		this.listModel = listModel;
-		this.mensajes = ControladorChat.getUnicaInstancia().mensajesConContacto(c);
 		initialize();
 	}
 
@@ -175,8 +173,6 @@ public class Chats extends JPanel {
 		gbc_textArea.gridy = 0;
 		panelSend.add(textArea, gbc_textArea);
 		
-		mensajes.stream()
-			.forEach(m->mostrarMensaje(m, chat));
 		
 		JButton btnSend = new JButton("Send");
 		btnSend.addActionListener( new ActionListener() {
@@ -211,6 +207,20 @@ public class Chats extends JPanel {
 		listModel.clear();
 		listAux.stream().forEach(c-> listModel.addElement(c));
 	}
+	
+	public void pintarMensajes(LinkedList<Mensaje> mensajes) {
+		mensajes.stream()
+			.forEach(m->mostrarMensaje(m, chat));
+		chat.repaint();
+		chat.revalidate();
+	}
+	
+	public void eliminarMensajes () {
+		chat.removeAll();
+		chat.repaint();
+		chat.revalidate();
+	}
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {

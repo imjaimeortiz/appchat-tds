@@ -107,6 +107,9 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		eMensaje = servPersistencia.recuperarEntidad(codigo);
 		texto = servPersistencia.recuperarPropiedadEntidad(eMensaje, "texto");
 		emoticono = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "emoticono"));
+		String fechaAux = servPersistencia.recuperarPropiedadEntidad(eMensaje, "fecha");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+		hora = LocalDateTime.parse(fechaAux, formatter);
 		
 		// Para recuperar el usuario se lo solicita al adaptador usuario
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
@@ -115,15 +118,11 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		
 		AdaptadorContactoIndividual adaptadorContacto = AdaptadorContactoIndividual.getUnicaInstancia();
 		contacto = adaptadorContacto.recuperarContactoIndividual(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "contacto")));
-				
-		
-		String fechaAux = servPersistencia.recuperarPropiedadEntidad(eMensaje, "fecha");
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-		hora = LocalDateTime.parse(fechaAux, formatter);
 
 		
 		Mensaje mensaje = new Mensaje(texto, hora, emoticono, usuario, contacto);
 		mensaje.setCodigo(codigo);
+		
 		return mensaje;
 		
 		

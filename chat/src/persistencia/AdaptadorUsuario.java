@@ -22,7 +22,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorUsuario unicaInstancia = null;
 	private SimpleDateFormat dateFormat;
-	private DateTimeFormatter format;
+	private DateTimeFormatter RegisterFormat;
 
 	public static AdaptadorUsuario getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null)
@@ -34,7 +34,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 	private AdaptadorUsuario() { 
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia(); 
 		dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-		format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		RegisterFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	}
 
 	/* cuando se registra un usuario se le asigna un identificador Ãºnico */
@@ -80,7 +80,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 						new Propiedad("nick", usuario.getNick()), 
 						new Propiedad("contrasena", usuario.getContrasena()),
 						new Propiedad("imagen", usuario.getImagen()),
-						new Propiedad("fechaRegistro", format.format(usuario.getFechaRegistro())),
+						new Propiedad("fechaRegistro", RegisterFormat.format(usuario.getFechaRegistro())),
 						new Propiedad("premium", String.valueOf(usuario.isPremium())),
 						new Propiedad("gruposAdmin", obtenerCodigosGrupos(usuario.getGruposAdmin())),
 						new Propiedad("contactos", obtenerCodigosContactos(usuario.getContactos())))));
@@ -134,7 +134,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "imagen");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "imagen", usuario.getImagen());
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "fecha registro");
-		servPersistencia.anadirPropiedadEntidad(eUsuario, "fecha registro",format.format(usuario.getFechaRegistro()));
+		servPersistencia.anadirPropiedadEntidad(eUsuario, "fecha registro",RegisterFormat.format(usuario.getFechaRegistro()));
 		servPersistencia.eliminarPropiedadEntidad(eUsuario, "premium");
 		servPersistencia.anadirPropiedadEntidad(eUsuario, "premium", String.valueOf(usuario.isPremium()));
 		String gruposAdmin = obtenerCodigosGrupos(usuario.getGruposAdmin());
@@ -179,7 +179,7 @@ public class AdaptadorUsuario implements IAdaptadorUsuarioDAO {
 			e.printStackTrace();
 		}
 		
-		fechaRegistro= LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaRegistro"),format);
+		fechaRegistro= LocalDate.parse(servPersistencia.recuperarPropiedadEntidad(eUsuario, "fechaRegistro"),RegisterFormat);
 		
 		nombre = servPersistencia.recuperarPropiedadEntidad(eUsuario, "nombre");
 		movil = servPersistencia.recuperarPropiedadEntidad(eUsuario, "movil");

@@ -1,9 +1,6 @@
 package vistas;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -42,9 +39,9 @@ public class VentanaPremium {
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 18, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 18, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		frame.getContentPane().setLayout(gridBagLayout);
 		
 		JLabel lblLaTarifaBase = new JLabel("Hazte premium por sólo 29'99 € / año !");
@@ -61,7 +58,7 @@ public class VentanaPremium {
 		GridBagConstraints gbc_lblPrecioFinal = new GridBagConstraints();
 		gbc_lblPrecioFinal.insets = new Insets(0, 0, 5, 5);
 		gbc_lblPrecioFinal.gridx = 3;
-		gbc_lblPrecioFinal.gridy = 4;
+		gbc_lblPrecioFinal.gridy = 5;
 		frame.getContentPane().add(lblPrecioFinal, gbc_lblPrecioFinal);
 		
 		JButton btnBuscarDescuento = new JButton("Buscar descuento");
@@ -70,7 +67,7 @@ public class VentanaPremium {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				double precioFinal = ControladorChat.getUnicaInstancia().setPrecioFinal(user);
-				lblPrecioFinal.setText(precioFinal + "");
+				lblPrecioFinal.setText(precioFinal + "€");
 			}
 		});
 		GridBagConstraints gbc_btnBuscarDescuento = new GridBagConstraints();
@@ -83,15 +80,15 @@ public class VentanaPremium {
 		GridBagConstraints gbc_lblTarifaFinalA = new GridBagConstraints();
 		gbc_lblTarifaFinalA.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTarifaFinalA.gridx = 2;
-		gbc_lblTarifaFinalA.gridy = 4;
+		gbc_lblTarifaFinalA.gridy = 5;
 		frame.getContentPane().add(lblTarifaFinalA, gbc_lblTarifaFinalA);
 		
-		JLabel lblIntroduzcaSuNmero = new JLabel("Introduzca su número de tarjeta");
+		JLabel lblIntroduzcaSuNmero = new JLabel("Nº tarjeta");
 		GridBagConstraints gbc_lblIntroduzcaSuNmero = new GridBagConstraints();
 		gbc_lblIntroduzcaSuNmero.anchor = GridBagConstraints.EAST;
 		gbc_lblIntroduzcaSuNmero.insets = new Insets(0, 0, 5, 5);
 		gbc_lblIntroduzcaSuNmero.gridx = 2;
-		gbc_lblIntroduzcaSuNmero.gridy = 5;
+		gbc_lblIntroduzcaSuNmero.gridy = 6;
 		frame.getContentPane().add(lblIntroduzcaSuNmero, gbc_lblIntroduzcaSuNmero);
 		
 		textField = new JTextField();
@@ -99,7 +96,7 @@ public class VentanaPremium {
 		gbc_textField.insets = new Insets(0, 0, 5, 5);
 		gbc_textField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_textField.gridx = 3;
-		gbc_textField.gridy = 5;
+		gbc_textField.gridy = 6;
 		frame.getContentPane().add(textField, gbc_textField);
 		textField.setColumns(10);
 		
@@ -115,7 +112,7 @@ public class VentanaPremium {
 		GridBagConstraints gbc_btnAceptar = new GridBagConstraints();
 		gbc_btnAceptar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAceptar.gridx = 2;
-		gbc_btnAceptar.gridy = 7;
+		gbc_btnAceptar.gridy = 8;
 		frame.getContentPane().add(btnAceptar, gbc_btnAceptar);
 		
 		JButton btnCancelar = new JButton("Cancelar");
@@ -130,8 +127,9 @@ public class VentanaPremium {
 		GridBagConstraints gbc_btnCancelar = new GridBagConstraints();
 		gbc_btnCancelar.insets = new Insets(0, 0, 0, 5);
 		gbc_btnCancelar.gridx = 3;
-		gbc_btnCancelar.gridy = 7;
+		gbc_btnCancelar.gridy = 8;
 		frame.getContentPane().add(btnCancelar, gbc_btnCancelar);
+		frame.setVisible(true);
 	}
-
+	
 }

@@ -208,14 +208,8 @@ public class ControladorChat {
 
 	}
 	
-	//Para el descuento comprobamos si el ususario cumple los requisitos de ambos tipos
-	//en el caso de que cumpla ambos nos quedamos con el menor precio a pagar
-	///////// HABRIA QUE VER SI DEVOLVER DE ALGUNA FORMA EL TIPO DE DESCUENTO QUE SE HA APLICADO
-	/////////PARA INFORMAR AL USUARIO EN LA VENTANA ??????????????
 	public double setPrecioFinal(Usuario user) {
 		double pago = 29.99;
-		//int pago1 = 100; 
-		//int pago2 = 100;
 		LocalDate fechaDescuento = LocalDate.now().minusMonths(4);
 		if (user.getMensajesEnviadosUltimoMes() > 50) {
 			Descuento desc1 = new DescuentoMensajes();
@@ -227,9 +221,6 @@ public class ControladorChat {
 		}
 		
 		return pago;
-		/*int min = Math.min(pago, pago1);
-		int precio = Math.min(min, pago2);
-		return precio;*/
 	}
 	
 	public void setPremium(Usuario user) {
@@ -312,6 +303,10 @@ public class ControladorChat {
 	
 	public LinkedList<Grupo> gruposAdmin (Usuario user) {
 		return (LinkedList<Grupo>) user.getGruposAdmin();
+	}
+
+	public void borrarMensajes(Usuario user, Contacto contactoSelected) {
+		contactoSelected.getMensajes().clear();
 	}
 
 }

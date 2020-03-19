@@ -43,6 +43,7 @@ public class NuevaVentanaChat {
 	private JButton btnOptions;
 
 	private Usuario user;
+	private Contacto contactoSelected;
 	private JScrollPane scrollPaneContacts;
 	private DefaultListModel<Contacto> listModel;
 	private JList<Contacto> list;
@@ -109,6 +110,14 @@ public class NuevaVentanaChat {
 		panelCard.setVisible(false);
 		
 		btnSearch = new JButton("");
+		btnSearch.addActionListener( new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
 		gbc_btnSearch.fill = GridBagConstraints.BOTH;
 		gbc_btnSearch.insets = new Insets(0, 0, 0, 5);
@@ -146,6 +155,7 @@ public class NuevaVentanaChat {
 				popupMenu.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+		
 		btnMenu.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/menu.png")));
 		addPopup(btnMenu, popupMenu);
 		
@@ -207,11 +217,9 @@ public class NuevaVentanaChat {
 				JMenuItem mitemPremium = new JMenuItem("Ir a premium");
 				popupMenu.add(mitemPremium);
 				mitemPremium.addActionListener( new ActionListener() {
-					
-					@Override
 					public void actionPerformed(ActionEvent e) {
-						new VentanaPremium(user);
-						btnUser.setBackground(Color.YELLOW);
+						if (!user.isPremium())
+							new VentanaPremium(user);
 					}
 				});
 				
@@ -250,6 +258,13 @@ public class NuevaVentanaChat {
 		btnNewButton_1.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/order.png")));
 		
 		btnDelete = new JButton("");
+		btnDelete.addActionListener( new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ControladorChat.getUnicaInstancia().borrarMensajes(user, contactoSelected);
+				Chats chat = mapa.get(contactoSelected.toString());
+				chat.eliminarMensajes();
+			}
+		});
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
 		gbc_btnDelete.fill = GridBagConstraints.BOTH;
 		gbc_btnDelete.insets = new Insets(0, 0, 0, 5);
@@ -280,15 +295,17 @@ public class NuevaVentanaChat {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				if (e.getClickCount() > 0) {
-					Contacto c = list.getSelectedValue();
-					btnContact.setText(c.getNombre());
-					if (c instanceof ContactoIndividual)
-						btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((ContactoIndividual) c).getUsuario().getImagen())));
-					else btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((Grupo) c).getFoto())));
+					contactoSelected = list.getSelectedValue();
+					btnContact.setText(contactoSelected.getNombre());
+					if (contactoSelected instanceof ContactoIndividual)
+						btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((ContactoIndividual) contactoSelected).getUsuario().getImagen())));
+					else btnContact.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(((Grupo) contactoSelected).getFoto())));
 					btnContact.setVisible(true);
 					CardLayout card = (CardLayout) (panelCard.getLayout());
-					card.show(panelCard, c.toString());
+					card.show(panelCard, contactoSelected.toString());
 					panelCard.setVisible(true);
+					Chats chat = mapa.get(contactoSelected.toString());
+					chat.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(contactoSelected));
 				}
 			}
 			
