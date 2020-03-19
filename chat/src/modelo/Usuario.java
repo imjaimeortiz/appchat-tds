@@ -49,7 +49,17 @@ public class Usuario {
 	}
 	// CON IMAGEN POR DEFECTO
 	public Usuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena) {
-		new Usuario(nombre, fechaNacimiento, movil, nick, contrasena, "/vistas/avatar.png", LocalDate.now());
+		codigo = 0;
+		this.nombre = nombre;
+		this.fechaNacimiento = fechaNacimiento;
+		this.movil = movil;
+		this.nick = nick;
+		this.contrasena = contrasena;
+		this.imagen = "/vistas/avatar.png";
+		this.premium = false;
+		this.fechaRegistro = LocalDate.now();
+		this.gruposAdmin = new LinkedList<Grupo>();
+		this.contactos = new LinkedList<Contacto>();
 	}
 
 	
