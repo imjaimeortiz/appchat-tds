@@ -132,15 +132,15 @@ public class Chats extends JPanel {
 				// TODO Auto-generated method stub
 				
 			}
-		});
+		});		
 		
-		for(int i=0; i<BubbleText.MAXICONO; i++) {
-			JButton emoji = new JButton();
-			emoji.setIcon(BubbleText.getEmoji(i));
-			popupMenu.add(emoji);
-			final int emojiSelect = i;
-			emoji.addActionListener( e-> {
-				Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje("", LocalDateTime.now(), emojiSelect, user, c);
+		for (int i = 0; i <= BubbleText.MAXICONO; i++) {
+			final int emoji = i;
+			JButton btn = new JButton();
+			btn.setIcon(BubbleText.getEmoji(i));
+			popupMenu.add(btn);
+			btn.addActionListener(e -> {
+				Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), emoji, user, c);
 				mostrarMensaje(m, chat);
 			});
 		}
@@ -153,17 +153,8 @@ public class Chats extends JPanel {
 		gbc_btnEmoji.gridx = 0;
 		gbc_btnEmoji.gridy = 0;
 		panelSend.add(btnEmoji, gbc_btnEmoji);
-		/*btnEmoji.add(popupMenu);
-		for (int i = 0; i <= BubbleText.MAXICONO; i++) {
-			final int emoji = i;
-			JButton btn = new JButton();
-			btn.setIcon(BubbleText.getEmoji(i));
-			popupMenu.add((Action) BubbleText.getEmoji(i));
-			btn.addActionListener(e -> {
-				ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), emoji, user, c);
-				mostrarMensaje(chat);
-			});
-		}*/
+		//btnEmoji.add(popupMenu);
+		
 		
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
 		gbc_textArea.gridwidth = 8;
@@ -179,9 +170,11 @@ public class Chats extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), -1, user, c);
-				mostrarMensaje(m, chat);
-				textArea.setText(null);
+				if (!textArea.getText().equals(null)) {
+					Mensaje m = ControladorChat.getUnicaInstancia().enviarMensaje(textArea.getText(), LocalDateTime.now(), -1, user, c);
+					mostrarMensaje(m, chat);
+					textArea.setText(null);
+				}
 			}
 		});
 		GridBagConstraints gbc_btnSend = new GridBagConstraints();
@@ -194,10 +187,11 @@ public class Chats extends JPanel {
 	}	
 	
 	private void mostrarMensaje(Mensaje m, JPanel chat) {
-		String msj = m.getTexto();
-		//System.out.println(msj);
-	
-		BubbleText b = new BubbleText(chat, msj, Color.GREEN, "Tú", BubbleText.SENT);
+		BubbleText b ;
+		if (m.getUsuario().equals(user))
+			b = new BubbleText(chat, m.getTexto(), Color.GREEN, "Tú", BubbleText.SENT);
+		else 
+			b = new BubbleText(chat, m.getTexto(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED);
 		chat.add(b);
 		LinkedList<Contacto> listAux = new LinkedList<Contacto>();
 		for (int i = 0; i < listModel.getSize(); i++) {

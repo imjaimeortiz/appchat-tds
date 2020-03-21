@@ -13,7 +13,6 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JLabel;
 import javax.swing.JButton;
-import java.awt.BorderLayout;
 import java.awt.Color;
 
 @SuppressWarnings("serial")
@@ -29,18 +28,25 @@ public class VentanaCrearContacto extends JDialog {
 	}
 	
 	public void initialize() {
-		lblLosCamposNo = new JLabel("Los campos no son correctos");
-		lblLosCamposNo.setVisible(false);
-		lblLosCamposNo.setForeground(Color.RED);
-		getContentPane().add(lblLosCamposNo, BorderLayout.SOUTH);
 		
 		setBounds(250, 250, 491, 150);
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 0, 50, 0, 50, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 0, 50, 0, 50, 50};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 50};
+		gridBagLayout.columnWeights = new double[]{1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{1.0, 1.0, 0.0, Double.MIN_VALUE};
 		getContentPane().setLayout(gridBagLayout);
+		
+		lblLosCamposNo = new JLabel("Los campos no son correctos");
+		GridBagConstraints gbc_lblLosCamposNo = new GridBagConstraints();
+		gbc_lblLosCamposNo.gridwidth = 5;
+		gbc_lblLosCamposNo.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLosCamposNo.anchor = GridBagConstraints.CENTER;
+		gbc_lblLosCamposNo.gridx = 0;
+		gbc_lblLosCamposNo.gridy = 1;
+		lblLosCamposNo.setVisible(false);
+		lblLosCamposNo.setForeground(Color.RED);
+		getContentPane().add(lblLosCamposNo, gbc_lblLosCamposNo);
 		
 		JLabel lblNombre = new JLabel("Nombre");
 		GridBagConstraints gbc_lblNombre = new GridBagConstraints();

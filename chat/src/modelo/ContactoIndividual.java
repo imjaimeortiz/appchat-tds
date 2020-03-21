@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -47,10 +48,30 @@ public class ContactoIndividual extends Contacto {
 		this.movil = movil;
 	}
 	
-	public List<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
-		List<Mensaje> mensajes = new ArrayList<Mensaje>();
+	public LinkedList<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
+		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
 		for(Mensaje m : mensajes) {
-			if((m.getTexto().equals(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
+			if((m.getTexto().contains(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
+				mensajes.add(m);
+			}
+		}
+		return mensajes;
+	}
+	
+	public LinkedList<Mensaje> buscarMensajes(LocalDateTime inicio, LocalDateTime fin){
+		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
+		for(Mensaje m : mensajes) {
+			if((m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
+				mensajes.add(m);
+			}
+		}
+		return mensajes;
+	}
+	
+	public LinkedList<Mensaje> buscarMensajes(String texto){
+		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
+		for(Mensaje m : mensajes) {
+			if((m.getTexto().contains(texto)) ) {
 				mensajes.add(m);
 			}
 		}

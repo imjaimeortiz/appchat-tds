@@ -1,22 +1,10 @@
 package modelo;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.swing.text.Document;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.List;
-
-
-
-
-
 
 public class Usuario {
 	private int codigo;

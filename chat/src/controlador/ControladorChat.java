@@ -230,7 +230,7 @@ public class ControladorChat {
 		adaptadorUsuario.modificarUsuario(user);
 	}
 	
-	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
+	public LinkedList<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
 		LocalDateTime i = null;
 		LocalDateTime f = null;
 		if(inicio != null && fin != null) {
@@ -244,8 +244,27 @@ public class ControladorChat {
 		}
 	}
 	
+	public LinkedList<Mensaje> buscarMensaje(Contacto contacto, String nombre, Date inicio, Date fin){
+		LocalDateTime i = null;
+		LocalDateTime f = null;
+		if(inicio != null && fin != null) {
+			i = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+			f = fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+		}
+		if(contacto instanceof ContactoIndividual) {
+			return ((ContactoIndividual)contacto).buscarMensajes(i, f);
+		}else {
+			return ((Grupo)contacto).buscarMensajes(nombre, i, f);
+		}
+	}
 	
-	
+	public LinkedList<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto){
+		if(contacto instanceof ContactoIndividual) {
+			return ((ContactoIndividual)contacto).buscarMensajes(texto);
+		}else {
+			return ((Grupo)contacto).buscarMensajes(texto, nombre);
+		}
+	}
 	
 	
 	public void mostrarEstadisticas(Usuario user) {

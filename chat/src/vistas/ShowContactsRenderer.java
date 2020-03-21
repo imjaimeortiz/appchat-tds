@@ -1,7 +1,6 @@
 package vistas;
 
 import java.awt.Component;
-import java.awt.Image;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
