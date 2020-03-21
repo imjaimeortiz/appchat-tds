@@ -188,7 +188,7 @@ public class ControladorChat {
 			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) receptor);
 		
 	} else {
-		LinkedList<ContactoIndividual> contactos = (LinkedList<ContactoIndividual>) ((Grupo) receptor).getContactos();
+		/*LinkedList<ContactoIndividual> contactos = (LinkedList<ContactoIndividual>) ((Grupo) receptor).getContactos();
 		for (ContactoIndividual contactoIndividual : contactos) {
 			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().buscarEmisor(emisor);
 			if(contactoDelEmisorEnElReceptor== null) {
@@ -198,11 +198,13 @@ public class ControladorChat {
 					adaptadorUsuario.modificarUsuario(ci.getUsuario());
 				}
 			}
+			
 			mensaje1 = contactoIndividual.getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, contactoIndividual, contactoDelEmisorEnElReceptor);
 			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);
 			adaptadorMensaje.registrarMensaje(mensaje1);
 
-		}
+		}*/
+		receptor.addMensaje(mensaje);
 		adaptadorMensaje.registrarMensaje(mensaje);
 		adaptadorGrupo.modificarGrupo((Grupo)receptor);
 	}

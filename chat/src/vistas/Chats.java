@@ -54,6 +54,7 @@ public class Chats extends JPanel {
 		this.user = user;
 		this.listModel = listModel;
 		initialize();
+		pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(c));
 	}
 
 
@@ -153,7 +154,6 @@ public class Chats extends JPanel {
 		gbc_btnEmoji.gridx = 0;
 		gbc_btnEmoji.gridy = 0;
 		panelSend.add(btnEmoji, gbc_btnEmoji);
-		//btnEmoji.add(popupMenu);
 		
 		
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
@@ -205,8 +205,6 @@ public class Chats extends JPanel {
 	public void pintarMensajes(LinkedList<Mensaje> mensajes) {
 		mensajes.stream()
 			.forEach(m->mostrarMensaje(m, chat));
-		chat.repaint();
-		chat.revalidate();
 	}
 	
 	public void eliminarMensajes () {
