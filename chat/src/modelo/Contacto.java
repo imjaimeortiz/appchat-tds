@@ -46,6 +46,10 @@ public abstract class Contacto {
 		return mensajes;
 	}
 	
+	public int getNumMensajes() {
+		return mensajes.size();
+	}
+	
 	public Mensaje addMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario usuario, Contacto c) {
 		Mensaje mensaje = new Mensaje(texto, localDate, emoticono, usuario, c);
 		mensajes.add(mensaje);
@@ -65,6 +69,29 @@ public abstract class Contacto {
 			}
 		}
 		return cont;
+	}
+	
+	public void mensajesCadaMes(Integer[]mensajesMes, Usuario usuario) {
+		for(Mensaje m : mensajes) {
+			Integer year = LocalDateTime.now().getYear();
+			if((m.getUsuario().equals(usuario)) && (year.equals(m.getHora().getYear()))) {
+				switch(m.getHora().getMonthValue()) {
+				case 1: mensajesMes[0]= mensajesMes[0]++; break;
+				case 2: mensajesMes[1]= mensajesMes[1]++; break;
+				case 3: mensajesMes[2]= mensajesMes[2]++; break;
+				case 4: mensajesMes[3]= mensajesMes[3]++; break;
+				case 5: mensajesMes[4]= mensajesMes[4]++; break;
+				case 6: mensajesMes[5]= mensajesMes[5]++; break;
+				case 7: mensajesMes[6]= mensajesMes[6]++; break;
+				case 8: mensajesMes[7]= mensajesMes[7]++; break;
+				case 9: mensajesMes[8]= mensajesMes[8]++; break;
+				case 10: mensajesMes[9]= mensajesMes[9]++; break;
+				case 11: mensajesMes[10]= mensajesMes[10]++; break;
+				case 12: mensajesMes[11]= mensajesMes[11]++; break;
+				}
+				
+			}
+		}
 	}
 
 }

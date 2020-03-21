@@ -268,8 +268,10 @@ public class ControladorChat {
 	
 	
 	public void mostrarEstadisticas(Usuario user) {
+		//es necesaria la comprobacion de si es premium???
 		if(user.isPremium()) {
-			user.mostrarEstadisticas();
+			
+			
 		}
 	}
 	

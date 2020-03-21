@@ -2,9 +2,11 @@ package modelo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Usuario {
 	private int codigo;
@@ -235,14 +237,31 @@ public class Usuario {
 
 	
 	
-	public void mostrarEstadisticas() {
+	
+	public Integer[] getMensajesAno() {
+		Integer[] mensajesMes = {0,0,0,0,0,0,0,0,0,0,0,0};
+		for(int i = 0; i<mensajesMes.length; i++) {
+			mensajesMes[i]=0;
+		}
+		contactos.stream().forEach(c -> c.mensajesCadaMes(mensajesMes, this));
+		return mensajesMes;
 		
 	}
 	
-
+	
+	public Integer[] getGruposConMasMensajes() {
+		Integer[] gruposMasMensajes = {0,0,0,0,0,0};
+		List<Integer> mensajes = contactos.stream().filter(c -> (c instanceof Grupo)).map(c -> c.getNumMensajes()).filter(m -> m >= 0)
+				.sorted(Comparator.reverseOrder()).limit(6).collect(Collectors.toList());
+		mensajes.toArray(gruposMasMensajes);
+		return gruposMasMensajes;
+	}
+	
+	
+	
 	public int getMensajesEnviadosUltimoMes() {
 		int cont = 0;
-		List<String> contactosToPdf = new LinkedList<String>();
+		//List<String> contactosToPdf = new LinkedList<String>();
 
 		for(Contacto c : contactos) {
 			cont += c.getMensajesEnviados(this);
