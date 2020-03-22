@@ -304,10 +304,9 @@ public class NuevaVentanaChat {
 					CardLayout card = (CardLayout) (panelCard.getLayout());
 					card.show(panelCard, contactoSelected.toString());
 					panelCard.setVisible(true);
-					//Chats chat = mapa.get(contactoSelected.toString());
-					//chat.repaint();
-					//chat.revalidate();
-					//chat.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(contactoSelected));
+					Chats chat = mapa.get(contactoSelected.toString());
+					chat.eliminarMensajes();
+					chat.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(contactoSelected));
 				}
 			}
 			

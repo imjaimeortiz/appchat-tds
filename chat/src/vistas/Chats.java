@@ -54,7 +54,6 @@ public class Chats extends JPanel {
 		this.user = user;
 		this.listModel = listModel;
 		initialize();
-		pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(c));
 	}
 
 
@@ -79,7 +78,8 @@ public class Chats extends JPanel {
 		chat = new JPanel();
 		scrollPane.setViewportView(chat);
 		chat.setLayout(new BoxLayout(chat, BoxLayout.Y_AXIS));
-		
+		this.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(c));
+
 		textArea = new JTextArea();
 		
 		JPanel panelSend = new JPanel();
@@ -201,7 +201,7 @@ public class Chats extends JPanel {
 		listModel.clear();
 		listAux.stream().forEach(c-> listModel.addElement(c));
 	}
-	
+	 
 	public void pintarMensajes(LinkedList<Mensaje> mensajes) {
 		mensajes.stream()
 			.forEach(m->mostrarMensaje(m, chat));

@@ -3,10 +3,12 @@ package vistas;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 
+import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Usuario;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -47,10 +49,10 @@ public class VentanaMostrarContactos {
 		tableModel.addColumn("Imagen");
 		tableModel.addColumn("Grupos");
 		
-		LinkedList<ContactoIndividual>contactos = ControladorChat.getUnicaInstancia().recuperarContactosIndividuales(user);
+		List<Contacto> contactos = ControladorChat.getUnicaInstancia().recuperarContactosIndividuales(user);
 		
-		for (ContactoIndividual contactoIndividual : contactos) {
-			tableModel.addRow(new Object[] { contactoIndividual.getNombre(),  contactoIndividual.getMovil(), contactoIndividual.getUsuario().getImagen(), ControladorChat.getUnicaInstancia().getGruposComun(user, contactoIndividual) });
+		for (Contacto contactoIndividual : contactos) {
+			tableModel.addRow(new Object[] { contactoIndividual.getNombre(), ((ContactoIndividual) contactoIndividual).getMovil(), ((ContactoIndividual) contactoIndividual).getUsuario().getImagen(), ControladorChat.getUnicaInstancia().getGruposComun(user, (ContactoIndividual) contactoIndividual) });
 		}
 		
 		table = new JTable();

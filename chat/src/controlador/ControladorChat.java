@@ -78,7 +78,8 @@ public class ControladorChat {
 	}
 	
 	public List<Contacto> recuperarContactosIndividuales(Usuario user) {
-		List<Contacto> contactos = recuperarContactos(user).stream().filter(c -> (c instanceof ContactoIndividual))
+		List<Contacto> contactos = recuperarContactos(user).stream()
+				.filter(c -> (c instanceof ContactoIndividual))
 				.collect(Collectors.toList());
 		return contactos;
 		/*LinkedList<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
@@ -240,13 +241,13 @@ public class ControladorChat {
 	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
 		LocalDateTime i = null;
 		LocalDateTime f = null;
-		if(inicio != null && fin != null) {
+		if (inicio != null && fin != null) {
 			i = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 			f = fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 		}
-		if(contacto instanceof ContactoIndividual) {
+		if (contacto instanceof ContactoIndividual) {
 			return contacto.buscarMensajes(texto, i, f);
-		}else {
+		} else {
 			return contacto.buscarMensajes(texto, nombre, i, f);
 		}
 	}
