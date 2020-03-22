@@ -6,7 +6,8 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
@@ -76,12 +77,15 @@ public class ControladorChat {
 		return user.recuperarContactos(user);
 	}
 	
-	public LinkedList<ContactoIndividual> recuperarContactosIndividuales(Usuario user) {
-		LinkedList<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
+	public List<Contacto> recuperarContactosIndividuales(Usuario user) {
+		List<Contacto> contactos = recuperarContactos(user).stream().filter(c -> (c instanceof ContactoIndividual))
+				.collect(Collectors.toList());
+		return contactos;
+		/*LinkedList<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
 		for (Contacto contacto : recuperarContactos(user)) {
 			if (contacto instanceof ContactoIndividual) contactos.add((ContactoIndividual) contacto);
 		}
-		return contactos;
+		return contactos;*/
 	}
 	
 	// comprobar si existe el tlf
@@ -270,7 +274,6 @@ public class ControladorChat {
 	
 	
 	public void mostrarEstadisticas(Usuario user) {
-		//es necesaria la comprobacion de si es premium???
 		if(user.isPremium()) {
 			
 			
