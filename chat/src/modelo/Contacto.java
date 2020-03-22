@@ -94,6 +94,28 @@ public abstract class Contacto {
 		}
 	}
 	
+	//busqueda para contactos individuales por texto y rango de fechas
+	public List<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
+		List<Mensaje> mensajesEncontrados = new LinkedList<Mensaje>();
+		for(Mensaje m : mensajes) {
+			if((m.getTexto().contains(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
+				mensajesEncontrados.add(m);
+			}
+		}
+		return mensajesEncontrados;
+	}
+	
+	public List<Mensaje> buscarMensajes(String texto, String nombre, LocalDateTime inicio, LocalDateTime fin){
+		List<Mensaje> mensajesEncontrados = new LinkedList<Mensaje>();
+		for(Mensaje m : mensajes) {
+			if((m.getTexto().contains(texto)) && (m.getUsuario().getNombre().equals(nombre)) && (m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))) {
+				mensajesEncontrados.add(m);
+			}
+		}
+		return mensajesEncontrados;
+	}
+	
+	
 	
 
 }

@@ -48,17 +48,9 @@ public class ContactoIndividual extends Contacto {
 		this.movil = movil;
 	}
 	
-	public LinkedList<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
-		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
-		for(Mensaje m : mensajes) {
-			if((m.getTexto().contains(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
-				mensajes.add(m);
-			}
-		}
-		return mensajes;
-	}
+
 	
-	public LinkedList<Mensaje> buscarMensajes(LocalDateTime inicio, LocalDateTime fin){
+	/*public LinkedList<Mensaje> buscarMensajes(LocalDateTime inicio, LocalDateTime fin){
 		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
 		for(Mensaje m : mensajes) {
 			if((m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
@@ -76,6 +68,6 @@ public class ContactoIndividual extends Contacto {
 			}
 		}
 		return mensajes;
-	}
+	}*/
 
 }
