@@ -84,7 +84,7 @@ public class VentanaSearchMessage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// filtrar por fecha
-				if (textField.getText().equals(null) && !dateChooserMax.getDate().equals(null) && !dateChooserMin.getDate().equals(null)) {
+				/*if (textField.getText().equals(null) && !dateChooserMax.getDate().equals(null) && !dateChooserMin.getDate().equals(null)) {
 					LinkedList<Mensaje> mensajes = (LinkedList<Mensaje>) ControladorChat.getUnicaInstancia().buscarMensaje(c, user.getNombre(), dateChooserMin.getDate(), dateChooserMax.getDate());
 					for (Mensaje m : mensajes) {
 						listModel.addElement(m);
@@ -96,13 +96,13 @@ public class VentanaSearchMessage {
 					for (Mensaje m : mensajes) {
 						listModel.addElement(m);
 					}
-				}
+				}*/
 				// filtrar por todo
-				else if (!textField.getText().equals(null) && !dateChooserMax.getDate().equals(null) && !dateChooserMin.getDate().equals(null)) {
+				//else if (!textField.getText().equals(null) && !dateChooserMax.getDate().equals(null) && !dateChooserMin.getDate().equals(null)) {
 					LinkedList<Mensaje> mensajes = (LinkedList<Mensaje>) ControladorChat.getUnicaInstancia().buscarMensaje(c, user.getNombre(), textField.getText(), dateChooserMin.getDate(), dateChooserMax.getDate());
 					for (Mensaje m : mensajes) {
 						listModel.addElement(m);
-					}
+					
 				}
 				
 				scrollPane.revalidate();
