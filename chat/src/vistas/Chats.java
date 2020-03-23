@@ -188,10 +188,18 @@ public class Chats extends JPanel {
 	
 	private void mostrarMensaje(Mensaje m, JPanel chat) {
 		BubbleText b ;
+		if (m.getEmoticono() == -1) {
 		if (m.getUsuario().equals(user))
 			b = new BubbleText(chat, m.getTexto(), Color.GREEN, "Tú", BubbleText.SENT);
 		else 
 			b = new BubbleText(chat, m.getTexto(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED);
+		}
+		else {
+			if (m.getUsuario().equals(user))
+				b = new BubbleText(chat, m.getEmoticono(), Color.GREEN, "Tú", BubbleText.SENT, 10);
+			else 
+				b = new BubbleText(chat, m.getEmoticono(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED, 10); 
+		}
 		chat.add(b);
 		LinkedList<Contacto> listAux = new LinkedList<Contacto>();
 		for (int i = 0; i < listModel.getSize(); i++) {
