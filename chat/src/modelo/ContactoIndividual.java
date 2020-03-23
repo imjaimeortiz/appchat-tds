@@ -49,25 +49,5 @@ public class ContactoIndividual extends Contacto {
 	}
 	
 
-	
-	/*public LinkedList<Mensaje> buscarMensajes(LocalDateTime inicio, LocalDateTime fin){
-		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
-		for(Mensaje m : mensajes) {
-			if((m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
-				mensajes.add(m);
-			}
-		}
-		return mensajes;
-	}
-	
-	public LinkedList<Mensaje> buscarMensajes(String texto){
-		LinkedList<Mensaje> mensajes = new LinkedList<Mensaje>();
-		for(Mensaje m : mensajes) {
-			if((m.getTexto().contains(texto)) ) {
-				mensajes.add(m);
-			}
-		}
-		return mensajes;
-	}*/
 
 }

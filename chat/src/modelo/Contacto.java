@@ -105,13 +105,59 @@ public abstract class Contacto {
 		return mensajesEncontrados;
 	}
 	
+	//busqueda de mensajes para grupos
 	public List<Mensaje> buscarMensajes(String texto, String nombre, LocalDateTime inicio, LocalDateTime fin){
 		List<Mensaje> mensajesEncontrados = new LinkedList<Mensaje>();
+		int opcion = 0;
+		if((texto == null) && (nombre != null) && (inicio != null)) opcion = 1; // busqueda sin texto
+		if((nombre == null) && (texto != null) && (inicio != null)) opcion = 2; // busqueda sin nombre
+		if((inicio == null) && (texto != null) && (nombre != null)) opcion = 3; // busqueda sin rango de fechas
+		if((texto != null) && (nombre == null) && (inicio == null)) opcion = 4; // busqueda solo por texto
+		if((nombre != null) && (texto == null) && (inicio == null)) opcion = 5; // busqueda solo por nombre
+		if((inicio != null) && (texto == null) && (nombre == null)) opcion = 6; // busqueda solo por rango de fechas
+		
 		for(Mensaje m : mensajes) {
-			if((m.getTexto().contains(texto)) && (m.getUsuario().getNombre().equals(nombre)) && (m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))) {
-				mensajesEncontrados.add(m);
+			switch(opcion) {
+			case 0: 
+				if((m.getTexto().contains(texto)) && (m.getUsuario().getNombre().equals(nombre)) && (m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+			case 1:
+				if((m.getUsuario().getNombre().equals(nombre)) && (m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+			case 2: 
+				if((m.getTexto().contains(texto)) && (m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+			case 3:
+				if((m.getTexto().contains(texto)) && (m.getUsuario().getNombre().equals(nombre))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+			case 4:
+				if((m.getTexto().contains(texto))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+			case 5:
+				if( (m.getUsuario().getNombre().equals(nombre))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+				
+			case 6:
+				if((m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))) {
+					mensajesEncontrados.add(m);
+				}
+				break;
+			
 			}
 		}
+		
 		return mensajesEncontrados;
 	}
 	

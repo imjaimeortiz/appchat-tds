@@ -6,7 +6,6 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import modelo.CatalogoUsuarios;
@@ -24,6 +23,7 @@ import persistencia.IAdaptadorContactoIndividualDAO;
 import persistencia.IAdaptadorGrupoDAO;
 import persistencia.IAdaptadorMensajeDAO;
 import persistencia.IAdaptadorUsuarioDAO;
+import informacionUso.Graficos;
 
 public class ControladorChat {
 
@@ -33,6 +33,7 @@ public class ControladorChat {
 	private IAdaptadorContactoIndividualDAO adaptadorContactoIndividual;
 	private IAdaptadorGrupoDAO adaptadorGrupo;
 	private IAdaptadorMensajeDAO adaptadorMensaje;
+	private Graficos graficos;
 
 	private CatalogoUsuarios catalogoUsuarios;
 
@@ -209,7 +210,7 @@ public class ControladorChat {
 			adaptadorMensaje.registrarMensaje(mensaje1);
 
 		}*/
-		receptor.addMensaje(mensaje);
+		//receptor.addMensaje(mensaje);
 		adaptadorMensaje.registrarMensaje(mensaje);
 		adaptadorGrupo.modificarGrupo((Grupo)receptor);
 	}
@@ -241,6 +242,7 @@ public class ControladorChat {
 	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
 		LocalDateTime i = null;
 		LocalDateTime f = null;
+		
 		if (inicio != null && fin != null) {
 			i = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 			f = fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -252,32 +254,20 @@ public class ControladorChat {
 		}
 	}
 	
-	/*public LinkedList<Mensaje> buscarMensaje(Contacto contacto, String nombre, Date inicio, Date fin){
-		LocalDateTime i = null;
-		LocalDateTime f = null;
-		if(inicio != null && fin != null) {
-			i = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-			f = fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-		}
-		if(contacto instanceof ContactoIndividual) {
-			return ((ContactoIndividual)contacto).buscarMensajes(i, f);
-		}else {
-			return ((Grupo)contacto).buscarMensajes(nombre, i, f);
-		}
-	}
-	
-	public LinkedList<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto){
-		if(contacto instanceof ContactoIndividual) {
-			return ((ContactoIndividual)contacto).buscarMensajes(texto);
-		}else {
-			return ((Grupo)contacto).buscarMensajes(texto, nombre);
-		}
-	}
-	*/
 	
 	public void mostrarEstadisticas(Usuario user) {
 		if(user.isPremium()) {
+			try {
+				graficos.getPngChart(user.getMensajesAno());
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			
+			try {
+				graficos.getPngChartTarta(user.getGruposConMasMensajes());
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
 			
 		}
 	}
