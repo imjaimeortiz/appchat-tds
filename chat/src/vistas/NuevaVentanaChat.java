@@ -114,7 +114,7 @@ public class NuevaVentanaChat {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new VentanaSearchMessage(user, contactoSelected);
+				new VentanaSearchMessage(contactoSelected);
 				
 			}
 		});
