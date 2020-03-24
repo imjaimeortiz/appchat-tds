@@ -225,7 +225,7 @@ public class NuevaVentanaChat {
 				
 				JMenuItem mitemEstadisticas = new JMenuItem("Mostrar estadísticas");
 				popupMenu.add(mitemEstadisticas);
-				//ControladorChat.mostrarEstadisticas(user)
+				ControladorChat.mostrarEstadisticas(user);
 				
 				JMenuItem mitemPDF = new JMenuItem("Generar PDF");
 				popupMenu.add(mitemPDF);				

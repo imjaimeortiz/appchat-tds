@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public abstract class Contacto {
 	private int codigo;
@@ -96,12 +97,8 @@ public abstract class Contacto {
 	
 	//busqueda para contactos individuales por texto y rango de fechas
 	public List<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
-		List<Mensaje> mensajesEncontrados = new LinkedList<Mensaje>();
-		for(Mensaje m : mensajes) {
-			if((m.getTexto().contains(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin)) ) {
-				mensajesEncontrados.add(m);
-			}
-		}
+		List<Mensaje> mensajesEncontrados = mensajes.stream().filter(m -> ((m.getTexto().contains(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))))
+				.collect(Collectors.toList());
 		return mensajesEncontrados;
 	}
 	

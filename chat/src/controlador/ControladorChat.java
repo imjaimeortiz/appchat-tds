@@ -33,7 +33,7 @@ public class ControladorChat {
 	private IAdaptadorContactoIndividualDAO adaptadorContactoIndividual;
 	private IAdaptadorGrupoDAO adaptadorGrupo;
 	private IAdaptadorMensajeDAO adaptadorMensaje;
-	private Graficos graficos;
+	private static Graficos graficos;
 
 	private CatalogoUsuarios catalogoUsuarios;
 
@@ -74,7 +74,7 @@ public class ControladorChat {
 	}
 
 	// Obtener los contactos de un usuario
-	public LinkedList<Contacto> recuperarContactos(Usuario user) {
+	public List<Contacto> recuperarContactos(Usuario user) {
 		return user.recuperarContactos(user);
 	}
 	
@@ -83,11 +83,7 @@ public class ControladorChat {
 				.filter(c -> (c instanceof ContactoIndividual))
 				.collect(Collectors.toList());
 		return contactos;
-		/*LinkedList<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>();
-		for (Contacto contacto : recuperarContactos(user)) {
-			if (contacto instanceof ContactoIndividual) contactos.add((ContactoIndividual) contacto);
-		}
-		return contactos;*/
+		
 	}
 	
 	// comprobar si existe el tlf
@@ -194,23 +190,7 @@ public class ControladorChat {
 			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) receptor);
 		
 	} else {
-		/*LinkedList<ContactoIndividual> contactos = (LinkedList<ContactoIndividual>) ((Grupo) receptor).getContactos();
-		for (ContactoIndividual contactoIndividual : contactos) {
-			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) contactoIndividual.getUsuario().buscarEmisor(emisor);
-			if(contactoDelEmisorEnElReceptor== null) {
-				for(ContactoIndividual ci : ((Grupo) receptor).getContactos()) {
-					contactoDelEmisorEnElReceptor = ci.getUsuario().addContacto(emisor.getMovil(), emisor.getMovil(), emisor);
-					adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
-					adaptadorUsuario.modificarUsuario(ci.getUsuario());
-				}
-			}
-			
-			mensaje1 = contactoIndividual.getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, contactoIndividual, contactoDelEmisorEnElReceptor);
-			contactoDelEmisorEnElReceptor.addMensaje(mensaje1);
-			adaptadorMensaje.registrarMensaje(mensaje1);
-
-		}*/
-		//receptor.addMensaje(mensaje);
+		
 		adaptadorMensaje.registrarMensaje(mensaje);
 		adaptadorGrupo.modificarGrupo((Grupo)receptor);
 	}
@@ -255,7 +235,7 @@ public class ControladorChat {
 	}
 	
 	
-	public void mostrarEstadisticas(Usuario user) {
+	public static void mostrarEstadisticas(Usuario user) {
 		if(user.isPremium()) {
 			try {
 				graficos.getPngChart(user.getMensajesAno());

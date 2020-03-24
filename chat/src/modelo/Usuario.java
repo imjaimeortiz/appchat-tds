@@ -150,21 +150,12 @@ public class Usuario {
 	}
 	
 	//recuperar los contactos
-	public LinkedList<Contacto> recuperarContactos(Usuario user){
-		LinkedList<Contacto> contactos = new LinkedList<Contacto>();
-		user.getContactos().stream().forEach(contacto -> contactos.add(contacto));
+	public List<Contacto> recuperarContactos(Usuario user){
+		List<Contacto> contactos = user.getContactos().stream().collect(Collectors.toList());
 		return contactos;
 	}
 	
-	/*public LinkedList<Contacto> recuperarContactos(Usuario user) {
-		LinkedList<Contacto> contactos = new LinkedList<Contacto>();
-		for(Contacto c : user.getContactos()) {
-			//if(c instanceof ContactoIndividual)
-				contactos.add(c);	
-			
-		}
-		return contactos;
-	}*/
+
 
 	//Añadir un nuevo grupo
 	public Grupo addGrupo(String nombre, LinkedList<ContactoIndividual> miembros) {
@@ -198,16 +189,7 @@ public class Usuario {
 		}
 	}
 	
-	/*public void abandonarGrupo(Grupo grupo) {
-		for (ContactoIndividual c : grupo.getContactos()) {
-			if (c.getMovil().equals(this.getMovil())) {
-				grupo.removeContacto(c);
-			}
-		}
-		if (grupo.getAdmin().equals(this) && grupo.getContactos().size() > 0) {
-			grupo.setAdmin(grupo.getContactos().get(0).getUsuario());
-		}
-	}*/
+	
 	
 	public Mensaje enviarMensajeEmisor(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto receptor) {
 		

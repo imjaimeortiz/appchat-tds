@@ -83,12 +83,6 @@ public class Grupo extends Contacto {
 		
 	}
 	
-	/*public void addContactos(List<ContactoIndividual> nuevos) {
-		for (ContactoIndividual contacto : nuevos) {
-			this.addContacto(contacto);
-			contacto.getUsuario().addGrupo(this);
-		}
-	}*/
 
 	public void removeContacto(ContactoIndividual contactoIndividual) {
 		contactos.remove(contactoIndividual);
@@ -101,12 +95,7 @@ public class Grupo extends Contacto {
 			contacto.getUsuario().removeGrupo(this);
 		});
 	}
-	/*public void removeContactos(List<ContactoIndividual> eliminados) {
-		for (ContactoIndividual contacto : eliminados) {
-			this.removeContacto(contacto);
-			contacto.getUsuario().removeGrupo(this);
-	}
-	}*/
+	
 	
 
 }

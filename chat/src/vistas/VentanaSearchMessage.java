@@ -10,7 +10,8 @@ import modelo.Mensaje;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.LinkedList;
+import java.util.ArrayList;
+
 
 import javax.swing.JTextField;
 
@@ -117,7 +118,7 @@ public class VentanaSearchMessage {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// filtrar por fecha
-				LinkedList<Mensaje> mensajes = (LinkedList<Mensaje>) ControladorChat.getUnicaInstancia().buscarMensaje(c, textField_1.getText(), textField.getText(), dateChooserMin.getDate(), dateChooserMax.getDate());
+				ArrayList<Mensaje> mensajes = (ArrayList<Mensaje>) ControladorChat.getUnicaInstancia().buscarMensaje(c, textField_1.getText(), textField.getText(), dateChooserMin.getDate(), dateChooserMax.getDate());
 					for (Mensaje m : mensajes) {
 						listModel.addElement(m.getContacto().getNombre() + "	" + m.getUsuario().getNombre() + "	" + m.getTexto() + "	" + m.getHora().toString());
 					
