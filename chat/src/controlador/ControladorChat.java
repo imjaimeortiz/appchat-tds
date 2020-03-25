@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import cargador.CargadorMensajes;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
@@ -17,6 +18,7 @@ import modelo.DescuentoMensajes;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
+import modelo.Plataforma;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorContactoIndividualDAO;
@@ -250,6 +252,22 @@ public class ControladorChat {
 			}
 			
 		}
+	}
+	
+	public void cargarMensajes(String file, String SO) {
+		Plataforma plataforma = null;
+		int tipo = 0;
+		if(SO.equals("Android 1")) {
+			plataforma = Plataforma.ANDROID;
+			tipo = 1;
+		}else if (SO.equals("Android 2")) {
+			plataforma = Plataforma.ANDROID;
+		}else {
+			plataforma = Plataforma.IOS;
+		}
+		
+		CargadorMensajes cm = new CargadorMensajes();
+		cm.convertirMensajes(file, plataforma, tipo);
 	}
 	
 	/*public void generarPDF(Usuario user) {
