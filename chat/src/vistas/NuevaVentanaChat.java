@@ -17,8 +17,10 @@ import modelo.Contacto;
 import modelo.ContactoIndividual;
 import modelo.Grupo;
 import modelo.Usuario;
+import pulsador.Luz;
 
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import java.awt.event.ActionEvent;
@@ -26,6 +28,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.CardLayout;
@@ -95,9 +98,9 @@ public class NuevaVentanaChat {
 		gbc_panelBotones.gridy = 0;
 		frame.getContentPane().add(panelBotones, gbc_panelBotones);
 		GridBagLayout gbl_panelBotones = new GridBagLayout();
-		gbl_panelBotones.columnWidths = new int[]{59, 100, 49, 49, 117, 0, 0, 49, 0, 0, 0};
+		gbl_panelBotones.columnWidths = new int[]{59, 100, 49, 49, 117, 0, 0, 49, 0, 0, 0, 0};
 		gbl_panelBotones.rowHeights = new int[]{25, 0};
-		gbl_panelBotones.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panelBotones.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotones.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelBotones.setLayout(gbl_panelBotones);
 		
@@ -248,15 +251,6 @@ public class NuevaVentanaChat {
 		panelBotones.add(btnContact, gbc_btnContact);
 		btnContact.setVisible(false);
 		
-		JButton btnNewButton_1 = new JButton("");
-		GridBagConstraints gbc_btnNewButton_1 = new GridBagConstraints();
-		gbc_btnNewButton_1.fill = GridBagConstraints.BOTH;
-		gbc_btnNewButton_1.insets = new Insets(0, 0, 0, 5);
-		gbc_btnNewButton_1.gridx = 7;
-		gbc_btnNewButton_1.gridy = 0;
-		panelBotones.add(btnNewButton_1, gbc_btnNewButton_1);
-		btnNewButton_1.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/order.png")));
-		
 		btnDelete = new JButton("");
 		btnDelete.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -265,10 +259,34 @@ public class NuevaVentanaChat {
 				chat.eliminarMensajes();
 			}
 		});
+		
+
+		Luz luz = new Luz();
+		GridBagConstraints gbc_luz = new GridBagConstraints();
+		gbc_luz.insets = new Insets(0, 0, 0, 5);
+		gbc_luz.gridx = 8;
+		gbc_luz.gridy = 0;
+		panelBotones.add(luz, gbc_luz);
+		luz.addEncendidoListener(e -> {
+			JFileChooser chooser = new JFileChooser();
+			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			chooser.showOpenDialog(frame.getContentPane());
+			File file = chooser.getSelectedFile();
+			if (file != null) {
+				VentanaWhatsapp vw = new VentanaWhatsapp(file.getPath());
+				vw.setModal(true);
+				vw.setVisible(true);
+				Chats chat = mapa.get(contactoSelected.toString());
+				chat.eliminarMensajes();
+				chat.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(contactoSelected));
+			}
+		});
+		luz.setVisible(false);
+		
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
 		gbc_btnDelete.fill = GridBagConstraints.BOTH;
 		gbc_btnDelete.insets = new Insets(0, 0, 0, 5);
-		gbc_btnDelete.gridx = 8;
+		gbc_btnDelete.gridx = 9;
 		gbc_btnDelete.gridy = 0;
 		panelBotones.add(btnDelete, gbc_btnDelete);
 		btnDelete.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/delete-button.png")));
@@ -276,7 +294,7 @@ public class NuevaVentanaChat {
 		btnOptions = new JButton("");
 		GridBagConstraints gbc_btnOptions = new GridBagConstraints();
 		gbc_btnOptions.fill = GridBagConstraints.BOTH;
-		gbc_btnOptions.gridx = 9;
+		gbc_btnOptions.gridx = 10;
 		gbc_btnOptions.gridy = 0;
 		panelBotones.add(btnOptions, gbc_btnOptions);
 		btnOptions.addActionListener(new ActionListener() {
