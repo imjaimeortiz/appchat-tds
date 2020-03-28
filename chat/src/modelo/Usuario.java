@@ -2,11 +2,14 @@ package modelo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import informacionUso.Pdf;
 
 public class Usuario {
 	private int codigo;
@@ -239,25 +242,31 @@ public class Usuario {
 		return gruposMasMensajes;
 	}
 	
-	
-	
-	public int getMensajesEnviadosUltimoMes() {
-		int cont = 0;
-		//List<String> contactosToPdf = new LinkedList<String>();
-
+	public void informacionPdf() {
+		List<String> contactosynumeros = new ArrayList<String>();
 		for(Contacto c : contactos) {
-			cont += c.getMensajesEnviados(this);
+			if(c instanceof ContactoIndividual) {
+				String contactoi = ((ContactoIndividual) c).getMovil() + c.getNombre();
+				contactosynumeros.add(contactoi);
+				
+			}else {
+				String nombreg ="Contactos del grupo: " + ((Grupo)c).getNombre() + ":";
+				contactosynumeros.add(nombreg);
+				for(ContactoIndividual ci : ((Grupo) c).getContactos()) {
+					String contactog = ci.getMovil() + ci.getNombre();
+					contactosynumeros.add(contactog);
+				}
+				String finGrupo = "FIN DEL GRUPO";
+						contactosynumeros.add(finGrupo);
+				
+				
+			}
 		}
-
-		return cont;
-	
 		
-
+		Pdf pdf = new Pdf();
+		pdf.crearPdf(contactosynumeros);
 	}
 	
-
-	
-
 	
 	
 
