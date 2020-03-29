@@ -1,7 +1,5 @@
 package cargador;
 
-import java.io.File;
-import java.util.List;
 import java.util.Vector;
 
 import modelo.Plataforma;

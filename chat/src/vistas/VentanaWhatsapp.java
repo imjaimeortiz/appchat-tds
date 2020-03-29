@@ -1,12 +1,9 @@
 package vistas;
 
 import java.awt.BorderLayout;
-import java.awt.EventQueue;
-import java.io.File;
 
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.border.EmptyBorder;
 
 import controlador.ControladorChat;
 
@@ -23,12 +20,17 @@ import java.awt.event.ActionListener;
 
 public class VentanaWhatsapp extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String filePath;
 	/**
 	 * Create the application.
 	 */
 	public VentanaWhatsapp(String filePath) {
 		this.filePath = filePath;
+		System.out.println(filePath);
 		initialize();
 	}
 
