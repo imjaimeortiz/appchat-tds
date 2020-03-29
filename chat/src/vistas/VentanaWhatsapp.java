@@ -30,7 +30,6 @@ public class VentanaWhatsapp extends JDialog {
 	 */
 	public VentanaWhatsapp(String filePath) {
 		this.filePath = filePath;
-		System.out.println(filePath);
 		initialize();
 	}
 
