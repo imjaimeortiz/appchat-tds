@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
+import com.itextpdf.text.DocumentException;
+
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 
@@ -29,6 +31,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import java.awt.CardLayout;
@@ -68,8 +71,10 @@ public class NuevaVentanaChat {
 
 	/**
 	 * Initialize the contents of the frame.
+	 * @throws DocumentException 
+	 * @throws FileNotFoundException 
 	 */
-	private void initialize() {
+	private void initialize() throws FileNotFoundException, DocumentException {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 577, 360);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
