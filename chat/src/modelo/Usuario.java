@@ -1,5 +1,6 @@
 package modelo;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -8,6 +9,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.itextpdf.text.DocumentException;
 
 import informacionUso.Pdf;
 
@@ -219,9 +222,19 @@ public class Usuario {
 		
 	}
 	
+	public int getMensajesEnviadosUltimoMes() {
+		int cont = 0;
+		for(Contacto c : contactos) {
+			cont += c.getMensajesEnviados(this);
+		}
 
+		return cont;
 	
+		
+
+	}
 	
+
 	
 	public Integer[] getMensajesAno() {
 		Integer[] mensajesMes = {0,0,0,0,0,0,0,0,0,0,0,0};
@@ -242,7 +255,7 @@ public class Usuario {
 		return gruposMasMensajes;
 	}
 	
-	public void informacionPdf() {
+	public void informacionPdf() throws FileNotFoundException, DocumentException {
 		List<String> contactosynumeros = new ArrayList<String>();
 		for(Contacto c : contactos) {
 			if(c instanceof ContactoIndividual) {

@@ -228,10 +228,12 @@ public class NuevaVentanaChat {
 				
 				JMenuItem mitemEstadisticas = new JMenuItem("Mostrar estadísticas");
 				popupMenu.add(mitemEstadisticas);
-				ControladorChat.mostrarEstadisticas(user);
+				ControladorChat.getUnicaInstancia().mostrarEstadisticas(user);
 				
 				JMenuItem mitemPDF = new JMenuItem("Generar PDF");
-				popupMenu.add(mitemPDF);				
+				popupMenu.add(mitemPDF);
+				ControladorChat.getUnicaInstancia().generarPDF(user);
+				
 				
 				JMenuItem mitemCerrarSesion = new JMenuItem("Cerrar sesión");
 				popupMenu.add(mitemCerrarSesion);

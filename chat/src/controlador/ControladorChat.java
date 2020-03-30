@@ -1,5 +1,6 @@
 package controlador;
 
+import java.io.FileNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -7,6 +8,8 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import com.itextpdf.text.DocumentException;
 
 import cargador.CargadorMensajes;
 import modelo.CatalogoUsuarios;
@@ -237,7 +240,7 @@ public class ControladorChat {
 	}
 	
 	
-	public static void mostrarEstadisticas(Usuario user) {
+	public void mostrarEstadisticas(Usuario user) {
 		if(user.isPremium()) {
 			try {
 				graficos.getPngChart(user.getMensajesAno());
@@ -253,6 +256,12 @@ public class ControladorChat {
 			
 		}
 	}
+	
+	public void generarPDF(Usuario user) throws FileNotFoundException, DocumentException {
+	if (user.isPremium()) {
+		user.informacionPdf();
+	}
+}
 	
 	public void cargarMensajes(String file, String SO) {
 		Plataforma plataforma = null;
@@ -270,11 +279,7 @@ public class ControladorChat {
 		cm.convertirMensajes(file, plataforma, tipo);
 	}
 	
-	/*public void generarPDF(Usuario user) {
-		if (user.isPremium()) {
-			user.generarPDF();
-		}
-	}*/
+	
 	
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
@@ -297,10 +302,7 @@ public class ControladorChat {
 		return catalogoUsuarios.getUsuarios();
 	}
 
-	/*public List<Contacto> getTodosContactos(Usuario user) {
-		return user.getContactos();
-		
-	}*/
+	
 
 	public LinkedList<String> getGruposComun(Usuario user, ContactoIndividual c) {
 		LinkedList<String> gruposComun = new LinkedList<>();
