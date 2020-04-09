@@ -43,11 +43,11 @@ public class ControladorChat {
 	private CatalogoUsuarios catalogoUsuarios;
 
 	private ControladorChat() {
-		
+
 		inicializarAdaptadores(); // debe ser la primera linea para evitar error
-								  // de sincronización
+									// de sincronización
 		inicializarCatalogos();
-		
+
 	}
 
 	public static ControladorChat getUnicaInstancia() {
@@ -56,24 +56,22 @@ public class ControladorChat {
 		return unicaInstancia;
 	}
 
-	
-	
-	//registrar un usuario
-	public boolean addUsuario(String nombre, Date fechaNacimiento, String movil,String nick, String contrasena) {
+	// registrar un usuario
+	public boolean addUsuario(String nombre, Date fechaNacimiento, String movil, String nick, String contrasena) {
 		if (catalogoUsuarios.getUsuario(nick) == null && !catalogoUsuarios.existeTlf(movil)) {
 			Usuario usuario = catalogoUsuarios.addUsuario(nombre, fechaNacimiento, movil, nick, contrasena);
 			adaptadorUsuario.registrarUsuario(usuario);
 			return true;
 		}
-		//si ya existe un usuario con ese nick o ese movil
+		// si ya existe un usuario con ese nick o ese movil
 		return false;
 	}
-	
+
 	// COMPROBAR USUARIO
 	public boolean usuarioTrue(String nombre, String contraseña) {
 		return catalogoUsuarios.usuarioTrue(nombre, contraseña);
 	}
-	
+
 	public Usuario recuperarUsuario(String nick) {
 		return catalogoUsuarios.getUsuario(nick);
 	}
@@ -82,30 +80,29 @@ public class ControladorChat {
 	public List<Contacto> recuperarContactos(Usuario user) {
 		return user.recuperarContactos(user);
 	}
-	
+
 	public List<Contacto> recuperarContactosIndividuales(Usuario user) {
-		List<Contacto> contactos = recuperarContactos(user).stream()
-				.filter(c -> (c instanceof ContactoIndividual))
+		List<Contacto> contactos = recuperarContactos(user).stream().filter(c -> (c instanceof ContactoIndividual))
 				.collect(Collectors.toList());
 		return contactos;
-		
+
 	}
-	
+
 	// comprobar si existe el tlf
 	public boolean existeTlf(String movil) {
 		return catalogoUsuarios.existeTlf(movil);
 	}
-	
-	//añadir un contacto
+
+	// añadir un contacto
 	public void addContacto(Usuario usuario, String movil, String nombre) {
 		Usuario u = catalogoUsuarios.buscarUsuarioDelMovil(movil);
 		ContactoIndividual contactoi = usuario.addContacto(nombre, movil, u);
 		adaptadorContactoIndividual.registrarContactoIndividual(contactoi);
 		adaptadorUsuario.modificarUsuario(usuario);
-		
+
 	}
-	
-	//crear un grupo
+
+	// crear un grupo
 	public void addGrupo(Usuario admin, Grupo grupo) {
 		adaptadorGrupo.registrarGrupo(grupo);
 		admin.addGrupo(grupo);
@@ -118,27 +115,26 @@ public class ControladorChat {
 			}
 		}
 	}
-	
-	//eliminar un grupo
+
+	// eliminar un grupo
 	public void removeGrupo(Usuario usuario, Grupo grupo) {
 		usuario.removeGrupo(grupo);
 		usuario.removeGrupoAdmin(grupo);
 		adaptadorUsuario.modificarUsuario(usuario);
 		eliminarContactosGrupo(grupo, grupo.getContactos());
-		adaptadorGrupo.borrarGrupo(grupo);		
+		adaptadorGrupo.borrarGrupo(grupo);
 	}
-	
+
 	public void setImage(String path, Usuario user) {
 		user.setImagen(path);
 		adaptadorUsuario.modificarUsuario(user);
 	}
-	
+
 	public void modificarGrupo(Grupo grupo) {
 		adaptadorGrupo.modificarGrupo(grupo);
 	}
-	
-	
-	//abandonar un grupo
+
+	// abandonar un grupo
 	public void abandonarGrupo(Usuario usuario, Grupo g) {
 		usuario.abandonarGrupo(g);
 		usuario.removeGrupo(g);
@@ -146,88 +142,90 @@ public class ControladorChat {
 		adaptadorGrupo.modificarGrupo(g);
 	}
 
-	//añadir contactos a un grupo
+	// añadir contactos a un grupo
 	public void agregarContactosGrupo(Grupo group, List<ContactoIndividual> nuevos) {
 		group.addContactos(nuevos);
 		adaptadorGrupo.modificarGrupo(group);
 		catalogoUsuarios.modificarUsuarios(nuevos);
 	}
 
-	//eliminar contactos de un grupo
+	// eliminar contactos de un grupo
 	public void eliminarContactosGrupo(Grupo group, List<ContactoIndividual> eliminados) {
 		group.removeContactos(eliminados);
 		adaptadorGrupo.modificarGrupo(group);
 		catalogoUsuarios.modificarUsuarios(eliminados);
 	}
-	
-	//cambiar nombre del grupo
+
+	// cambiar nombre del grupo
 	public void actualizarNombreGrupo(Grupo group, String text) {
 		group.setNombre(text);
 		adaptadorGrupo.modificarGrupo(group);
 	}
-	
+
 	public List<ContactoIndividual> miembrosGrupo(Grupo g) {
 		return g.getContactos();
 	}
-	
-	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto receptor) {
-	
-	//guardar el mensaje en el contacto receptor del emisor
-	Mensaje mensaje = emisor.enviarMensajeEmisor(texto, localDate, emoticono, emisor, receptor);
-	Mensaje mensaje1;
-	
-	if (receptor instanceof ContactoIndividual) {
-		ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) receptor).getUsuario().buscarEmisor(emisor);
-		
-		if (contactoDelEmisorEnElReceptor== null) {
-			//si el receptor no tiene el contacto del emisor se crea
-			contactoDelEmisorEnElReceptor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
-			((ContactoIndividual) receptor).getUsuario().addContacto(contactoDelEmisorEnElReceptor);
-			adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
-			adaptadorUsuario.modificarUsuario(((ContactoIndividual) receptor).getUsuario());	
-		}
+
+	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor,
+			Contacto receptor) {
+
+		// guardar el mensaje en el contacto receptor del emisor
+		Mensaje mensaje = emisor.enviarMensajeEmisor(texto, localDate, emoticono, emisor, receptor);
+		Mensaje mensaje1;
+
+		if (receptor instanceof ContactoIndividual) {
+			ContactoIndividual contactoDelEmisorEnElReceptor = (ContactoIndividual) ((ContactoIndividual) receptor)
+					.getUsuario().buscarEmisor(emisor);
+
+			if (contactoDelEmisorEnElReceptor == null) {
+				// si el receptor no tiene el contacto del emisor se crea
+				contactoDelEmisorEnElReceptor = new ContactoIndividual(emisor.getMovil(), emisor.getMovil(), emisor);
+				((ContactoIndividual) receptor).getUsuario().addContacto(contactoDelEmisorEnElReceptor);
+				adaptadorContactoIndividual.registrarContactoIndividual(contactoDelEmisorEnElReceptor);
+				adaptadorUsuario.modificarUsuario(((ContactoIndividual) receptor).getUsuario());
+			}
 			// guardar mensaje en el contacto emisor del receptor
-			mensaje1 = ((ContactoIndividual) receptor).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) receptor, contactoDelEmisorEnElReceptor);
-			
+			mensaje1 = ((ContactoIndividual) receptor).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor,
+					(ContactoIndividual) receptor, contactoDelEmisorEnElReceptor);
+
 			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
 			adaptadorMensaje.registrarMensaje(mensaje);
 			adaptadorMensaje.registrarMensaje(mensaje1);
 			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) receptor);
-		
-	} else {
-		
-		adaptadorMensaje.registrarMensaje(mensaje);
-		adaptadorGrupo.modificarGrupo((Grupo)receptor);
-	}
-	return mensaje;
+
+		} else {
+
+			adaptadorMensaje.registrarMensaje(mensaje);
+			adaptadorGrupo.modificarGrupo((Grupo) receptor);
+		}
+		return mensaje;
 
 	}
-	
+
 	public double setPrecioFinal(Usuario user) {
 		double pago = 29.99;
 		LocalDate fechaDescuento = LocalDate.now().minusMonths(4);
 		if (user.getMensajesEnviadosUltimoMes() > 50) {
 			Descuento desc1 = new DescuentoMensajes();
 			return pago - desc1.getDescuento();
-		}
-		else if (user.getFechaRegistro().isBefore(fechaDescuento)) {
+		} else if (user.getFechaRegistro().isBefore(fechaDescuento)) {
 			Descuento desc = new DescuentoFecha();
 			return pago - desc.getDescuento();
 		}
-		
+
 		return pago;
 	}
-	
+
 	public void setPremium(Usuario user) {
 		user.setPremium(true);
 		adaptadorUsuario.modificarUsuario(user);
 	}
-	
-	//busqueda de mensajes por todos los parametros
-	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin){
+
+	// busqueda de mensajes por todos los parametros
+	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin) {
 		LocalDateTime i = null;
 		LocalDateTime f = null;
-		
+
 		if (inicio != null && fin != null) {
 			i = inicio.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
 			f = fin.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
@@ -238,49 +236,54 @@ public class ControladorChat {
 			return contacto.buscarMensajes(texto, nombre, i, f);
 		}
 	}
-	
-	
+
 	public void mostrarEstadisticas(Usuario user) {
-		if(user.isPremium()) {
+		if (user.isPremium()) {
 			try {
 				graficos.getPngChart(user.getMensajesAno());
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 			try {
 				graficos.getPngChartTarta(user.getGruposConMasMensajes());
-			}catch(Exception e) {
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			
+
 		}
 	}
-	
-	public void generarPDF(Usuario user) throws FileNotFoundException, DocumentException {
-	if (user.isPremium()) {
-		user.informacionPdf();
+
+	public void generarPDF(Usuario user)  {
+		if (user.isPremium()) {
+			try {
+				user.informacionPdf();
+			} catch (FileNotFoundException e) {
+
+				e.printStackTrace();
+			} catch (DocumentException e) {
+
+				e.printStackTrace();
+			}
+		}
 	}
-}
-	
+
 	public void cargarMensajes(String file, String SO) {
 		Plataforma plataforma = null;
 		int tipo = 0;
-		if(SO.equals("Android 1")) {
+		if (SO.equals("Android 1")) {
 			plataforma = Plataforma.ANDROID;
 			tipo = 1;
-		}else if (SO.equals("Android 2")) {
+		} else if (SO.equals("Android 2")) {
 			plataforma = Plataforma.ANDROID;
-		}else {
+		} else {
 			plataforma = Plataforma.IOS;
 		}
-		
+
 		CargadorMensajes cm = new CargadorMensajes();
 		cm.convertirMensajes(file, plataforma, tipo);
 	}
-	
-	
-	
+
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
 		try {
@@ -302,8 +305,6 @@ public class ControladorChat {
 		return catalogoUsuarios.getUsuarios();
 	}
 
-	
-
 	public LinkedList<String> getGruposComun(Usuario user, ContactoIndividual c) {
 		LinkedList<String> gruposComun = new LinkedList<>();
 		for (Contacto g : user.getContactos())
@@ -320,8 +321,8 @@ public class ControladorChat {
 	public LinkedList<Mensaje> mensajesConContacto(Contacto c) {
 		return (LinkedList<Mensaje>) c.getMensajes();
 	}
-	
-	public LinkedList<Grupo> gruposAdmin (Usuario user) {
+
+	public LinkedList<Grupo> gruposAdmin(Usuario user) {
 		return (LinkedList<Grupo>) user.getGruposAdmin();
 	}
 

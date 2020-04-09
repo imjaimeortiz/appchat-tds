@@ -25,7 +25,7 @@ public class Graficos implements ExampleChart<CategoryChart> {
 		//series
 		chart.addSeries("test 1", Arrays.asList(new Integer[] {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12}),
 				Arrays.asList(valores));
-		BitmapEncoder.saveBitmap(chart, "C:\\histograma.png", BitmapFormat.PNG);
+		BitmapEncoder.saveBitmap(chart, "C:\\Users\\Espin\\Desktop\\esquema.png", BitmapFormat.PNG);
 	}
 	
 	public void getPngChartTarta(Integer[]valores)throws Exception{
@@ -44,7 +44,7 @@ public class Graficos implements ExampleChart<CategoryChart> {
 		}
 		chart.getStyler().setLegendPosition(LegendPosition.InsideNW);
 		chart.getStyler().setHasAnnotations(true);
-		BitmapEncoder.saveBitmap(chart,"C:\\tarta.png",BitmapFormat.PNG);
+		BitmapEncoder.saveBitmap(chart,"C:\\Users\\Espin\\Desktop\\tarta.png",BitmapFormat.PNG);
 		
 	}
 	

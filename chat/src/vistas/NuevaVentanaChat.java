@@ -74,7 +74,7 @@ public class NuevaVentanaChat {
 	 * @throws DocumentException 
 	 * @throws FileNotFoundException 
 	 */
-	private void initialize() throws FileNotFoundException, DocumentException {
+	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 577, 360);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
