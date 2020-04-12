@@ -64,6 +64,7 @@ public class VentanaWhatsapp extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String SO = (String) comboBox.getSelectedItem();
 				ControladorChat.getUnicaInstancia().cargarMensajes(filePath, SO);
+				//esta comentada en el controlador por eso falla
 			}
 		});
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();

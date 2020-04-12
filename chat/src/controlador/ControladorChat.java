@@ -21,7 +21,6 @@ import modelo.DescuentoMensajes;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
-import modelo.Plataforma;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorContactoIndividualDAO;
@@ -268,7 +267,7 @@ public class ControladorChat {
 		}
 	}
 
-	public void cargarMensajes(String file, String SO) {
+	/* public void cargarMensajes(String file, String SO) {
 		Plataforma plataforma = null;
 		int tipo = 0;
 		if (SO.equals("Android 1")) {
@@ -283,6 +282,7 @@ public class ControladorChat {
 		CargadorMensajes cm = new CargadorMensajes();
 		cm.convertirMensajes(file, plataforma, tipo);
 	}
+	*/
 
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
