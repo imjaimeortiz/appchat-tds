@@ -6,6 +6,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 
 import controlador.ControladorChat;
+import modelo.Plataforma;
 
 import javax.swing.JPanel;
 import java.awt.GridBagLayout;
@@ -63,7 +64,13 @@ public class VentanaWhatsapp extends JDialog {
 		comboBox.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String SO = (String) comboBox.getSelectedItem();
-				//ControladorChat.getUnicaInstancia().cargarMensajes(filePath, SO);
+				if (SO.equals("IOS"))
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.IOS, 0);
+				else if (SO.equals("Android 1"))
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID, 1);
+				else 
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID, 2);
+
 				//esta comentada en el controlador por eso falla
 			}
 		});

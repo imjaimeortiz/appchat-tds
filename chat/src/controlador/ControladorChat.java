@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.itextpdf.text.DocumentException;
+
+import cargador.CargadorMensajes;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
@@ -19,6 +21,7 @@ import modelo.DescuentoMensajes;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
+import modelo.Plataforma;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
 import persistencia.IAdaptadorContactoIndividualDAO;
@@ -30,7 +33,8 @@ import informacionUso.Graficos;
 public class ControladorChat {
 
 	private static ControladorChat unicaInstancia;
-
+	public static Usuario usuarioActual = null;
+	
 	private IAdaptadorUsuarioDAO adaptadorUsuario;
 	private IAdaptadorContactoIndividualDAO adaptadorContactoIndividual;
 	private IAdaptadorGrupoDAO adaptadorGrupo;
@@ -58,6 +62,7 @@ public class ControladorChat {
 		if (catalogoUsuarios.getUsuario(nick) == null && !catalogoUsuarios.existeTlf(movil)) {
 			Usuario usuario = catalogoUsuarios.addUsuario(nombre, fechaNacimiento, movil, nick, contrasena);
 			adaptadorUsuario.registrarUsuario(usuario);
+			usuarioActual = usuario;
 			return true;
 		}
 		// si ya existe un usuario con ese nick o ese movil
@@ -66,6 +71,7 @@ public class ControladorChat {
 
 	// COMPROBAR USUARIO
 	public boolean usuarioTrue(String nombre, String contraseña) {
+		usuarioActual = recuperarUsuario(nombre);
 		return catalogoUsuarios.usuarioTrue(nombre, contraseña);
 	}
 
@@ -163,8 +169,7 @@ public class ControladorChat {
 		return g.getContactos();
 	}
 
-	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor,
-			Contacto receptor) {
+	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto receptor) {
 
 		// guardar el mensaje en el contacto receptor del emisor
 		Mensaje mensaje = emisor.enviarMensajeEmisor(texto, localDate, emoticono, emisor, receptor);
@@ -265,21 +270,12 @@ public class ControladorChat {
 		}
 	}
 
-	/* public void cargarMensajes(String file, String SO) {
-		Plataforma plataforma = null;
-		int tipo = 0;
-		if (SO.equals("Android 1")) {
-			plataforma = Plataforma.ANDROID;
-			tipo = 1;
-		} else if (SO.equals("Android 2")) {
-			plataforma = Plataforma.ANDROID;
-		} else {
-			plataforma = Plataforma.IOS;
-		}
-
-		CargadorMensajes cm = new CargadorMensajes();
-		cm.convertirMensajes(file, plataforma, tipo);
-	}*/
+	 public void cargarMensajes(String file, Plataforma SO, int tipo) {
+		CargadorMensajes cargador = new CargadorMensajes();
+		CargadorMensajesListener cargadorListener = new CargadorMensajesListener();
+		cargador.addMensajeListener(cargadorListener);
+		cargador.convertirMensajes(file, SO, tipo);
+	}
 	
 
 	private void inicializarAdaptadores() {

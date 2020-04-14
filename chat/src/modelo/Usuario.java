@@ -280,7 +280,13 @@ public class Usuario {
 		pdf.crearPdf(contactosynumeros);
 	}
 	
-	
+	public ContactoIndividual buscarContactoPorNombre(String nombre) {
+		for (Contacto c : contactos) {
+			if (c instanceof ContactoIndividual && c.getNombre().equals(nombre))
+				return (ContactoIndividual) c;
+		}
+		return null;
+	}
 	
 
 }
