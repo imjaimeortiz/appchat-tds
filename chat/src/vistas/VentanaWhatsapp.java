@@ -63,7 +63,7 @@ public class VentanaWhatsapp extends JDialog {
 		comboBox.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String SO = (String) comboBox.getSelectedItem();
-				ControladorChat.getUnicaInstancia().cargarMensajes(filePath, SO);
+				//ControladorChat.getUnicaInstancia().cargarMensajes(filePath, SO);
 				//esta comentada en el controlador por eso falla
 			}
 		});

@@ -10,8 +10,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.itextpdf.text.DocumentException;
-
-import cargador.CargadorMensajes;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
@@ -281,8 +279,8 @@ public class ControladorChat {
 
 		CargadorMensajes cm = new CargadorMensajes();
 		cm.convertirMensajes(file, plataforma, tipo);
-	}
-	*/
+	}*/
+	
 
 	private void inicializarAdaptadores() {
 		FactoriaDAO factoria = null;
