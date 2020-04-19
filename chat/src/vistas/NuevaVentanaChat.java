@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 
+import com.itextpdf.awt.geom.Dimension;
 import com.itextpdf.text.DocumentException;
 
 import java.awt.Component;
@@ -38,6 +39,7 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.Toolkit;
 
 public class NuevaVentanaChat {
 
@@ -46,7 +48,6 @@ public class NuevaVentanaChat {
 	private JButton btnSearch;
 	private JButton btnContact;
 	private JButton btnDelete;
-	private JButton btnOptions;
 
 	private Usuario user;
 	private Contacto contactoSelected;
@@ -75,8 +76,12 @@ public class NuevaVentanaChat {
 	 * @throws FileNotFoundException 
 	 */
 	private void initialize() {
+		Toolkit t = Toolkit.getDefaultToolkit();
+		java.awt.Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+
 		frame = new JFrame();
-		frame.setBounds(100, 100, 577, 360);
+		frame.setResizable(false);
+		frame.setBounds(50, 50, (int)screenSize.getWidth()-100, (int)screenSize.getHeight()-100);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{200, 300, 0};
@@ -103,9 +108,9 @@ public class NuevaVentanaChat {
 		gbc_panelBotones.gridy = 0;
 		frame.getContentPane().add(panelBotones, gbc_panelBotones);
 		GridBagLayout gbl_panelBotones = new GridBagLayout();
-		gbl_panelBotones.columnWidths = new int[]{59, 100, 49, 49, 117, 0, 0, 49, 0, 0, 0, 0};
+		gbl_panelBotones.columnWidths = new int[]{59, 100, 49, 49, 117, 0, 0, 49, 0, 0, 0};
 		gbl_panelBotones.rowHeights = new int[]{25, 0};
-		gbl_panelBotones.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_panelBotones.columnWeights = new double[]{1.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 1.0, Double.MIN_VALUE};
 		gbl_panelBotones.rowWeights = new double[]{1.0, Double.MIN_VALUE};
 		panelBotones.setLayout(gbl_panelBotones);
 		
@@ -288,27 +293,13 @@ public class NuevaVentanaChat {
 				chat.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(contactoSelected));
 			}
 		});
-		luz.setVisible(false);
 		
 		GridBagConstraints gbc_btnDelete = new GridBagConstraints();
 		gbc_btnDelete.fill = GridBagConstraints.BOTH;
-		gbc_btnDelete.insets = new Insets(0, 0, 0, 5);
 		gbc_btnDelete.gridx = 9;
 		gbc_btnDelete.gridy = 0;
 		panelBotones.add(btnDelete, gbc_btnDelete);
 		btnDelete.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/delete-button.png")));
-		
-		btnOptions = new JButton("");
-		GridBagConstraints gbc_btnOptions = new GridBagConstraints();
-		gbc_btnOptions.fill = GridBagConstraints.BOTH;
-		gbc_btnOptions.gridx = 10;
-		gbc_btnOptions.gridy = 0;
-		panelBotones.add(btnOptions, gbc_btnOptions);
-		btnOptions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnOptions.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource("/vistas/menu.png")));
 				
 		this.list = new JList<Contacto>(listModel);
 		list.addMouseListener( new MouseListener() {

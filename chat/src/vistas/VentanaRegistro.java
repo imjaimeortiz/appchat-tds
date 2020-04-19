@@ -31,6 +31,7 @@ public class VentanaRegistro extends JFrame {
 	private JLabel lblLasContraseasDeben;
 	private JDateChooser dateChooser;
 	private JLabel lblDuplicated;
+	private JLabel lblInvlido;
 
 	/**
 	 * Create the application.
@@ -92,12 +93,22 @@ public class VentanaRegistro extends JFrame {
 		
 		phoneField = new JFormattedTextField();
 		GridBagConstraints gbc_phoneField = new GridBagConstraints();
-		gbc_phoneField.gridwidth = 5;
+		gbc_phoneField.gridwidth = 2;
 		gbc_phoneField.insets = new Insets(0, 0, 5, 5);
 		gbc_phoneField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_phoneField.gridx = 3;
 		gbc_phoneField.gridy = 3;
 		frame.getContentPane().add(phoneField, gbc_phoneField);
+		
+		lblInvlido = new JLabel("Número no válido");
+		lblInvlido.setVisible(false);
+		lblInvlido.setForeground(Color.RED);
+		GridBagConstraints gbc_lblInvlido = new GridBagConstraints();
+		gbc_lblInvlido.gridwidth = 4;
+		gbc_lblInvlido.insets = new Insets(0, 0, 5, 5);
+		gbc_lblInvlido.gridx = 5;
+		gbc_lblInvlido.gridy = 3;
+		frame.getContentPane().add(lblInvlido, gbc_lblInvlido);
 		
 		JLabel lblFechaNacimiento = new JLabel("Fecha nacimiento");
 		GridBagConstraints gbc_lblFechaNacimiento = new GridBagConstraints();
@@ -126,19 +137,21 @@ public class VentanaRegistro extends JFrame {
 		
 		userField = new JFormattedTextField();
 		GridBagConstraints gbc_userField = new GridBagConstraints();
+		gbc_userField.gridwidth = 2;
 		gbc_userField.insets = new Insets(0, 0, 5, 5);
 		gbc_userField.fill = GridBagConstraints.HORIZONTAL;
 		gbc_userField.gridx = 3;
 		gbc_userField.gridy = 5;
 		frame.getContentPane().add(userField, gbc_userField);
 		
-		lblDuplicated = new JLabel("Ya existe un usuario con este nick o movil");
+		lblDuplicated = new JLabel("Nick o teléfono ya existentes");
 		lblDuplicated.setVisible(false);
 		lblDuplicated.setForeground(Color.RED);
 		GridBagConstraints gbc_lblDuplicated = new GridBagConstraints();
-		gbc_lblDuplicated.gridwidth = 5;
-		gbc_lblDuplicated.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDuplicated.gridx = 4;
+		gbc_lblDuplicated.fill = GridBagConstraints.HORIZONTAL;
+		gbc_lblDuplicated.gridwidth = 4;
+		gbc_lblDuplicated.insets = new Insets(0, 0, 5, 0);
+		gbc_lblDuplicated.gridx = 5;
 		gbc_lblDuplicated.gridy = 5;
 		frame.getContentPane().add(lblDuplicated, gbc_lblDuplicated);
 		
@@ -237,19 +250,32 @@ public class VentanaRegistro extends JFrame {
 	}
 	
 	private boolean checkFields() {
+		lblDuplicated.setVisible(false);
+		lblInvlido.setVisible(false);
+		lblLasContraseasDeben.setVisible(false);
+		lblTodosLosCampos.setVisible(false);
+		
 		if ( nameField.getText().isEmpty() ||
 			 phoneField.getText().isEmpty() ||
 			 ControladorChat.getUnicaInstancia().existeTlf(phoneField.getText()) ||
-			 //!ControladorChat.getUnicaInstancia().tlfValid(phoneField.getText()) ||
 			 userField.getText().isEmpty() ||
 			 emailField.getText().isEmpty()) {
 				lblTodosLosCampos.setVisible(true); 
 				return false;
 		}
+		else if (!ControladorChat.getUnicaInstancia().tlfValid(phoneField.getText())) {
+			lblInvlido.setVisible(true);
+			return false;
+		}
 		return true;
 	}
 	
 	private boolean checkPwd() {
+		lblDuplicated.setVisible(false);
+		lblInvlido.setVisible(false);
+		lblLasContraseasDeben.setVisible(false);
+		lblTodosLosCampos.setVisible(false);
+		
 		String pw1 = new String (passwordField.getPassword());
 		String pw2 = new String (passwordField_1.getPassword());
 		if (pw1.equals(pw2)) return true;
