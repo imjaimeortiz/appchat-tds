@@ -2,6 +2,7 @@ package modelo;
 
 import java.time.LocalDateTime;
 
+
 public class Mensaje {
 	private int codigo;
 	private String texto;
