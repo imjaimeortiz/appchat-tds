@@ -14,27 +14,28 @@ public class CargadorMensajesListener implements IMensajesListener {
 	public boolean nuevosMensajes(EventObject event) {
 		List<MensajeWhatsApp> mensajes = ((MensajesEvent) event).getListaMensajes();
 		ContactoIndividual contacto = null;
-		boolean encontrado = false;
-		// recorremos hasta encontrar quien es el contacto con el que se esta hablando
-		for (MensajeWhatsApp mensaje : mensajes) {
-			contacto = ControladorChat.usuarioActual.buscarContactoPorNombre(mensaje.getAutor());
-			if(contacto != null) {
-				encontrado = true;
-				break;
-			}
+
+		// Recuperamos el contacto del mensaje
+		int i = 0;
+		while (i < mensajes.size() && contacto.equals(null)) {
+			contacto = ControladorChat.usuarioActual.buscarContactoPorNombre(mensajes.get(i).getAutor());
 		}
-		if (!encontrado)
+		// si no existe el contacto, no podemos seguir
+		if (contacto.equals(null))
 			return false;
+		
 		ContactoIndividual receptor = null;
 		Usuario emisor = null;
-		encontrado = false;
 		for (MensajeWhatsApp mensaje : mensajes) {
+			// si estamos recibiendo el mensaje del contacto
 			if (mensaje.getAutor().equals(contacto.getNombre())) {
 				emisor = contacto.getUsuario();
 				receptor = emisor.buscarContactoPorNombre(ControladorChat.usuarioActual.getNombre());
-				if(receptor == null) return false;
-
+				// si no nos tiene agregados, no podemos seguir
+				if (receptor == null) 
+					return false;
 			} else {
+				// si estamos enviando nosotros un mensaje como usuario
 				emisor = ControladorChat.usuarioActual;
 				receptor = contacto;
 			}
