@@ -81,6 +81,7 @@ public class Chats extends JPanel {
 		this.pintarMensajes(ControladorChat.getUnicaInstancia().mensajesConContacto(c));
 
 		textArea = new JTextArea();
+		textArea.setFont(textArea.getFont().deriveFont(24f));
 		
 		JPanel panelSend = new JPanel();
 		GridBagConstraints gbc_panelSend = new GridBagConstraints();
@@ -190,15 +191,15 @@ public class Chats extends JPanel {
 		BubbleText b ;
 		if (m.getEmoticono() == -1) {
 		if (m.getUsuario().equals(user))
-			b = new BubbleText(chat, m.getTexto(), Color.GREEN, "Tú", BubbleText.SENT);
+			b = new BubbleText(chat, m.getTexto(), Color.GREEN, "Tú", BubbleText.SENT, 24);
 		else 
-			b = new BubbleText(chat, m.getTexto(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED);
+			b = new BubbleText(chat, m.getTexto(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED, 24);
 		}
 		else {
 			if (m.getUsuario().equals(user))
-				b = new BubbleText(chat, m.getEmoticono(), Color.GREEN, "Tú", BubbleText.SENT, 10);
+				b = new BubbleText(chat, m.getEmoticono(), Color.GREEN, "Tú", BubbleText.SENT, 24);
 			else 
-				b = new BubbleText(chat, m.getEmoticono(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED, 10); 
+				b = new BubbleText(chat, m.getEmoticono(), Color.LIGHT_GRAY, c.getNombre(), BubbleText.RECEIVED, 24); 
 		}
 		chat.add(b);
 		LinkedList<Contacto> listAux = new LinkedList<Contacto>();

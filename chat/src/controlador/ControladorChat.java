@@ -324,4 +324,19 @@ public class ControladorChat {
 		contactoSelected.getMensajes().clear();
 	}
 
+	public void cambiarNombreContacto(Usuario user, Contacto contacto, String nombre) {
+		contacto.setNombre(nombre);
+		if (contacto instanceof ContactoIndividual) {
+			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) contacto);
+			adaptadorUsuario.modificarUsuario(user);
+		} 
+		
+		else {
+			adaptadorGrupo.modificarGrupo((Grupo) contacto);
+			for (ContactoIndividual c : ((Grupo) contacto).getContactos()) {
+				adaptadorUsuario.modificarUsuario(c.getUsuario());
+			}
+		}
+	}
+
 }

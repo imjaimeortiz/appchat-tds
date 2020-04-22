@@ -238,11 +238,21 @@ public class NuevaVentanaChat {
 				
 				JMenuItem mitemEstadisticas = new JMenuItem("Mostrar estadísticas");
 				popupMenu.add(mitemEstadisticas);
-				ControladorChat.getUnicaInstancia().mostrarEstadisticas(user);
+				mitemEstadisticas.addActionListener( new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ControladorChat.getUnicaInstancia().mostrarEstadisticas(user);
+					}
+				});
 				
 				JMenuItem mitemPDF = new JMenuItem("Generar PDF");
 				popupMenu.add(mitemPDF);
-				ControladorChat.getUnicaInstancia().generarPDF(user);
+				mitemPDF.addActionListener( new ActionListener() {
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						ControladorChat.getUnicaInstancia().generarPDF(user);						
+					}
+				});
 				
 				
 				JMenuItem mitemCerrarSesion = new JMenuItem("Cerrar sesión");
@@ -254,7 +264,16 @@ public class NuevaVentanaChat {
 					}
 					
 				});
-		btnContact = new JButton("");
+		
+				btnContact = new JButton("");
+		btnContact.addActionListener( new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				VentanaCambiarNombreContacto vcc = new VentanaCambiarNombreContacto(user, contactoSelected);
+				vcc.setModal(true);
+				vcc.setVisible(true);
+			}
+		});
 		GridBagConstraints gbc_btnContact = new GridBagConstraints();
 		gbc_btnContact.fill = GridBagConstraints.BOTH;
 		gbc_btnContact.insets = new Insets(0, 0, 0, 5);
