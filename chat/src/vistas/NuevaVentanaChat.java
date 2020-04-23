@@ -124,7 +124,6 @@ public class NuevaVentanaChat {
 		
 		btnSearch = new JButton("");
 		btnSearch.addActionListener( new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				new VentanaSearchMessage(contactoSelected);
@@ -265,15 +264,15 @@ public class NuevaVentanaChat {
 					
 				});
 		
-				btnContact = new JButton("");
+		btnContact = new JButton("");
 		btnContact.addActionListener( new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				VentanaCambiarNombreContacto vcc = new VentanaCambiarNombreContacto(user, contactoSelected);
 				vcc.setModal(true);
 				vcc.setVisible(true);
 			}
 		});
+				
 		GridBagConstraints gbc_btnContact = new GridBagConstraints();
 		gbc_btnContact.fill = GridBagConstraints.BOTH;
 		gbc_btnContact.insets = new Insets(0, 0, 0, 5);
