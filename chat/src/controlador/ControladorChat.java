@@ -57,7 +57,9 @@ public class ControladorChat {
 		return unicaInstancia;
 	}
 
-	// registrar un usuario
+	/*
+	 * Registramos un nuevo usuario
+	 */
 	public boolean addUsuario(String nombre, Date fechaNacimiento, String movil, String nick, String contrasena) {
 		if (catalogoUsuarios.getUsuario(nick) == null && !catalogoUsuarios.existeTlf(movil)) {
 			Usuario usuario = catalogoUsuarios.addUsuario(nombre, fechaNacimiento, movil, nick, contrasena);
@@ -70,6 +72,10 @@ public class ControladorChat {
 	}
 
 	// COMPROBAR USUARIO
+	
+	/*
+	 * Comprueba que existe un usuario con el nick y la contraseña introducidos
+	 */
 	public boolean usuarioTrue(String nombre, String contraseña) {
 		usuarioActual = recuperarUsuario(nombre);
 		return catalogoUsuarios.usuarioTrue(nombre, contraseña);
@@ -91,7 +97,9 @@ public class ControladorChat {
 
 	}
 
-	// comprobar si existe el tlf
+	/*
+	 * Comprobar si ya existe un usuario con ese número de teléfono
+	 */
 	public boolean existeTlf(String movil) {
 		return catalogoUsuarios.existeTlf(movil);
 	}
@@ -307,7 +315,10 @@ public class ControladorChat {
 					gruposComun.add(g.getNombre());
 		return gruposComun;
 	}
-
+	
+	/*
+	 * La longitud del teléfono es de 9 dígitos
+	 */
 	public boolean tlfValid(String tlf) {
 		return tlf.length() == 9;
 	}

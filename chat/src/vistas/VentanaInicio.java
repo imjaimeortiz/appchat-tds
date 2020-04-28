@@ -192,7 +192,9 @@ public class VentanaInicio extends JFrame {
 		
 		
 	}
-	
+	/*
+	 * Comprueba que todos los campos han sido rellenados
+	 */
 	private boolean checkFields() {
 		String pw1 = new String (passwordField.getPassword());
 		if (userField.getText().isEmpty() ||

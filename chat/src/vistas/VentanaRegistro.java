@@ -36,6 +36,9 @@ public class VentanaRegistro extends JFrame {
 	/**
 	 * Create the application.
 	 */
+	/*
+	 *  Ventana para registrar a un nuevo usuario
+	 */
 	public VentanaRegistro() {
 		initialize();
 		frame.setVisible(true);
@@ -249,6 +252,9 @@ public class VentanaRegistro extends JFrame {
 		frame.getContentPane().add(lblLasContraseasDeben, gbc_lblLasContraseasDeben);
 	}
 	
+	/*
+	 * Comprobar que todos los campos son correctos
+	 */
 	private boolean checkFields() {
 		lblDuplicated.setVisible(false);
 		lblInvlido.setVisible(false);
@@ -270,6 +276,9 @@ public class VentanaRegistro extends JFrame {
 		return true;
 	}
 	
+	/*
+	 * Comprobar que las contraseñas son iguales
+	 */
 	private boolean checkPwd() {
 		lblDuplicated.setVisible(false);
 		lblInvlido.setVisible(false);
