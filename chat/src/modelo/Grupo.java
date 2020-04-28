@@ -18,6 +18,7 @@ public class Grupo extends Contacto {
 		this.foto = "/vistas/team.png";
 	}
 	
+	//Constructor sin imagen por defecto
 	public Grupo(String nombre, Usuario administrador, List<ContactoIndividual> contactos, String foto) {
 		super(nombre);
 		this.admin = administrador;
@@ -64,6 +65,7 @@ public class Grupo extends Contacto {
 		return contactos;
 	}
 	
+	//Añadir contacto al grupo
 	public void addContacto(String movil, String nombre,Usuario usuario) {
 		ContactoIndividual contacto = new ContactoIndividual(movil, nombre, usuario);
 		contactos.add(contacto);	
@@ -73,6 +75,7 @@ public class Grupo extends Contacto {
 		contactos.add(contacto);
 	}
 	
+	//Añadir una lista de contactos al grupo
 	public void addContactos(List<ContactoIndividual> nuevos) {
 		nuevos.stream().forEach(contacto -> {
 					addContacto(contacto);
@@ -81,12 +84,12 @@ public class Grupo extends Contacto {
 		
 	}
 	
-
+	//Eliminar un contacto del grupo
 	public void removeContacto(ContactoIndividual contactoIndividual) {
 		contactos.remove(contactoIndividual);
 	}
 	
-	
+	//Eliminar una lista de contactos del grupo
 	public void removeContactos(List<ContactoIndividual> eliminados) {
 		eliminados.stream().forEach(contacto -> {
 			removeContacto(contacto);

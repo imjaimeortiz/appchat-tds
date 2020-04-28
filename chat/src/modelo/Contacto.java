@@ -52,6 +52,7 @@ public abstract class Contacto {
 		return mensajes.size();
 	}
 	
+	//Añadir mensaje a la lista de mensajes
 	public Mensaje addMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario usuario, Contacto c) {
 		Mensaje mensaje = new Mensaje(texto, localDate, emoticono, usuario, c);
 		mensajes.add(mensaje);
@@ -62,6 +63,7 @@ public abstract class Contacto {
 		mensajes.add(mensaje);
 	}
 	
+	//Busca los mensajes del contacto enviados por el usuario user
 	public int getMensajesEnviados(Usuario user) {
 		Month now = LocalDateTime.now().getMonth();
 		int cont = 0;
@@ -73,6 +75,7 @@ public abstract class Contacto {
 		return cont;
 	}
 	
+	//Busca los mensajes del contacto enviados por el usuario en cada mes del año
 	public void mensajesCadaMes(Integer[]mensajesMes, Usuario usuario) {
 		for(Mensaje m : mensajes) {
 			Integer year = LocalDateTime.now().getYear();
@@ -96,14 +99,14 @@ public abstract class Contacto {
 		}
 	}
 	
-	//busqueda para contactos individuales por texto y rango de fechas
+	//busqueda de mensajes para contactos individuales por texto y rango de fechas
 	public List<Mensaje> buscarMensajes(String texto, LocalDateTime inicio, LocalDateTime fin){
 		List<Mensaje> mensajesEncontrados = mensajes.stream().filter(m -> ((m.getTexto().contains(texto))&&(m.getHora().isAfter(inicio)) && (m.getHora().isBefore(fin))))
 				.collect(Collectors.toList());
 		return mensajesEncontrados;
 	}
 	
-	//busqueda de mensajes para grupos
+	//busqueda de mensajes para grupos con las diferentes alternativas que se pueden dar, es decir, en función de los parámetros introducidos para la búsqueda
 	public List<Mensaje> buscarMensajes(String texto, String nombre, LocalDateTime inicio, LocalDateTime fin){
 		List<Mensaje> mensajesEncontrados = new LinkedList<Mensaje>();
 		int opcion = 0;
