@@ -71,6 +71,7 @@ public class ControladorChat {
 		return false;
 	}
 
+	// COMPROBAR USUARIO
 	
 	/*
 	 * Comprueba que existe un usuario con el nick y la contraseña introducidos
@@ -135,7 +136,6 @@ public class ControladorChat {
 		adaptadorGrupo.borrarGrupo(grupo);
 	}
 
-	//poner una imegen de perfil
 	public void setImage(String path, Usuario user) {
 		user.setImagen(path);
 		adaptadorUsuario.modificarUsuario(user);
@@ -172,8 +172,7 @@ public class ControladorChat {
 		group.setNombre(text);
 		adaptadorGrupo.modificarGrupo(group);
 	}
-	
-	//Obtener los miembros de un grupo
+
 	public List<ContactoIndividual> miembrosGrupo(Grupo g) {
 		return g.getContactos();
 	}
@@ -196,8 +195,7 @@ public class ControladorChat {
 				adaptadorUsuario.modificarUsuario(((ContactoIndividual) receptor).getUsuario());
 			}
 			// guardar mensaje en el contacto emisor del receptor
-			mensaje1 = ((ContactoIndividual) receptor).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor,
-					(ContactoIndividual) receptor, contactoDelEmisorEnElReceptor);
+			mensaje1 = ((ContactoIndividual) receptor).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) receptor, contactoDelEmisorEnElReceptor);
 
 			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
 			adaptadorMensaje.registrarMensaje(mensaje);
@@ -205,15 +203,14 @@ public class ControladorChat {
 			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) receptor);
 
 		} else {
-
 			adaptadorMensaje.registrarMensaje(mensaje);
 			adaptadorGrupo.modificarGrupo((Grupo) receptor);
 		}
+		
 		return mensaje;
 
 	}
 
-	//Obtiene el precio premium comprobando si es posible aplicar alguno de los dos decuentos disponibles
 	public double setPrecioFinal(Usuario user) {
 		double pago = 29.99;
 		LocalDate fechaDescuento = LocalDate.now().minusMonths(4);
@@ -227,14 +224,13 @@ public class ControladorChat {
 
 		return pago;
 	}
-	
-	//Convertir a un usuario en premium
+
 	public void setPremium(Usuario user) {
 		user.setPremium(true);
 		adaptadorUsuario.modificarUsuario(user);
 	}
 
-	// busqueda de mensajes 
+	// busqueda de mensajes por todos los parametros
 	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin) {
 		LocalDateTime i = null;
 		LocalDateTime f = null;

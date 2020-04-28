@@ -17,6 +17,8 @@ import java.awt.event.ActionListener;
 import javax.swing.UIManager;
 
 import controlador.ControladorChat;
+import modelo.Contacto;
+import modelo.Mensaje;
 
 import java.awt.Color;
 
@@ -161,6 +163,13 @@ public class VentanaInicio extends JFrame {
 		btnSalir.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
+				/*System.out.println(ControladorChat.usuarioActual.getNick());
+				for (Contacto c : ControladorChat.usuarioActual.getContactos()) {
+					System.out.println(	"	" + c.getNombre());
+					for (Mensaje m : c.getMensajes()) {
+						System.out.println("           " + m.getTexto());
+					}
+				}*/
 				System.exit(0);
 			}
 		});
