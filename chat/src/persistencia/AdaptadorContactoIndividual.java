@@ -61,9 +61,8 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 		
 		// registrar entidad contacto individual
 		eContactoIndividual = servPersistencia.registrarEntidad(eContactoIndividual);
-		// asignar identificador unico
-		// Se aprovecha el que genera el servicio de persistencia
-		contactoi.setCodigo(eContactoIndividual.getId());  
+		contactoi.setCodigo(eContactoIndividual.getId()); 
+		PoolDAO.getUnicaInstancia().addObjeto(contactoi.getCodigo(), contactoi); 
 	}
 
 	public void borrarContactoIndividual(ContactoIndividual contactoi) {
@@ -96,7 +95,7 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 
 	public ContactoIndividual recuperarContactoIndividual(int codigo) {
 		// Si la entidad estÃ¡ en el pool la devuelve directamente
-				if (PoolDAO.getUnicaInstancia().contiene(codigo))
+			if (PoolDAO.getUnicaInstancia().contiene(codigo))
 					return (ContactoIndividual) PoolDAO.getUnicaInstancia().getObjeto(codigo);
 		
 		Entidad eContactoIndividual;

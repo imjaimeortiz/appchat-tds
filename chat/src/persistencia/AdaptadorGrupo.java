@@ -66,9 +66,8 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 		
 		// registrar entidad grupo
 		eGrupo = servPersistencia.registrarEntidad(eGrupo);
-		// asignar identificador unico
-		// Se aprovecha el que genera el servicio de persistencia
-		grupo.setCodigo(eGrupo.getId());  
+		grupo.setCodigo(eGrupo.getId()); 
+		PoolDAO.getUnicaInstancia().addObjeto(eGrupo.getId(), grupo); 
 	}
 
 	public void borrarGrupo(Grupo grupo) {

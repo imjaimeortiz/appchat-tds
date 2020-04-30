@@ -69,9 +69,8 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		
 		// registrar entidad mensaje
 		eMensaje = servPersistencia.registrarEntidad(eMensaje);
-		// asignar identificador unico
-		// Se aprovecha el que genera el servicio de persistencia
-		mensaje.setCodigo(eMensaje.getId());  
+		mensaje.setCodigo(eMensaje.getId()); 
+		PoolDAO.getUnicaInstancia().addObjeto(mensaje.getCodigo(), mensaje); 
 	}
 
 	public void borrarMensaje(Mensaje mensaje) {
