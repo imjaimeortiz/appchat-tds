@@ -11,7 +11,7 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class Pdf {
 	public void crearPdf(List<String> toPdf)throws FileNotFoundException, DocumentException {
-		FileOutputStream archivo = new FileOutputStream("C:\\Contactos.pdf");
+		FileOutputStream archivo = new FileOutputStream("C:\\Users\\Luu\\Desktop\\Contactos.pdf");
 		Document documento = new Document();
 		PdfWriter.getInstance(documento, archivo);
 		documento.open();
