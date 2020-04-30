@@ -77,7 +77,9 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 	public void borrarMensaje(Mensaje mensaje) {
 		
 		Entidad eMensaje = servPersistencia.recuperarEntidad(mensaje.getCodigo());
+		PoolDAO.getUnicaInstancia().removeObjeto(eMensaje.getId(), eMensaje);
 		servPersistencia.borrarEntidad(eMensaje);
+	
 	}
 
 	public void modificarMensaje(Mensaje mensaje) {

@@ -85,7 +85,9 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 			adaptadorCI.borrarContactoIndividual(ci);
 		}
 		Entidad eGrupo = servPersistencia.recuperarEntidad(grupo.getCodigo());
+		PoolDAO.getUnicaInstancia().removeObjeto(eGrupo.getId(), eGrupo);
 		servPersistencia.borrarEntidad(eGrupo);
+	
 	}
 
 	public void modificarGrupo(Grupo grupo) {

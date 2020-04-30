@@ -73,7 +73,9 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 			adaptadorM.borrarMensaje(m);
 		}
 		Entidad eContactoIndividual = servPersistencia.recuperarEntidad(contactoi.getCodigo());
+		PoolDAO.getUnicaInstancia().removeObjeto(eContactoIndividual.getId(), eContactoIndividual);
 		servPersistencia.borrarEntidad(eContactoIndividual);
+		
 	}
 
 	public void modificarContactoIndividual(ContactoIndividual contactoi) {
