@@ -10,6 +10,13 @@ public class Mensaje {
 	private int emoticono;
 	private Usuario usuario; // emisor
 	private Contacto contacto; //receptor
+	public Mensaje(String texto, LocalDateTime hora2, int emoticono) {
+		codigo = 0;
+		this.texto = texto;
+		this.hora = hora2;
+		this.emoticono = emoticono;
+		
+	}
 	
 	public Mensaje(String texto, LocalDateTime hora2, int emoticono, Usuario usuario, Contacto c) {
 		codigo = 0;

@@ -197,9 +197,9 @@ public class ControladorChat {
 			// guardar mensaje en el contacto emisor del receptor
 			mensaje1 = ((ContactoIndividual) receptor).getUsuario().recibirMensaje(texto, localDate, emoticono, emisor, (ContactoIndividual) receptor, contactoDelEmisorEnElReceptor);
 
-			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
 			adaptadorMensaje.registrarMensaje(mensaje);
 			adaptadorMensaje.registrarMensaje(mensaje1);
+			adaptadorContactoIndividual.modificarContactoIndividual(contactoDelEmisorEnElReceptor);
 			adaptadorContactoIndividual.modificarContactoIndividual((ContactoIndividual) receptor);
 
 		} else {

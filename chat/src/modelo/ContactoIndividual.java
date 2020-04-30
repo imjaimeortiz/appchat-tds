@@ -9,6 +9,12 @@ public class ContactoIndividual extends Contacto {
 	private String movil;
 	private Usuario usuario;	
 	
+	public ContactoIndividual(String nombre, String movil) {
+		super(nombre);
+		this.movil = movil;
+		
+	}
+	
 	public ContactoIndividual(String nombre, String movil, Usuario usuario) {
 		super(nombre);
 		this.movil = movil;

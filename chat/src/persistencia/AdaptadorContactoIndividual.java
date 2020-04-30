@@ -47,8 +47,9 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 		AdaptadorMensaje adaptadorM = AdaptadorMensaje.getUnicaInstancia();
 		
 		adaptadorUsuario.registrarUsuario(contactoi.getUsuario());
-		for (Mensaje m : contactoi.getMensajes())
+		for (Mensaje m : contactoi.getMensajes()) {
 			adaptadorM.registrarMensaje(m);
+			}
 		
 		// crear entidad contacto individual
 		eContactoIndividual = new Entidad();
@@ -108,16 +109,15 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 		eContactoIndividual = servPersistencia.recuperarEntidad(codigo);
 		movil = servPersistencia.recuperarPropiedadEntidad(eContactoIndividual, "movil");
 		nombre = servPersistencia.recuperarPropiedadEntidad(eContactoIndividual, "nombre");
-		
+		ContactoIndividual contactoi = new ContactoIndividual(nombre, movil);
+		contactoi.setCodigo(codigo);
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, contactoi);
 		// Para recuperar el usuario se lo solicita al adaptador usuario
 			AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
 			usuario = adaptadorUsuario.recuperarUsuario(
 					Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eContactoIndividual, "usuario")));
 	
-
-		ContactoIndividual contactoi = new ContactoIndividual(nombre, movil, usuario);
-		contactoi.setCodigo(codigo);
-		
+		contactoi.setUsuario(usuario);
 		mensajes = obtenerMensajesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eContactoIndividual, "mensajes"));
 		for (Mensaje m : mensajes)
 			contactoi.addMensaje(m);

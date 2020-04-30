@@ -1,6 +1,4 @@
 package persistencia;
-
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -69,8 +67,8 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		
 		// registrar entidad mensaje
 		eMensaje = servPersistencia.registrarEntidad(eMensaje);
-		mensaje.setCodigo(eMensaje.getId()); 
-		PoolDAO.getUnicaInstancia().addObjeto(mensaje.getCodigo(), mensaje); 
+		mensaje.setCodigo(eMensaje.getId());
+		PoolDAO.getUnicaInstancia().addObjeto(mensaje.getCodigo(), mensaje);
 	}
 
 	public void borrarMensaje(Mensaje mensaje) {
@@ -106,16 +104,17 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		String texto;
 		LocalDateTime hora = null ;
 		int emoticono;
-		Usuario usuario;
-		ContactoIndividual contacto;
-
+		Usuario usuario = null;
+		ContactoIndividual contacto = null;
 		eMensaje = servPersistencia.recuperarEntidad(codigo);
 		texto = servPersistencia.recuperarPropiedadEntidad(eMensaje, "texto");
 		emoticono = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "emoticono"));
 		String fechaAux = servPersistencia.recuperarPropiedadEntidad(eMensaje, "hora");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		hora = LocalDateTime.parse(fechaAux, formatter);
-		
+		Mensaje mensaje = new Mensaje(texto, hora, emoticono);
+		mensaje.setCodigo(codigo);
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, mensaje);
 		// Para recuperar el usuario se lo solicita al adaptador usuario
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
 		usuario = adaptadorUsuario.recuperarUsuario(
@@ -123,11 +122,8 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		
 		AdaptadorContactoIndividual adaptadorContacto = AdaptadorContactoIndividual.getUnicaInstancia();
 		contacto = adaptadorContacto.recuperarContactoIndividual(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "contacto")));
-
-		
-		Mensaje mensaje = new Mensaje(texto, hora, emoticono, usuario, contacto);
-		mensaje.setCodigo(codigo);
-		
+		mensaje.setContacto(contacto);
+		mensaje.setUsuario(usuario);
 		return mensaje;
 		
 		
