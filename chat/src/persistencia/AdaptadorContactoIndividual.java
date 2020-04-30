@@ -93,6 +93,10 @@ public class AdaptadorContactoIndividual implements IAdaptadorContactoIndividual
 	}
 
 	public ContactoIndividual recuperarContactoIndividual(int codigo) {
+		// Si la entidad estÃ¡ en el pool la devuelve directamente
+				if (PoolDAO.getUnicaInstancia().contiene(codigo))
+					return (ContactoIndividual) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+		
 		Entidad eContactoIndividual;
 		String movil;
 		String nombre;

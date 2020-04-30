@@ -21,7 +21,7 @@ import tds.driver.ServicioPersistencia;
 public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 	private static ServicioPersistencia servPersistencia;
 	private static AdaptadorMensaje unicaInstancia = null;
-	private SimpleDateFormat dateFormat;
+	private DateTimeFormatter dateFormat;
 
 	public static AdaptadorMensaje getUnicaInstancia() { // patron singleton
 		if (unicaInstancia == null) {
@@ -32,7 +32,7 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 
 	private AdaptadorMensaje() { 
 		servPersistencia = FactoriaServicioPersistencia.getInstance().getServicioPersistencia();
-		dateFormat = new SimpleDateFormat("hh/MM/ss");
+		dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 	}
 
 	/* cuando se registra un mensaje se le asigna un identificador unico */
@@ -62,7 +62,7 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		eMensaje = new Entidad();
 		eMensaje.setNombre("mensaje");
 		eMensaje.setPropiedades(new ArrayList<Propiedad>(Arrays.asList(new Propiedad("texto", mensaje.getTexto()),
-				new Propiedad("hora", mensaje.getHora().toString()),
+				new Propiedad("hora", mensaje.getHora().format(dateFormat)),
 				new Propiedad("emoticono", String.valueOf(mensaje.getEmoticono())),
 				new Propiedad("usuario", String.valueOf(mensaje.getUsuario().getCodigo())),
 				new Propiedad("contacto", String.valueOf(mensaje.getContacto().getCodigo())))));
@@ -86,7 +86,7 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "texto");
 		servPersistencia.anadirPropiedadEntidad(eMensaje, "texto", String.valueOf(mensaje.getTexto()));
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "hora");
-		servPersistencia.anadirPropiedadEntidad(eMensaje, "hora", mensaje.getHora().toString());
+		servPersistencia.anadirPropiedadEntidad(eMensaje, "hora", mensaje.getHora().format(dateFormat));
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "emoticono");
 		servPersistencia.anadirPropiedadEntidad(eMensaje, "emoticono", String.valueOf(mensaje.getEmoticono()));
 		servPersistencia.eliminarPropiedadEntidad(eMensaje, "usuario");
@@ -97,6 +97,10 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 	}
 
 	public Mensaje recuperarMensaje(int codigo) {
+		// Si la entidad estÃ¡ en el pool la devuelve directamente
+				if (PoolDAO.getUnicaInstancia().contiene(codigo))
+					return (Mensaje) PoolDAO.getUnicaInstancia().getObjeto(codigo);
+		
 		Entidad eMensaje;
 		String texto;
 		LocalDateTime hora = null ;
@@ -107,7 +111,7 @@ public class AdaptadorMensaje implements IAdaptadorMensajeDAO {
 		eMensaje = servPersistencia.recuperarEntidad(codigo);
 		texto = servPersistencia.recuperarPropiedadEntidad(eMensaje, "texto");
 		emoticono = Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eMensaje, "emoticono"));
-		String fechaAux = servPersistencia.recuperarPropiedadEntidad(eMensaje, "fecha");
+		String fechaAux = servPersistencia.recuperarPropiedadEntidad(eMensaje, "hora");
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
 		hora = LocalDateTime.parse(fechaAux, formatter);
 		
