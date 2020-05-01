@@ -1,16 +1,22 @@
 package modelo;
 
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Grupo extends Contacto {
 	private int codigo;
 	private Usuario admin;
-	private List<ContactoIndividual> contactos; // asociacion multiple con contacto individual
+	private List<ContactoIndividual> contactos = new LinkedList<ContactoIndividual>(); // asociacion multiple con contacto individual
 	private String foto;
 	
 	
 	// constructor imagen por defecto
+	public Grupo(String nombre,String foto  ) {
+		super(nombre);
+		
+		this.foto = foto;
+	}
 	public Grupo(String nombre, Usuario administrador, List<ContactoIndividual> contactos) {
 		super(nombre);
 		this.admin = administrador;

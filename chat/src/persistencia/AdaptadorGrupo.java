@@ -119,18 +119,20 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 		String foto;
 		
 		nombre = servPersistencia.recuperarPropiedadEntidad(eGrupo, "nombre");
+		foto = servPersistencia.recuperarPropiedadEntidad(eGrupo, "foto");
+		Grupo grupo = new Grupo(nombre, foto);
+		grupo.setCodigo(codigo);
+		PoolDAO.getUnicaInstancia().addObjeto(codigo, grupo);
 		
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
 		admin  = adaptadorUsuario.recuperarUsuario(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin")));
+		grupo.setAdmin(admin);
+		
+		
 		contactos = obtenerContactosDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eGrupo, "contactos"));
-		foto = servPersistencia.recuperarPropiedadEntidad(eGrupo, "foto");
-		
-		
-		Grupo grupo = new Grupo(nombre, admin, contactos, foto);
-		grupo.setCodigo(codigo);
-		
-		PoolDAO.getUnicaInstancia().addObjeto(codigo, grupo);
-		
+		for (ContactoIndividual ci : contactos) {
+			grupo.addContacto(ci);
+		}
 		List<Mensaje> mensajes = new LinkedList<Mensaje>();
 		mensajes = obtenerMensajesDesdeCodigos(servPersistencia.recuperarPropiedadEntidad(eGrupo, "mensajes"));
 		for (Mensaje m : mensajes)
