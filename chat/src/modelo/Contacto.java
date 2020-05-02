@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 public abstract class Contacto {
 	private int codigo;
 	private String nombre;
-	private List<Mensaje> mensajes;
+	private List<Mensaje> mensajes = new LinkedList<Mensaje>();
 	
 	
 	public Contacto(String nombre) {
@@ -56,6 +56,7 @@ public abstract class Contacto {
 	public Mensaje addMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario usuario, Contacto c) {
 		Mensaje mensaje = new Mensaje(texto, localDate, emoticono, usuario, c);
 		mensajes.add(mensaje);
+		//c.getMensajes().isEmpty()
 		return mensaje;
 	}
 	
