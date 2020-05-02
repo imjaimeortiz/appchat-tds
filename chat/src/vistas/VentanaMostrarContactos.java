@@ -25,8 +25,8 @@ public class VentanaMostrarContactos {
 	/**
 	 * Create the application.
 	 */
-	public VentanaMostrarContactos(Usuario user) {
-		this.user = user;
+	public VentanaMostrarContactos() {
+		this.user = ControladorChat.usuarioActual;
 		initialize();
 		frame.setVisible(true);
 	}

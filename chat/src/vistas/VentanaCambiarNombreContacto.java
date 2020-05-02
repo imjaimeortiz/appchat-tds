@@ -28,8 +28,8 @@ public class VentanaCambiarNombreContacto extends JDialog {
 	/**
 	 * Create the application.
 	 */
-	public VentanaCambiarNombreContacto(Usuario user, Contacto contacto) {
-		this.user = user;
+	public VentanaCambiarNombreContacto(Contacto contacto) {
+		this.user = ControladorChat.usuarioActual;
 		this.contacto = contacto;
 		initialize();
 	}

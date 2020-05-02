@@ -19,11 +19,9 @@ import java.awt.Color;
 public class VentanaCrearContacto extends JDialog {
 	private JTextField textField;
 	private JTextField txtTelfono;
-	private final Usuario usuario;
 	private JLabel lblLosCamposNo;
 	
-	public VentanaCrearContacto(Usuario user) {
-		this.usuario = user;
+	public VentanaCrearContacto() {
 		initialize();
 	}
 	
@@ -87,7 +85,7 @@ public class VentanaCrearContacto extends JDialog {
 
 			public void actionPerformed(ActionEvent e) {
 				if (checkCampos(txtTelfono.getText(), textField.getText())) {
-					ControladorChat.getUnicaInstancia().addContacto(usuario, txtTelfono.getText(), textField.getText());
+					ControladorChat.getUnicaInstancia().addContacto(ControladorChat.usuarioActual, txtTelfono.getText(), textField.getText());
 					dispose();
 				}
 				else lblLosCamposNo.setVisible(true);

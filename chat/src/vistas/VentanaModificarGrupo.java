@@ -22,9 +22,9 @@ public class VentanaModificarGrupo {
 	/**
 	 * Create the application.
 	 */
-	public VentanaModificarGrupo(Usuario user) {
+	public VentanaModificarGrupo() {
 		this.comboBox = new JComboBox<String>();
-		this.grupos = ControladorChat.getUnicaInstancia().gruposAdmin(user);
+		this.grupos = ControladorChat.getUnicaInstancia().gruposAdmin(ControladorChat.usuarioActual);
 		for (Grupo grupo : grupos) {
 			comboBox.addItem(grupo.getNombre());
 		}		

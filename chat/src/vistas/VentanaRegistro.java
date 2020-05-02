@@ -206,7 +206,7 @@ public class VentanaRegistro extends JFrame {
 				if (checkFields() && checkPwd()) {
 					// Creamos un usuario con los campos que tenemos y se lo pasamos a la ventana
 					if (ControladorChat.getUnicaInstancia().addUsuario(nameField.getText().trim(), dateChooser.getDate(), phoneField.getText().trim(), userField.getText().trim(), new String (passwordField.getPassword()))) {
-						new NuevaVentanaChat(ControladorChat.getUnicaInstancia().recuperarUsuario(userField.getText().trim()));
+						new NuevaVentanaChat();
 						frame.dispose();
 					}
 					else lblDuplicated.setVisible(true); 

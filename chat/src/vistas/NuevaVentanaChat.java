@@ -62,8 +62,8 @@ public class NuevaVentanaChat {
 	/**
 	 * Create the application.
 	 */
-	public NuevaVentanaChat(Usuario user) {
-		this.user = user;
+	public NuevaVentanaChat() {
+		this.user = ControladorChat.usuarioActual;
 		this.listModel = new DefaultListModel<Contacto>();
 		this.mapa = new HashMap<String, Chats>();
 		initialize();
@@ -153,7 +153,7 @@ public class NuevaVentanaChat {
 		btnUser.setIcon(new ImageIcon(NuevaVentanaChat.class.getResource(user.getImagen())));
 		btnUser.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaUser(user);
+				new VentanaUser();
 			}
 		});
 		
@@ -180,7 +180,7 @@ public class NuevaVentanaChat {
 		popupMenu.add(mitemCrearContacto);
 		mitemCrearContacto.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					VentanaCrearContacto ventanaContact = new VentanaCrearContacto(user);
+					VentanaCrearContacto ventanaContact = new VentanaCrearContacto();
 					ventanaContact.setModal(true);
 					ventanaContact.setVisible(true);
 					// se añade al mapa y a la lista el nuevo contacto
@@ -201,7 +201,7 @@ public class NuevaVentanaChat {
 		popupMenu.add(mitemMostrarContacto);
 		mitemMostrarContacto.addActionListener( new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
-			new VentanaMostrarContactos(user);
+			new VentanaMostrarContactos();
 		}
 		});
 		
@@ -231,7 +231,7 @@ public class NuevaVentanaChat {
 		popupMenu.add(mitemModificarGrupo);
 		mitemModificarGrupo.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				new VentanaModificarGrupo(user);
+				new VentanaModificarGrupo();
 			}
 		});
 				
@@ -241,7 +241,7 @@ public class NuevaVentanaChat {
 		mitemPremium.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (!user.isPremium())
-					new VentanaPremium(user);
+					new VentanaPremium();
 			}
 		});
 			
@@ -277,7 +277,7 @@ public class NuevaVentanaChat {
 		btnContact = new JButton("");
 		btnContact.addActionListener( new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				VentanaCambiarNombreContacto vcc = new VentanaCambiarNombreContacto(user, contactoSelected);
+				VentanaCambiarNombreContacto vcc = new VentanaCambiarNombreContacto(contactoSelected);
 				vcc.setModal(true);
 				vcc.setVisible(true);
 			}

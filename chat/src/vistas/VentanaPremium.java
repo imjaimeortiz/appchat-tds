@@ -25,8 +25,8 @@ public class VentanaPremium {
 	/**
 	 * Create the application.
 	 */
-	public VentanaPremium(Usuario user) {
-		this.user = user;
+	public VentanaPremium() {
+		this.user = ControladorChat.usuarioActual;
 		initialize();
 	}
 

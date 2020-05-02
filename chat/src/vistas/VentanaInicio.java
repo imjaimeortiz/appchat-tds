@@ -130,7 +130,7 @@ public class VentanaInicio extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (checkFields()) {
 					if ( ControladorChat.getUnicaInstancia().usuarioTrue(userField.getText().trim(), new String(passwordField.getPassword()))) {
-						new NuevaVentanaChat(ControladorChat.getUnicaInstancia().recuperarUsuario(userField.getText().trim()));
+						new NuevaVentanaChat();
 						frame.dispose();
 					}
 					else {

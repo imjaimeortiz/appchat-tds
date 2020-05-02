@@ -58,11 +58,11 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 		eGrupo = new Entidad();
 		eGrupo.setNombre("grupo");
 		eGrupo.setPropiedades(new ArrayList<Propiedad>(
-				Arrays.asList(new Propiedad("nombre", grupo.getNombre()),
-						new Propiedad("admin", String.valueOf(grupo.getAdmin().getCodigo())), 
-						new Propiedad("mensajes", obtenerCodigosMensajes(grupo.getMensajes())),
-						new Propiedad("foto", grupo.getFoto()),
-						new Propiedad("contactos", obtenerCodigosContactos(grupo.getContactos())))));
+				Arrays.asList(	new Propiedad("nombre", grupo.getNombre()),
+								new Propiedad("admin", String.valueOf(grupo.getAdmin().getCodigo())), 
+								new Propiedad("mensajes", obtenerCodigosMensajes(grupo.getMensajes())),
+								new Propiedad("foto", grupo.getFoto()),
+								new Propiedad("contactos", obtenerCodigosContactos(grupo.getContactos())))));
 		
 		// registrar entidad grupo
 		eGrupo = servPersistencia.registrarEntidad(eGrupo);
@@ -91,20 +91,18 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 
 	public void modificarGrupo(Grupo grupo) {
 		Entidad eGrupo = servPersistencia.recuperarEntidad(grupo.getCodigo());
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, "admin");
-		servPersistencia.anadirPropiedadEntidad(eGrupo, "admin", String.valueOf(grupo.getAdmin()));
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "nombre");
-		servPersistencia.anadirPropiedadEntidad(eGrupo, "nombre", grupo.getNombre() );
+		servPersistencia.anadirPropiedadEntidad(eGrupo, "nombre", grupo.getNombre());
+		servPersistencia.eliminarPropiedadEntidad(eGrupo, "admin");
+		servPersistencia.anadirPropiedadEntidad(eGrupo, "admin", String.valueOf(grupo.getAdmin().getCodigo()));
 		String mensajes = obtenerCodigosMensajes(grupo.getMensajes());
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "mensajes");
 		servPersistencia.anadirPropiedadEntidad(eGrupo, "mensajes", mensajes);
-		
+		servPersistencia.eliminarPropiedadEntidad(eGrupo, "foto");
+		servPersistencia.anadirPropiedadEntidad(eGrupo, "foto", grupo.getFoto());
 		String contactos = obtenerCodigosContactos(grupo.getContactos());
 		servPersistencia.eliminarPropiedadEntidad(eGrupo, "contactos");
 		servPersistencia.anadirPropiedadEntidad(eGrupo, "contactos", contactos);
-		
-		servPersistencia.eliminarPropiedadEntidad(eGrupo, "foto");
-		servPersistencia.anadirPropiedadEntidad(eGrupo, "foto", grupo.getFoto());
 	}
 
 	public Grupo recuperarGrupo(int codigo) {
@@ -125,7 +123,10 @@ public class AdaptadorGrupo implements IAdaptadorGrupoDAO {
 		PoolDAO.getUnicaInstancia().addObjeto(codigo, grupo);
 		
 		AdaptadorUsuario adaptadorUsuario = AdaptadorUsuario.getUnicaInstancia();
-		admin  = adaptadorUsuario.recuperarUsuario(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin")));
+		String propiedad = servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin");
+		int c = Integer.parseInt(propiedad);
+		admin = adaptadorUsuario.recuperarUsuario(c);
+		//admin  = adaptadorUsuario.recuperarUsuario(Integer.parseInt(servPersistencia.recuperarPropiedadEntidad(eGrupo, "admin")));
 		grupo.setAdmin(admin);
 		
 		

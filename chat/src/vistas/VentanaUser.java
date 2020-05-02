@@ -34,8 +34,8 @@ public class VentanaUser {
 	/**
 	 * Create the application.
 	 */
-	public VentanaUser(Usuario user) {
-		this.user = user;
+	public VentanaUser() {
+		this.user = ControladorChat.usuarioActual;
 		initialize();
 		frame.setVisible(true);
 	}
