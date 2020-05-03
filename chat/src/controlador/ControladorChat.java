@@ -71,7 +71,7 @@ public class ControladorChat {
 		return false;
 	}
 
-	// COMPROBAR USUARIO
+	
 	
 	/*
 	 * Comprueba que existe un usuario con el nick y la contraseña introducidos
@@ -137,14 +137,12 @@ public class ControladorChat {
 		adaptadorGrupo.borrarGrupo(grupo);
 	}
 
+	//poner una imagen de perfil
 	public void setImage(String path, Usuario user) {
 		user.setImagen(path);
 		adaptadorUsuario.modificarUsuario(user);
 	}
 
-	public void modificarGrupo(Grupo grupo) {
-		adaptadorGrupo.modificarGrupo(grupo);
-	}
 
 	// abandonar un grupo
 	public void abandonarGrupo(Usuario usuario, Grupo g) {
@@ -174,10 +172,12 @@ public class ControladorChat {
 		adaptadorGrupo.modificarGrupo(group);
 	}
 
+	//Obtener los participantes de un grupo
 	public List<ContactoIndividual> miembrosGrupo(Grupo g) {
 		return g.getContactos();
 	}
 
+	// Enviar un mensaje a un contacto o grupo
 	public Mensaje enviarMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario emisor, Contacto receptor) {
 
 		// guardar el mensaje en el contacto receptor del emisor
@@ -212,6 +212,7 @@ public class ControladorChat {
 
 	}
 
+	//Calcula el precio para hacerse premium según los descuentos aplicables
 	public double setPrecioFinal(Usuario user) {
 		double pago = 29.99;
 		LocalDate fechaDescuento = LocalDate.now().minusMonths(4);
@@ -225,13 +226,13 @@ public class ControladorChat {
 
 		return pago;
 	}
-
+	//Convertir a premium
 	public void setPremium(Usuario user) {
 		user.setPremium(true);
 		adaptadorUsuario.modificarUsuario(user);
 	}
 
-	// busqueda de mensajes por todos los parametros
+	// busqueda de mensajes 
 	public List<Mensaje> buscarMensaje(Contacto contacto, String nombre, String texto, Date inicio, Date fin) {
 		LocalDateTime i = null;
 		LocalDateTime f = null;
@@ -278,6 +279,7 @@ public class ControladorChat {
 		}
 	}
 
+	// Para la utilización del componente
 	 public void cargarMensajes(String file, Plataforma SO, int tipo) {
 		CargadorMensajes cargador = new CargadorMensajes();
 		CargadorMensajesListener cargadorListener = new CargadorMensajesListener();

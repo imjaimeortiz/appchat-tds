@@ -56,7 +56,6 @@ public abstract class Contacto {
 	public Mensaje addMensaje(String texto, LocalDateTime localDate, int emoticono, Usuario usuario, Contacto c) {
 		Mensaje mensaje = new Mensaje(texto, localDate, emoticono, usuario, c);
 		mensajes.add(mensaje);
-		//c.getMensajes().isEmpty()
 		return mensaje;
 	}
 	
