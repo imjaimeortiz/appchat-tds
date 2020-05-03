@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.EventObject;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import com.itextpdf.text.DocumentException;
 
 import cargador.CargadorMensajes;
+import cargador.MensajesEvent;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;
@@ -21,6 +23,7 @@ import modelo.DescuentoMensajes;
 import modelo.Grupo;
 import modelo.Usuario;
 import modelo.Mensaje;
+import modelo.MensajeWhatsApp;
 import modelo.Plataforma;
 import persistencia.DAOException;
 import persistencia.FactoriaDAO;
@@ -30,10 +33,12 @@ import persistencia.IAdaptadorMensajeDAO;
 import persistencia.IAdaptadorUsuarioDAO;
 import informacionUso.Graficos;
 
-public class ControladorChat {
+public class ControladorChat implements MensajesListener {
 
 	private static ControladorChat unicaInstancia;
 	public static Usuario usuarioActual = null;
+	
+	private CargadorMensajes cargador;
 	
 	private IAdaptadorUsuarioDAO adaptadorUsuario;
 	private IAdaptadorContactoIndividualDAO adaptadorContactoIndividual;
@@ -45,6 +50,9 @@ public class ControladorChat {
 
 	private ControladorChat() {
 
+		cargador = new CargadorMensajes();
+		cargador.addMensajeListener(this);
+		
 		inicializarAdaptadores(); // debe ser la primera linea para evitar error
 									// de sincronización
 		inicializarCatalogos();
@@ -280,12 +288,42 @@ public class ControladorChat {
 	}
 
 	// Para la utilización del componente
-	 public void cargarMensajes(String file, Plataforma SO, int tipo) {
-		CargadorMensajes cargador = new CargadorMensajes();
-		CargadorMensajesListener cargadorListener = new CargadorMensajesListener();
-		cargador.addMensajeListener(cargadorListener);
-		cargador.convertirMensajes(file, SO, tipo);
+	 public void cargarMensajes(String file, Plataforma SO) {
+		cargador.setMensajes(file, SO);
 	}
+	 
+	 public boolean nuevosMensajes(EventObject event) {
+			List<MensajeWhatsApp> mensajes = ((MensajesEvent) event).getListaMensajes();
+			ContactoIndividual contacto = null;
+
+			// Recuperamos el contacto del mensaje
+			int i = 0;
+			while (i < mensajes.size() && contacto.equals(null)) {
+				contacto = ControladorChat.usuarioActual.buscarContactoPorNombre(mensajes.get(i).getAutor());
+			}
+			// si no existe el contacto, no podemos seguir
+			if (contacto.equals(null))
+				return false;
+			
+			ContactoIndividual receptor = null;
+			Usuario emisor = null;
+			for (MensajeWhatsApp mensaje : mensajes) {
+				// si estamos recibiendo el mensaje del contacto
+				if (mensaje.getAutor().equals(contacto.getNombre())) {
+					emisor = contacto.getUsuario();
+					receptor = emisor.buscarContactoPorNombre(ControladorChat.usuarioActual.getNombre());
+					// si no nos tiene agregados, no podemos seguir
+					if (receptor == null) 
+						return false;
+				} else {
+					// si estamos enviando nosotros un mensaje como usuario
+					emisor = ControladorChat.usuarioActual;
+					receptor = contacto;
+				}
+				ControladorChat.getUnicaInstancia().enviarMensaje(mensaje.getTexto(), mensaje.getFecha(), -1, emisor, receptor);
+			}
+			return false;
+		}
 	
 
 	private void inicializarAdaptadores() {

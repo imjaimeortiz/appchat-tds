@@ -65,11 +65,11 @@ public class VentanaWhatsapp extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				String SO = (String) comboBox.getSelectedItem();
 				if (SO.equals("IOS"))
-					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.IOS, 0);
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.IOS);
 				else if (SO.equals("Android 1"))
-					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID, 1);
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID);
 				else 
-					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID, 2);
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID);
 
 				//esta comentada en el controlador por eso falla
 			}
