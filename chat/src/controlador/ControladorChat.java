@@ -14,6 +14,7 @@ import com.itextpdf.text.DocumentException;
 
 import cargador.CargadorMensajes;
 import cargador.MensajesEvent;
+import cargador.MensajesListener;
 import modelo.CatalogoUsuarios;
 import modelo.Contacto;
 import modelo.ContactoIndividual;

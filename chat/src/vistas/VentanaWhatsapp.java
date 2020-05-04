@@ -69,7 +69,7 @@ public class VentanaWhatsapp extends JDialog {
 				else if (SO.equals("Android 1"))
 					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID);
 				else 
-					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID);
+					ControladorChat.getUnicaInstancia().cargarMensajes(filePath, Plataforma.ANDROID_2);
 
 				//esta comentada en el controlador por eso falla
 			}
